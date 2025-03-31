@@ -1,9 +1,11 @@
-import Image from "next/image";
+import {trpc} from "@/trpc/server";
 
-export default function Home() {
+export default async function Home() {
+    const data = await trpc.hello({ text: "Antonio2"})
+
   return (
     <div className="">
-      HI!
+      Client components says: { data.greeting }
     </div>
   );
 }
