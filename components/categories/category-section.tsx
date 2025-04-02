@@ -2,7 +2,7 @@
 import React, {Suspense} from 'react'
 import {trpc} from "@/trpc/client";
 import {ErrorBoundary} from "react-error-boundary";
-import FilterCarousel from "@/components/filter-carousel";
+import FilterCarousel from "./filter-carousel";
 import {useRouter} from "next/navigation";
 
 interface CategorySectionProps {
