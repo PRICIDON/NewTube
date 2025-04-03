@@ -4,12 +4,12 @@ import StudioView from "@/components/views/studio-view";
 import {DEFAULT_LIMIT} from "@/lib/constants";
 
 export default async function Page() {
-    await trpc.studio.getMany.prefetchInfinite({
+    const data = await trpc.studio.getMany.prefetchInfinite({
         limit: DEFAULT_LIMIT
     });
 
     return (
-        <HydrateClient>
+        <HydrateClient >
             <StudioView />
         </HydrateClient>
     )
