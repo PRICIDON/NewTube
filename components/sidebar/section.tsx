@@ -11,8 +11,7 @@ import {
 import Link from "next/link";
 import {useAuth, useClerk} from "@clerk/nextjs";
 import {usePathname} from "next/navigation";
-import StudioSidebarHeader from "@/components/studio-sidebar-header";
-import {Separator} from "@/components/ui/separator";
+import StudioSidebarHeader from "@/components/studio/studio-sidebar-header";
 
 interface Item {
     title: string;
