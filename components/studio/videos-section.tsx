@@ -7,13 +7,12 @@ import InfiniteScroll from "@/components/infinite-scroll";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '../ui/table';
 import Link from "next/link";
 
-function VideosSectionSuspense() {
-    const [videos, query] = trpc.studio.getMany.useSuspenseInfiniteQuery({
+export default function VideosSection () {
+    const { data: videos, hasNextPage, isFetchingNextPage, fetchNextPage } = trpc.studio.getMany.useInfiniteQuery({
         limit: DEFAULT_LIMIT
     }, {
         getNextPageParam: (lastPage) => lastPage.nextCursor
     })
-
     return (
         <div>
             <div className="border-y">
@@ -30,7 +29,7 @@ function VideosSectionSuspense() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {videos.pages.flatMap(page => page.items).map(video => (
+                        {videos?.pages.flatMap(page => page.items).map(video => (
                             <Link href={`/studio/videos/${video.id}`} key={video.id} legacyBehavior>
                                 <TableRow className="cursor-pointer">
                                     <TableCell>
@@ -48,19 +47,7 @@ function VideosSectionSuspense() {
                     </TableBody>
                 </Table>
             </div>
-            <InfiniteScroll isManual hasNextPage={query.hasNextPage} isFetchingNextPage={query.isFetchingNextPage} fetchNextPage={query.fetchNextPage}/>
+            <InfiniteScroll isManual hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} fetchNextPage={fetchNextPage}/>
         </div>
-    )
-}
-
-
-export default function VideosSection() {
-    // @ts-ignore
-    return (
-        <Suspense fallback={<p>Loading...</p>}>
-            <ErrorBoundary fallback={<p>Error...</p>}>
-                <VideosSectionSuspense />
-            </ErrorBoundary>
-        </Suspense>
     )
 }
