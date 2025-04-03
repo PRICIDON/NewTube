@@ -57,8 +57,8 @@ function VideosSectionSuspense() {
 export default function VideosSection() {
     // @ts-ignore
     return (
-        <Suspense >
-            <ErrorBoundary >
+        <Suspense fallback={<p>Loading...</p>}>
+            <ErrorBoundary fallback={<p>Error...</p>}>
                 <VideosSectionSuspense />
             </ErrorBoundary>
         </Suspense>
