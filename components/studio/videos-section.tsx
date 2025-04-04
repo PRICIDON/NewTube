@@ -6,6 +6,8 @@ import InfiniteScroll from "@/components/infinite-scroll";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '../ui/table';
 import Link from "next/link";
 import VideoThumbnail from "@/components/videos/video-thumbnail";
+import { format } from 'date-fns'
+import {snakeCaseToTitle} from "@/lib/utils";
 
 export default function VideosSection () {
     const { data: videos, hasNextPage, isFetchingNextPage, fetchNextPage } = trpc.studio.getMany.useInfiniteQuery({
@@ -42,11 +44,19 @@ export default function VideosSection () {
                                                     duration={video.duration!}
                                                 />
                                             </div>
+                                            <div className="flex flex-col overflow-hidden gap-y-1">
+                                                <span className="text-sm line-clamp-1">{video.title}</span>
+                                                <span className="text-xs text-muted-foreground line-clamp-1">{video.description || "No description"}</span>
+                                            </div>
                                         </div>
                                     </TableCell>
                                     <TableCell>visibility</TableCell>
-                                    <TableCell>status</TableCell>
-                                    <TableCell>date</TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center">
+                                            {snakeCaseToTitle(video.muxStatus!)}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="truncate text-sm">{format(new Date(video.updatedAt), "d MMM yyyy")}</TableCell>
                                     <TableCell className="text-right">views</TableCell>
                                     <TableCell className="text-right">comments</TableCell>
                                     <TableCell className="text-right pr-6">likes</TableCell>
