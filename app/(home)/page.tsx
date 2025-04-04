@@ -1,5 +1,6 @@
 import {HydrateClient, trpc} from "@/trpc/server";
-import HomeView from "@/components/views/home-view";
+import CategorySection from "@/components/categories/category-section";
+import React from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,9 @@ export default async function Home({searchParams}: PageProps) {
 
     return (
         <HydrateClient>
-            <HomeView categoryId={categoryId} />
+            <div className="max-w-[2400px] mx-auto mb-10 px-4 pt-2.5 flex flex-col gap-y-6">
+                <CategorySection categoryId={categoryId} />
+            </div>
         </HydrateClient>
     );
 }
