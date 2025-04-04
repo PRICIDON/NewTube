@@ -1,11 +1,11 @@
 "use client"
 
-import React, {Suspense} from 'react'
+import React, {Suspense, useState} from 'react'
 import {trpc} from "@/trpc/client";
 import {ErrorBoundary} from "react-error-boundary";
 import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {MoreVerticalIcon, TrashIcon} from "lucide-react";
+import {CopyCheckIcon, CopyIcon, MoreVerticalIcon, TrashIcon} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import {videoUpdateSchema} from "@/db/schema";
@@ -15,12 +15,23 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {toast} from "sonner";
+import {useRouter} from "next/navigation";
+import VideoPlayer from "@/components/videos/video-player";
+import Link from "next/link";
 
 interface FormSectionProps {
     videoId: string
 }
 
 function FormSectionSuspense({ videoId }: FormSectionProps) {
+    const fullUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}/videos/${videoId}`;
+    const [isCopied, setIsCopied] = useState(false)
+    const onCopy = async () => {
+        await navigator.clipboard.writeText(fullUrl);
+        setIsCopied(true)
+        setTimeout(() => setIsCopied(false), 2000)
+    }
+    const router = useRouter();
     const utils = trpc.useUtils()
     const [video] = trpc.studio.getOne.useSuspenseQuery({ id: videoId })
     const [categories] = trpc.categories.getMany.useSuspenseQuery()
@@ -28,6 +39,8 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
         onSuccess() {
             utils.studio.getMany.invalidate()
             utils.studio.getOne.invalidate({ id: videoId })
+            router.push("/studio")
+            toast.success("Video updated successfully.")
         },
         onError(e) {
             toast.error("Something went wrong")
@@ -118,7 +131,39 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                             </FormItem>
                         )} />
                     </div>
-                    <div className="space-y-8 lg:col-span-2"></div>
+                    <div className="flex flex-col lg:col-span-2">
+                        <div className="flex flex-col gap-4 bg-[#f9f9f9] rounded-xl overflow-hidden h-fit">
+                            <div className="aspect-video overflow-hidden relative">
+                                <VideoPlayer playbackId={video.muxPlaybackId} thumbnailUrl={video.thumbnailUrl}/>
+                            </div>
+                            <div className="p-4 flex flex-col gap-y-6">
+                                <div className="flex justify-between items-center gap-x-2">
+                                    <div className="flex flex-col gap-y-1">
+                                        <p className="text-xs text-muted-foreground">
+                                            Video link
+                                        </p>
+                                        <div className="flex items-center gap-x-2">
+                                            <Link href={`/videos/${videoId}`}>
+                                                <p className="line-clamp-1 text-sm text-blue-500">
+                                                    {fullUrl}
+                                                </p>
+                                            </Link>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                className="shrink-0"
+                                                onClick={onCopy}
+                                                disabled={isCopied}
+                                            >
+                                                {isCopied ? <CopyCheckIcon/> : <CopyIcon />}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </Form>
