@@ -37,6 +37,7 @@ export const POST = async (req: Request) => {
             if (!data.upload_id) {
                 return new Response("No upload ID found", { status: 400 });
             }
+            console.log(data.upload_id);
             await db.update(videos).set({
                 muxAssetId: data.id,
                 muxStatus: data.status,

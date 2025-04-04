@@ -1,8 +1,7 @@
 'use client'
-import React, {Suspense} from 'react'
+import React from 'react'
 import {trpc} from "@/trpc/client";
 import {DEFAULT_LIMIT} from "@/lib/constants";
-import {ErrorBoundary} from "react-error-boundary";
 import InfiniteScroll from "@/components/infinite-scroll";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '../ui/table';
 import Link from "next/link";
