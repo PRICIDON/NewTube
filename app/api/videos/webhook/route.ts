@@ -1,5 +1,5 @@
 import {
-    VideoAssetCreatedWebhookEvent,
+    VideoAssetCreatedWebhookEvent, VideoAssetDeletedWebhookEvent,
     VideoAssetErroredWebhookEvent,
     VideoAssetReadyWebhookEvent, VideoAssetTrackReadyWebhookEvent
 } from "@mux/mux-node/resources/webhooks";
@@ -11,7 +11,7 @@ import {eq} from "drizzle-orm";
 
 const SIGNING_SECRET_KEY = process.env.MUX_WEBHOOK_SECRET;
 
-type WebhookEvent = VideoAssetCreatedWebhookEvent | VideoAssetReadyWebhookEvent | VideoAssetErroredWebhookEvent | VideoAssetTrackReadyWebhookEvent
+type WebhookEvent = VideoAssetCreatedWebhookEvent | VideoAssetReadyWebhookEvent | VideoAssetErroredWebhookEvent | VideoAssetTrackReadyWebhookEvent | VideoAssetDeletedWebhookEvent
 
 export const POST = async (req: Request) => {
     if (!SIGNING_SECRET_KEY) {
@@ -42,8 +42,26 @@ export const POST = async (req: Request) => {
             }).where(eq(videos.muxUploadId, data.upload_id))
             break
         }
-
-
+        case "video.asset.ready": {
+            const data = payload.data as VideoAssetReadyWebhookEvent["data"];
+            const playbackId = data.playback_ids?.[0].id
+            if (!data.upload_id) {
+                return new Response("No upload ID found", { status: 400 });
+            }
+            if(!playbackId) {
+                return new Response("No playback ID found", { status: 400 });
+            }
+            const thumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.png`;
+            await db.update(videos).set({
+                muxStatus: data.status,
+                muxPlaybackId: playbackId,
+                thumbnailUrl,
+            }).where(eq(videos.muxUploadId, data.upload_id))
+            break
+        }
+        // case "video.asset.errored": {}
+        // case "video.asset.track.ready": {}
+        // case "video.asset.deleted": {}
     }
     return new Response("Webhook received", { status: 200 });
 }
