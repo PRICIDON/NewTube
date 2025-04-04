@@ -35,7 +35,7 @@ export default function VideosSection () {
                                     <TableCell>
                                         <div className="flex items-center gap-4">
                                             <div className="relative aspect-video w-36 shrink-0">
-                                                <VideoThumbnail />
+                                                <VideoThumbnail thumbnailUrl={video.thumbnailUrl!} />
                                             </div>
                                         </div>
                                     </TableCell>
