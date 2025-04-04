@@ -23,4 +23,5 @@ export default function VideoPlayer({ playbackId, thumbnailUrl, onPlay, autoPlay
             autoPlay={autoPlay}
         />
     )
-}
+};// @ts-ignore
+// @ts-ignore

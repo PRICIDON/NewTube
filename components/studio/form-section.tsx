@@ -5,7 +5,7 @@ import {trpc} from "@/trpc/client";
 import {ErrorBoundary} from "react-error-boundary";
 import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {CopyCheckIcon, CopyIcon, MoreVerticalIcon, TrashIcon} from "lucide-react";
+import {CopyCheckIcon, CopyIcon, Globe2Icon, LockIcon, MoreVerticalIcon, TrashIcon} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import {videoUpdateSchema} from "@/db/schema";
@@ -198,10 +198,16 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                     </FormControl>
                                     <SelectContent>
                                         <SelectItem value="public">
+                                            <div className="flex items-center">
+                                                <Globe2Icon className="size-4 mr-2"/>
                                                 Public
+                                            </div>
                                         </SelectItem>
                                         <SelectItem value="private">
+                                            <div className="flex items-center">
+                                                <LockIcon className="size-4 mr-2"/>
                                                 Private
+                                            </div>
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
