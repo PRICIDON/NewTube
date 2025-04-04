@@ -85,11 +85,31 @@ export const POST = async (req: Request) => {
                 return new Response("No upload ID found", { status: 400 });
             }
 
+            console.log("Deleting video:", data.upload_id);
+
             await db.delete(videos).where(eq(videos.muxUploadId, data.upload_id))
 
             break
         }
-        // case "video.asset.track.ready": {}
+        case "video.asset.track.ready": {
+            const data = payload.data as VideoAssetTrackReadyWebhookEvent["data"] & {
+                asset_id: string;
+            };
+
+            const assetId = data.asset_id
+            const trackId = data.id
+            const status = data.status;
+
+            if (!assetId) {
+                return new Response("No asset ID found", { status: 400 });
+            }
+
+            await db.update(videos).set({
+                muxTrackId: trackId,
+                muxStatus: status,
+            }).where(eq(videos.muxAssetId, assetId))
+            break
+        }
     }
     return new Response("Webhook received", { status: 200 });
 }

@@ -21,6 +21,7 @@ export default function VideoThumbnail({ thumbnailUrl, previewUrl, title, durati
                     className="size-full object-cover group-hover:opacity-0"
                 />
                 <Image
+                    unoptimized={!!previewUrl}
                     src={previewUrl ?? "/placeholder.svg"}
                     alt={title}
                     fill
