@@ -16,8 +16,9 @@ import {Textarea} from "@/components/ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import VideoPlayer from "@/components/videos/video-player";
+import VideoPlayer from "@/components/videos/dynamic-mux-player";
 import Link from "next/link";
+import {snakeCaseToTitle} from "@/lib/utils";
 
 interface FormSectionProps {
     videoId: string
@@ -134,7 +135,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                     <div className="flex flex-col lg:col-span-2">
                         <div className="flex flex-col gap-4 bg-[#f9f9f9] rounded-xl overflow-hidden h-fit">
                             <div className="aspect-video overflow-hidden relative">
-                                <VideoPlayer playbackId={video.muxPlaybackId} thumbnailUrl={video.thumbnailUrl}/>
+                                <VideoPlayer playbackId={video.muxPlaybackId!} thumbnailUrl={video.thumbnailUrl!}/>
                             </div>
                             <div className="p-4 flex flex-col gap-y-6">
                                 <div className="flex justify-between items-center gap-x-2">
@@ -161,8 +162,52 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex flex-col gap-y-1">
+                                        <p className="text-muted-foreground text-xs">
+                                            Video status
+                                        </p>
+                                        <p className="text-sm">
+                                            {snakeCaseToTitle(video.muxStatus || "preparing")}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex flex-col gap-y-1">
+                                        <p className="text-muted-foreground text-xs">
+                                            Subtitles status
+                                        </p>
+                                        <p className="text-sm">
+                                            {snakeCaseToTitle(video.muxTrackStatus || "no_subtitles")}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <FormField control={form.control} name="visibility" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Visibility
+                                </FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a visibility" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="public">
+                                                Public
+                                        </SelectItem>
+                                        <SelectItem value="private">
+                                                Private
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
                     </div>
                 </div>
             </form>
