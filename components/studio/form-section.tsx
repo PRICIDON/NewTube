@@ -48,6 +48,17 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
             console.log(e)
         }
     })
+    const remove = trpc.videos.remove.useMutation({
+        onSuccess() {
+            utils.studio.getMany.invalidate()
+            router.push("/studio")
+            toast.success("Video removed successfully.")
+        },
+        onError(e) {
+            toast.error("Something went wrong")
+            console.log(e)
+        }
+    })
     const form = useForm<z.infer<typeof videoUpdateSchema>>({
         defaultValues: video,
         resolver: zodResolver(videoUpdateSchema),
@@ -74,7 +85,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => remove.mutate({id: videoId})}>
                                     <TrashIcon className="size-4 mr-2"/>
                                     Delete
                                 </DropdownMenuItem>
