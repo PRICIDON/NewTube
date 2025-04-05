@@ -2,6 +2,7 @@ import { serve } from "@upstash/workflow/nextjs"
 import {db} from "@/db";
 import {videos} from "@/db/schema";
 import {and, eq} from "drizzle-orm";
+import {TITLE_SYSTEM_PROMPT} from "@/lib/system_prompts";
 
 interface InputType {
     userId: string
@@ -23,9 +24,34 @@ export const { POST } = serve(
             }
             return existingVideo
       })
+
+      const generatedTitle =  await context.api.openai.call(
+          "Call OpenAI",
+          {
+            token: process.env.OPENAI_API_KEY!,
+            operation: "chat.completions.create",
+            body: {
+              model: "gpt-4o",
+              messages: [
+                {
+                  role: "system",
+                  content: TITLE_SYSTEM_PROMPT,
+                },
+                {
+                  role: "user",
+                  content: "Hi everyone? in this tutorial we will be building a youtube clone"
+                }
+              ],
+            },
+          }
+        );
+
+        // get text:
+        const title = generatedTitle.body.choices[0]?.message.content
+
       await context.run("update-video", async () => {
           await db.update(videos).set({
-              title: "Updated from background job"
+              title: title || video.title
           }).where(and(
               eq(videos.id, video.id),
               eq(videos.userId, userId),
