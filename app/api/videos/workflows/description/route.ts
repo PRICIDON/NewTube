@@ -2,7 +2,7 @@ import { serve } from "@upstash/workflow/nextjs"
 import {db} from "@/db";
 import {videos} from "@/db/schema";
 import {and, eq} from "drizzle-orm";
-import {TITLE_SYSTEM_PROMPT} from "@/lib/system_prompts";
+import {DESCRIPTION_SYSTEM_PROMPT} from "@/lib/system_prompts";
 
 interface InputType {
     userId: string
@@ -31,7 +31,7 @@ export const { POST } = serve(
           return response.text()
       })
 
-      const generatedTitle =  await context.api.openai.call(
+      const generatedDescription =  await context.api.openai.call(
           "Call OpenAI",
           {
             token: process.env.OPENAI_API_KEY!,
@@ -41,7 +41,7 @@ export const { POST } = serve(
               messages: [
                 {
                   role: "system",
-                  content: TITLE_SYSTEM_PROMPT,
+                  content: DESCRIPTION_SYSTEM_PROMPT,
                 },
                 {
                   role: "user",
@@ -53,11 +53,11 @@ export const { POST } = serve(
         );
 
       await context.run("update-video", async () => {
-        const title = generatedTitle.body.choices[0]?.message.content;
-        if(!title) throw new Error("Bad request");
+        const description = generatedDescription.body.choices[0]?.message.content;
+        if(!description) throw new Error("Bad request");
 
           await db.update(videos).set({
-              title: title || video.title
+              description: description || video.description
           }).where(and(
               eq(videos.id, video.id),
               eq(videos.userId, userId),

@@ -9,7 +9,7 @@ import {
     CopyCheckIcon,
     CopyIcon,
     Globe2Icon,
-    ImagePlusIcon,
+    ImagePlusIcon, Loader2Icon,
     LockIcon,
     MoreVerticalIcon, RotateCcwIcon,
     SparklesIcon,
@@ -91,7 +91,24 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
             console.log(e)
         }
     })
-
+    const generateTitle = trpc.videos.generateTitle.useMutation({
+        onSuccess() {
+            toast.success("Background job started",{ description: "This may take some time" ,})
+        },
+        onError(e) {
+            toast.error("Something went wrong")
+            console.log(e)
+        }
+    })
+    const generateDescription = trpc.videos.generateDescription.useMutation({
+        onSuccess() {
+            toast.success("Background job started",{ description: "This may take some time" ,})
+        },
+        onError(e) {
+            toast.error("Something went wrong")
+            console.log(e)
+        }
+    })
     const form = useForm<z.infer<typeof videoUpdateSchema>>({
         defaultValues: video,
         resolver: zodResolver(videoUpdateSchema),
@@ -131,10 +148,25 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                         <div className="space-y-8 lg:col-span-3">
                             <FormField control={form.control} name="title" render={({field}) => (
-                                <FormItem>
+                                <FormItem >
                                     <FormLabel>
-                                        Title
-                                        {/*    TODO: Add AI generate button*/}
+                                        <div className="flex gap-x-2 items-center">
+                                            Title
+                                            <Button
+                                                size="icon"
+                                                type="button"
+                                                variant="outline"
+                                                className="rounded-full size-6 [&_svg]:size-3"
+                                                onClick={() => generateTitle.mutate({ id: videoId })}
+                                                disabled={generateTitle.isPending || !video.muxTrackId}
+                                            >
+                                                {generateTitle.isPending
+                                                    ? <Loader2Icon className="animate-spin"/>
+                                                    : <SparklesIcon />
+
+                                                }
+                                            </Button>
+                                        </div>
                                     </FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="Add a title to your video" />
@@ -145,8 +177,23 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                             <FormField control={form.control} name="description" render={({field}) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Description
-                                        {/*    TODO: Add AI generate button*/}
+                                       <div className="flex gap-x-2 items-center">
+                                            Description
+                                            <Button
+                                                size="icon"
+                                                type="button"
+                                                variant="outline"
+                                                className="rounded-full size-6 [&_svg]:size-3"
+                                                onClick={() => generateDescription.mutate({ id: videoId })}
+                                                disabled={generateDescription.isPending || !video.muxTrackId}
+                                            >
+                                                {generateDescription.isPending
+                                                    ? <Loader2Icon className="animate-spin"/>
+                                                    : <SparklesIcon />
+
+                                                }
+                                            </Button>
+                                        </div>
                                     </FormLabel>
                                     <FormControl>
                                         <Textarea {...field} value={field.value ?? ""} rows={10} className="resize-none pr-10" placeholder="Add a description to your video" />
