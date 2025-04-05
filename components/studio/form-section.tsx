@@ -176,7 +176,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                                         <ImagePlusIcon className="size-4 mr-1"/>
                                                         Change
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => generateThumbnail.mutate()}>
+                                                    <DropdownMenuItem onClick={() => generateThumbnail.mutate({ id: videoId})}>
                                                         <SparklesIcon className="size-4 mr-1"/>
                                                         AI-generated
                                                     </DropdownMenuItem>

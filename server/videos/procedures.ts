@@ -116,7 +116,7 @@ export const videosRouter = createTRPCRouter({
         }).where(and(eq(videos.id, input.id),eq(videos.userId, userId))).returning();
         return { updatedVideo }
     }),
-    generateThumbnail: protectedProcedure.mutation(async ({ ctx }) => {
+    generateThumbnail: protectedProcedure.input(z.object({id: z.string().uuid()})).mutation(async ({ ctx }) => {
         const { id: userId } = ctx.user
         const { workflowRunId } = await workflow.trigger({
             url: `${process.env.UPSTASH_WORKFLOW_URL}/api/videos/workflows/title`,
