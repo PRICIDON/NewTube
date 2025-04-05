@@ -47,7 +47,7 @@ export const { POST } = serve(
         );
 
         // get text:
-        const title = generatedTitle.body.choices[0]?.message.content
+        const title = generatedTitle.body.choices[0]?.message.content;
 
       await context.run("update-video", async () => {
           await db.update(videos).set({
