@@ -9,5 +9,6 @@ export const { POST } = serve(
     await context.run("second-step", () => {
       console.log("second step ran")
     })
-  }
+  },
+
 )
