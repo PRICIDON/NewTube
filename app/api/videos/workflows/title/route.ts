@@ -12,7 +12,7 @@ export const { POST } = serve(
   async (context) => {
       const input = context.requestPayload as InputType
       const {videoId, userId} = input
-      const existingVideo = context.run("get-video", async () => {
+      const existingVideo = await context.run("get-video", async () => {
             const data = await db.select().from(videos).where(and(
                 eq(videos.id, videoId),
                 eq(videos.userId, userId),
