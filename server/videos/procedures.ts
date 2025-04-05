@@ -105,10 +105,16 @@ export const videosRouter = createTRPCRouter({
             throw new TRPCError({ code: "BAD_REQUEST"})
         }
 
-        const thumbnailUrl = `https://image.mux.com/${existingVideo.muxPlaybackId}/thumbnail.png`;
+        const tempThumbnailUrl = `https://image.mux.com/${existingVideo.muxPlaybackId}/thumbnail.png`;
+        const utapi = new UTApi()
+        const {data} = await utapi.uploadFilesFromUrl(tempThumbnailUrl)
+        if (!data) {
+            throw new TRPCError({ code: "INTERNAL_SERVER_ERROR"})
+        }
 
         const [updatedVideo] = await db.update(videos).set({
-            thumbnailUrl,
+            thumbnailUrl:data.url,
+            thumbnailKey: data.key
         }).where(and(eq(videos.id, input.id),eq(videos.userId, userId))).returning();
         return { updatedVideo }
     })
