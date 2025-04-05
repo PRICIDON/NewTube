@@ -12,24 +12,24 @@ export const { POST } = serve(
   async (context) => {
       const input = context.requestPayload as InputType
       const {videoId, userId} = input
-      const existingVideo = await context.run("get-video", async () => {
-            const data = await db.select().from(videos).where(and(
+      const video = await context.run("get-video", async () => {
+            const [existingVideo] = await db.select().from(videos).where(and(
                 eq(videos.id, videoId),
                 eq(videos.userId, userId),
             ))
 
-            if (!data[0]) {
+            if (!existingVideo) {
                 throw new Error("No video found.")
             }
-            return data[0]
+            return existingVideo
       })
-      console.log(existingVideo)
-      await context.run("initial-step", () => {
-          console.log("initial step ran")
-      })
-
-      await context.run("second-step", () => {
-          console.log("second step ran")
+      await context.run("update-video", async () => {
+          await db.update(videos).set({
+              title: "Updated from background job"
+          }).where(and(
+              eq(videos.id, video.id),
+              eq(videos.userId, userId),
+          ))
       })
   },
 
