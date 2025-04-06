@@ -1,6 +1,8 @@
 import React from 'react'
 import {HydrateClient, trpc} from "@/trpc/server";
 import VideoSection from "@/components/videos/video-section";
+import SuggestionsSection from "@/components/videos/suggestions-section";
+import CommentsSection from "@/components/videos/comments-section";
 
 export const dynamic = "force-dynamic"
 
@@ -20,6 +22,13 @@ export default async function Page({ params }: PageProps) {
                 <div className="flex flex-col xl:flex-row gap-6">
                     <div className="flex-1 mix-w-0">
                         <VideoSection videoId={videoId} />
+                        <div className="xl:hidden block mt-4">
+                            <SuggestionsSection />
+                        </div>
+                        <CommentsSection />
+                    </div>
+                    <div className="hidden xl:block w-full xl:w-[380px] 2xl:w-[460px] shrink-1">
+                         <SuggestionsSection />
                     </div>
                 </div>
             </div>
