@@ -30,7 +30,7 @@ function VideoSectionSuspense({ videoId }: { videoId: string }) {
     })
     const handlePlay = () => {
         if(!isSignedIn) return;
-        createView.mutate({videoId})
+        setTimeout(() => createView.mutate({videoId}), video.duration!)
     }
     return (
         <>
