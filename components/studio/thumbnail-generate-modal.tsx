@@ -32,7 +32,6 @@ export default function ThumbnailGenerateModal({ videoId, open, onOpenChange }: 
             console.log(e)
         }
     })
-    const utils = trpc.useUtils();
     const onSubmit = (value: z.infer<typeof formSchema>) => {
         generateThumbnail.mutate({
             prompt: value.prompt,
