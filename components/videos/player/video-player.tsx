@@ -25,5 +25,8 @@ export default function VideoPlayer({ playbackId, thumbnailUrl, onPlay, autoPlay
             onEnded={onEnded}
         />
     )
-};// @ts-ignore
-// @ts-ignore
+};
+
+export const VideoPlayerSkeleton = () => {
+    return <div className="aspect-video bg-black rounded-xl"/>
+}

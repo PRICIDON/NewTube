@@ -4,14 +4,14 @@ import React, {Suspense} from 'react'
 import {ErrorBoundary} from "react-error-boundary";
 import {trpc} from "@/trpc/client";
 import {cn} from "@/lib/utils";
-import VideoPlayer from "@/components/videos/video-player";
+import VideoPlayer, {VideoPlayerSkeleton} from "@/components/videos/player/video-player";
 import VideoBanner from "@/components/videos/video-banner";
-import VideoTopRow from "@/components/videos/video-top-row";
+import VideoTopRow, {VideoTopRowSkeleton} from "@/components/videos/video-top-row";
 import {useAuth} from "@clerk/nextjs";
 
 export default function VideoSection({ videoId }: { videoId: string }) {
     return (
-       <Suspense>
+       <Suspense fallback={<VideoSectionSkeleton/>}>
             <ErrorBoundary fallback={<p className="">Error</p>}>
                 <VideoSectionSuspense videoId={videoId} />
             </ErrorBoundary>
@@ -42,3 +42,13 @@ function VideoSectionSuspense({ videoId }: { videoId: string }) {
         </>
     )
 }
+
+function VideoSectionSkeleton(){
+    return (
+        <>
+            <VideoPlayerSkeleton/>
+            <VideoTopRowSkeleton />
+        </>
+    )
+}
+

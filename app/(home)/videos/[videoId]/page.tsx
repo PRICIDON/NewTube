@@ -1,8 +1,8 @@
 import React from 'react'
 import {HydrateClient, trpc} from "@/trpc/server";
-import VideoSection from "@/components/videos/video-section";
-import SuggestionsSection from "@/components/videos/suggestions-section";
-import CommentsSection from "@/components/videos/comments-section";
+import VideoSection from "@/components/videos/sections/video-section";
+import SuggestionsSection from "@/components/videos/sections/suggestions-section";
+import CommentsSection from "@/components/videos/sections/comments-section";
 
 export const dynamic = "force-dynamic"
 
@@ -15,6 +15,7 @@ export default async function Page({ params }: PageProps) {
 
     void trpc.videos.getOne.prefetch({ id: videoId })
 
+    void trpc.comments.getMany.prefetch({ videoId })
 
     return (
         <HydrateClient>
@@ -25,7 +26,7 @@ export default async function Page({ params }: PageProps) {
                         <div className="xl:hidden block mt-4">
                             <SuggestionsSection />
                         </div>
-                        <CommentsSection />
+                        <CommentsSection videoId={videoId} />
                     </div>
                     <div className="hidden xl:block w-full xl:w-[380px] 2xl:w-[460px] shrink-1">
                          <SuggestionsSection />

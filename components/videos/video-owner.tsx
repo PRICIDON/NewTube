@@ -14,7 +14,7 @@ interface VideoOwnerProps {
 }
 
 export default function VideoOwner({ user, videoId }: VideoOwnerProps) {
-    const { userId: clerkUserId } = useAuth()
+    const { userId: clerkUserId, isLoaded } = useAuth()
     const {isPending, onClick} = useSubscriptions({ userId: user.id, isSubscribed: user.viewerSubscribed });
     return (
         <div className="flex items-center sm:items-start justify-between sm:justify-start gap-3 min-w-0">
@@ -34,7 +34,7 @@ export default function VideoOwner({ user, videoId }: VideoOwnerProps) {
                     <Link href={`/studio/videos/${videoId}`}>Edit video</Link>
                 </Button>
             ): (
-                <SubscriptionButton onClick={onClick} disabled={isPending} isSubscribed={user.viewerSubscribed} className="flex-none" />
+                <SubscriptionButton onClick={onClick} disabled={isPending || !isLoaded} isSubscribed={user.viewerSubscribed} className="flex-none" />
             )}
         </div>
     )
