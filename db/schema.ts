@@ -10,6 +10,7 @@ export const videoVisibility = pgEnum("video_visibility", [
     "private",
     "public",
 ])
+export const reactionType = pgEnum("reaction_type", ["like", "dislike"]);
 
 export const users = pgTable("users", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -68,7 +69,6 @@ export const videoViews = pgTable("video_views", {
     })
 ])
 
-export const reactionType = pgEnum("reaction_type", ["like", "dislike"]);
 
 export const videoReactions = pgTable("video_reactions", {
     userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
@@ -83,9 +83,30 @@ export const videoReactions = pgTable("video_reactions", {
     })
 ])
 
-export const videoInsertSchema = createInsertSchema(videos)
-export const videoUpdateSchema = createUpdateSchema(videos)
-export const videoSelectSchema = createSelectSchema(videos)
+export const subscriptions = pgTable("subscriptions", {
+    creatorId: uuid("creator_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    viewerId: uuid("viewer_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, t => [
+    primaryKey({
+        name: "subscriptions_pk",
+        columns: [t.viewerId, t.creatorId]
+    })
+])
+
+export const subscriptionsRelation = relations(subscriptions, ({ one }) => ({
+    viewerId: one(users, {
+        fields: [subscriptions.viewerId],
+        references: [users.id],
+        relationName: "subscriptions_viewer_id_fkey",
+    }),
+    creatorId: one(users, {
+        fields: [subscriptions.creatorId],
+        references: [users.id],
+        relationName: "subscriptions_creator_id_fkey",
+    }),
+}))
 
 export const videoRelations = relations(videos, ({ one, many}) => ({
     user: one(users, {
@@ -103,7 +124,9 @@ export const videoRelations = relations(videos, ({ one, many}) => ({
 export const userRelations = relations(users, ({ many }) => ({
     videos: many(videos),
     videoViews: many(videoViews),
-    videoReactions: many(videoReactions)
+    videoReactions: many(videoReactions),
+    subscriptions: many(subscriptions, { relationName: "subscriptions_viewer_id_fkey" }),
+    subscribers: many(subscriptions, { relationName: "subscriptions_creator_id_fkey" }),
 }))
 
 export const categoryRelations = relations(categories, ({ many }) => ({
@@ -132,6 +155,9 @@ export const videoReactionRelations = relations(videoReactions, ({ one }) => ({
     })
 }))
 
+export const videoInsertSchema = createInsertSchema(videos)
+export const videoUpdateSchema = createUpdateSchema(videos)
+export const videoSelectSchema = createSelectSchema(videos)
 
 export const videoViewInsertSchema = createInsertSchema(videoViews)
 export const videoViewUpdateSchema = createUpdateSchema(videoViews)

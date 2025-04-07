@@ -23,7 +23,7 @@ export default function VideoOwner({ user, videoId }: VideoOwnerProps) {
                         <UserInfo name={user.name} size='lg'  />
                         <span className="text-sm text-muted-foreground line-clamp-1">
                             {/*TODO: subscriber count*/}
-                            {0} subscribers
+                            {user.subscriberCount} subscribers
                         </span>
                     </div>
                 </div>

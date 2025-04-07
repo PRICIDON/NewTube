@@ -27,7 +27,7 @@ export const videoReactionsRouter = createTRPCRouter({
                 )
                 .returning()
             return deletedViewerReaction
-        };
+        }
         const [createdVideoReaction] = await db
             .insert(videoReactions)
             .values({ userId, videoId, type: "like" })
@@ -60,7 +60,7 @@ export const videoReactionsRouter = createTRPCRouter({
                 )
                 .returning()
             return deletedViewerReaction
-        };
+        }
         const [createdVideoReaction] = await db
             .insert(videoReactions)
             .values({ userId, videoId, type: "dislike" })
