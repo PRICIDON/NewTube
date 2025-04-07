@@ -25,7 +25,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import VideoPlayer from "@/components/videos/dynamic-mux-player";
+import VideoPlayer from "@/components/videos/player/dynamic-mux-player";
 import Link from "next/link";
 import {snakeCaseToTitle} from "@/lib/utils";
 import Image from "next/image";
