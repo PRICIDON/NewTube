@@ -7,9 +7,10 @@ interface VideoPlayerProps {
     thumbnailUrl?: string
     autoPlay?: boolean
     onPlay?: () => void
+    onEnded?: () => void
 }
 
-export default function VideoPlayer({ playbackId, thumbnailUrl, onPlay, autoPlay }: VideoPlayerProps) {
+export default function VideoPlayer({ playbackId, thumbnailUrl, onPlay, autoPlay, onEnded }: VideoPlayerProps) {
     if(!playbackId) return null
 
     return (
@@ -21,6 +22,7 @@ export default function VideoPlayer({ playbackId, thumbnailUrl, onPlay, autoPlay
             accentColor="#ff2056"
             onPlay={onPlay}
             autoPlay={autoPlay}
+            onEnded={onEnded}
         />
     )
 };// @ts-ignore

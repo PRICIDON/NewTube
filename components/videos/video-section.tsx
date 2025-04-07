@@ -30,12 +30,12 @@ function VideoSectionSuspense({ videoId }: { videoId: string }) {
     })
     const handlePlay = () => {
         if(!isSignedIn) return;
-        setTimeout(() => createView.mutate({videoId}), video.duration!)
+        createView.mutate({videoId})
     }
     return (
         <>
             <div className={cn("aspect-video bg-black rounded-xl overflow-hidden relative", video.muxStatus !== "ready" && "rounded-b-none")}>
-                <VideoPlayer autoPlay playbackId={video.muxPlaybackId!} onPlay={handlePlay} thumbnailUrl={video.thumbnailUrl!} />
+                <VideoPlayer autoPlay playbackId={video.muxPlaybackId!} onEnded={handlePlay} thumbnailUrl={video.thumbnailUrl!} />
             </div>
             <VideoBanner status={video.muxStatus}/>
             <VideoTopRow video={video}/>
