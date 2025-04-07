@@ -1,8 +1,8 @@
 import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
-import {users, videos, videoUpdateSchema, videoViews} from "@/db/schema";
+import {users, videoReactions, videos, videoUpdateSchema, videoViews} from "@/db/schema";
 import {db} from "@/db";
 import {mux} from "@/lib/mux";
-import {and, eq, getTableColumns} from "drizzle-orm";
+import {and, eq, getTableColumns, inArray} from "drizzle-orm";
 import {TRPCError} from "@trpc/server";
 import { z } from 'zod'
 import {UTApi} from "uploadthing/server";
@@ -143,14 +143,36 @@ export const videosRouter = createTRPCRouter({
 
         return workflowRunId
     }),
-    getOne: baseProcedure.input(z.object({id: z.string().uuid()})).query(async ({ input }) => {
-        const [existingVideo] = await db.select({
-            ...getTableColumns(videos),
-            user: {
-                ...getTableColumns(users)
-            },
-            viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id))
-        }).from(videos).innerJoin(users, eq(videos.userId, users.id)).where(eq(videos.id, input.id))
+    getOne: baseProcedure.input(z.object({id: z.string().uuid()})).query(async ({ input, ctx }) => {
+        const { clerkUserId } = ctx
+        const [user] = await db.select().from(users).where(inArray(users.clerkId, clerkUserId ? [clerkUserId] : []))
+        let userId
+        if (user) {
+            userId = user.id
+        }
+        const viewerReactions = db.$with("viewer_reactions").as(
+            db.select({
+                videoId: videoReactions.videoId,
+                type: videoReactions.type,
+            }).from(videoReactions).where(inArray(videoReactions.userId, userId ? [userId] : []))
+        )
+        const [existingVideo] = await db
+            .with(viewerReactions)
+            .select({
+                ...getTableColumns(videos),
+                user: {
+                    ...getTableColumns(users)
+                },
+                viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
+                likeCount: db.$count(videoReactions, and(eq(videoReactions.videoId, videos.id), eq(videoReactions.type, "like"))),
+                dislikeCount: db.$count(videoReactions, and(eq(videoReactions.videoId, videos.id), eq(videoReactions.type, "dislike"))),
+                viewerReactions: viewerReactions.type
+            })
+            .from(videos)
+            .innerJoin(users, eq(videos.userId, users.id))
+            .leftJoin(viewerReactions, eq(videoReactions.videoId, videos.id))
+            .where(eq(videos.id, input.id))
+            .groupBy(videos.id, users.id, viewerReactions.type)
         if (!existingVideo) throw new TRPCError({ code: "NOT_FOUND"})
         return existingVideo
     })
