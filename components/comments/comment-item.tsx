@@ -134,7 +134,7 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                             setIsReplyOpen(false)
                             setIsRepliesOpen(true)
                         }}
-                        parentId={comment.parentId!}
+                        parentId={comment.id}
                         variant="reply"
                         onCancel={() => {
                             setIsReplyOpen(false)
