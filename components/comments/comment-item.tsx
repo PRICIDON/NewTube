@@ -3,13 +3,23 @@ import {CommentsGetManyOutput} from "@/components/comments/types";
 import Link from "next/link";
 import UserAvatar from "@/components/avatar";
 import {formatDistanceToNow} from "date-fns";
+import {trpc} from "@/trpc/client";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {Button} from "@/components/ui/button";
+import {MessageSquareIcon, MoreVerticalIcon, Trash2Icon} from "lucide-react";
+import {useAuth} from "@clerk/nextjs";
 
 interface CommentItem {
     comment: CommentsGetManyOutput["items"][number]
 }
 
 export default function CommentItem({comment}: CommentItem) {
+    const { userId } = useAuth()
+    const remove = trpc.comments.remove.useMutation({
+        onSuccess(){
 
+        }
+    })
     return (
         <div className="">
             <div className="flex gap-4 ">
@@ -28,7 +38,27 @@ export default function CommentItem({comment}: CommentItem) {
                         </div>
                     </Link>
                     <p className="text-sm">{comment.value}</p>
+                {/*    TODO: Reactions*/}
                 </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button variant="ghost" size="icon" className="size-8">
+                            <MoreVerticalIcon className=""/>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => {}}>
+                            <MessageSquareIcon className="size-4"/>
+                            Reply
+                        </DropdownMenuItem>
+                        {comment.user.clerkId === userId && (
+                            <DropdownMenuItem onClick={() => {}}>
+                                <Trash2Icon className="size-4"/>
+                                Delete
+                            </DropdownMenuItem>
+                        )}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     )
