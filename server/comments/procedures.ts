@@ -1,8 +1,8 @@
 import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {db} from "@/db";
-import { comments, users } from "@/db/schema";
-import {and, count, desc, eq, getTableColumns, lt, or} from "drizzle-orm";
+import {commentReactions, comments, users, videoReactions, videos} from "@/db/schema";
+import {and, count, desc, eq, getTableColumns, inArray, lt, or} from "drizzle-orm";
 import {TRPCError} from "@trpc/server";
 
 export const commentsRouter = createTRPCRouter({
@@ -36,17 +36,32 @@ export const commentsRouter = createTRPCRouter({
             updatedAt: z.date()
         }).nullish(),
         limit: z.number().min(1).max(100)
-    })).query(async ({ input }) => {
+    })).query(async ({ input, ctx }) => {
         const { videoId, cursor, limit } = input
-
-        const [data, totalData] = await Promise.all([
+        const { clerkUserId } = ctx
+        const [user] = await db.select().from(users).where(inArray(users.clerkId, clerkUserId ? [clerkUserId] : []))
+        let userId
+        if (user) {
+            userId = user.id
+        }
+        const viewerReactions = db.$with("viewer_reactions").as(
             db.select({
-            ...getTableColumns(comments),
-            user: users,
-            totalCount: db.$count(comments, eq(comments.videoId, videoId)),
+                commentId: commentReactions.commentId,
+                type: commentReactions.type,
+            }).from(commentReactions).where(inArray(commentReactions.userId, userId ? [userId] : []))
+        )
+        const [data, totalData] = await Promise.all([
+            db.with(viewerReactions).select({
+                ...getTableColumns(comments),
+                user: users,
+                // totalCount: db.$count(comments, eq(comments.videoId, videoId)),
+                likeCount: db.$count(commentReactions, and(eq(commentReactions.commentId, comments.id), eq(commentReactions.type, "like"))),
+                dislikeCount: db.$count(commentReactions, and(eq(commentReactions.commentId, comments.id), eq(commentReactions.type, "dislike"))),
+                viewerReactions: viewerReactions.type,
             })
             .from(comments)
             .innerJoin(users, eq(comments.userId, users.id))
+            .leftJoin(viewerReactions, eq(viewerReactions.commentId, comments.id))
             .where(and(
                 eq(comments.videoId, videoId),
                 cursor ? or(

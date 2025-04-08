@@ -6,16 +6,19 @@ import {formatDistanceToNow} from "date-fns";
 import {trpc} from "@/trpc/client";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
-import {MessageSquareIcon, MoreVerticalIcon, Trash2Icon} from "lucide-react";
-import {useAuth} from "@clerk/nextjs";
+import {MessageSquareIcon, MoreVerticalIcon, ThumbsDownIcon, ThumbsUpIcon, Trash2Icon} from "lucide-react";
+import {useAuth, useClerk} from "@clerk/nextjs";
 import {toast} from "sonner";
+import {cn} from "@/lib/utils";
 
 interface CommentItem {
     comment: CommentsGetManyOutput["items"][number]
+    variant?: "reply" | "comment"
 }
 
-export default function CommentItem({comment}: CommentItem) {
+export default function CommentItem({comment, variant = "comment"}: CommentItem) {
     const { userId } = useAuth()
+    const clerk = useClerk();
     const utils = trpc.useUtils()
     const remove = trpc.comments.remove.useMutation({
         onSuccess(){
@@ -25,6 +28,28 @@ export default function CommentItem({comment}: CommentItem) {
         onError(e){
             toast.error("Something went wrong")
             console.error(e)
+        }
+    })
+    const like = trpc.commentReactions.like.useMutation({
+        onSuccess() {
+            utils.comments.getMany.invalidate()
+        },
+        onError(e){
+            toast.error("Something went wrong!")
+            if(e.data?.code === "UNAUTHORIZED") {
+                clerk.openSignIn()
+            }
+        }
+    })
+    const dislike = trpc.commentReactions.dislike.useMutation({
+        onSuccess() {
+            utils.comments.getMany.invalidate({ videoId: comment.videoId})
+        },
+        onError(e){
+            toast.error("Something went wrong!")
+            if(e.data?.code === "UNAUTHORIZED") {
+                clerk.openSignIn()
+            }
         }
     })
     return (
@@ -45,7 +70,33 @@ export default function CommentItem({comment}: CommentItem) {
                         </div>
                     </Link>
                     <p className="text-sm">{comment.value}</p>
-                {/*    TODO: Reactions*/}
+                    <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center">
+                            <Button
+                                className="size-8"
+                                size="icon"
+                                disabled={like.isPending}
+                                variant="ghost"
+                                onClick={() => like.mutate({ commentId: comment.id })}
+                            >
+                                <ThumbsUpIcon className={cn("", comment.viewerReactions === "like" && "fill-black")}/>
+                            </Button>
+                            <span className="text-xs text-muted-foreground">{comment.likeCount}</span>
+                            <Button
+                                className="size-8"
+                                size="icon"
+                                disabled={dislike.isPending}
+                                variant="ghost"
+                                onClick={() => dislike.mutate({ commentId: comment.id })}
+                            >
+                                <ThumbsDownIcon className={cn("", comment.viewerReactions === "dislike" && "fill-black")}/>
+                            </Button>
+                            <span className="text-xs text-muted-foreground">{comment.dislikeCount}</span>
+                        </div>
+                        {variant === "comment" && (
+                            <Button variant="ghost" size="sm" className="h-8" onClick={() => {}}>Reply</Button>
+                        )}
+                    </div>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger>
