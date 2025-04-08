@@ -5,7 +5,7 @@ import UserAvatar from "@/components/avatar";
 import {formatDistanceToNow} from "date-fns";
 
 interface CommentItem {
-    comment: CommentsGetManyOutput[number]
+    comment: CommentsGetManyOutput["items"][number]
 }
 
 export default function CommentItem({comment}: CommentItem) {
