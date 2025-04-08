@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, {Suspense} from 'react'
 import {trpc} from "@/trpc/client";
 import {DEFAULT_LIMIT} from "@/lib/constants";
 import InfiniteScroll from "@/components/infinite-scroll";
@@ -10,6 +10,7 @@ import { format } from 'date-fns'
 import {snakeCaseToTitle} from "@/lib/utils";
 import {Globe2Icon, LockIcon} from "lucide-react";
 import {Skeleton} from "@/components/ui/skeleton";
+import {ErrorBoundary} from "react-error-boundary";
 
 function VideoSectionSkeleton() {
     return (
@@ -68,14 +69,22 @@ function VideoSectionSkeleton() {
     )
 }
 
-export default function VideosSection () {
-    const { data: videos, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading } = trpc.studio.getMany.useInfiniteQuery({
+export default function VideosSection() {
+    return (
+        <Suspense fallback={<VideoSectionSkeleton />}>
+            <ErrorBoundary fallback={<p>Error...</p>}>
+                <VideosSectionSuspense />
+            </ErrorBoundary>
+        </Suspense>
+    )
+}
+
+function VideosSectionSuspense () {
+    const [videos, query] = trpc.studio.getMany.useSuspenseInfiniteQuery({
         limit: DEFAULT_LIMIT
     }, {
         getNextPageParam: (lastPage) => lastPage.nextCursor
     })
-
-    if (isLoading) return <VideoSectionSkeleton />
 
     return (
         <div>
@@ -133,7 +142,7 @@ export default function VideosSection () {
                     </TableBody>
                 </Table>
             </div>
-            <InfiniteScroll isManual hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} fetchNextPage={fetchNextPage}/>
+            <InfiniteScroll isManual hasNextPage={query.hasNextPage} isFetchingNextPage={query.isFetchingNextPage} fetchNextPage={query.fetchNextPage}/>
         </div>
     )
 }
