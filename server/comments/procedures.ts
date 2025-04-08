@@ -48,13 +48,14 @@ export const commentsRouter = createTRPCRouter({
     }),
     getMany: baseProcedure.input(z.object({
         videoId: z.string().uuid(),
+        parentId: z.string().uuid().nullish(),
         cursor: z.object({
             id: z.string().uuid(),
             updatedAt: z.date()
         }).nullish(),
         limit: z.number().min(1).max(100)
     })).query(async ({ input, ctx }) => {
-        const { videoId, cursor, limit } = input
+        const { videoId, cursor, limit, parentId } = input
         const { clerkUserId } = ctx
         const [user] = await db.select().from(users).where(inArray(users.clerkId, clerkUserId ? [clerkUserId] : []))
         let userId
@@ -94,7 +95,7 @@ export const commentsRouter = createTRPCRouter({
             .leftJoin(replies, eq(comments.id, replies.parentId))
             .where(and(
                 eq(comments.videoId, videoId),
-                isNull(comments.parentId),
+                parentId ? eq(comments.parentId, parentId) : isNull(comments.parentId),
                 cursor ? or(
                         lt(comments.updatedAt, cursor.updatedAt),
                         and(

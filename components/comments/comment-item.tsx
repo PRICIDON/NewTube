@@ -6,11 +6,19 @@ import {formatDistanceToNow} from "date-fns";
 import {trpc} from "@/trpc/client";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
-import {MessageSquareIcon, MoreVerticalIcon, ThumbsDownIcon, ThumbsUpIcon, Trash2Icon} from "lucide-react";
+import {
+    ChevronDownIcon, ChevronUpIcon,
+    MessageSquareIcon,
+    MoreVerticalIcon,
+    ThumbsDownIcon,
+    ThumbsUpIcon,
+    Trash2Icon
+} from "lucide-react";
 import {useAuth, useClerk} from "@clerk/nextjs";
 import {toast} from "sonner";
 import {cn} from "@/lib/utils";
 import CommentForm from "@/components/comments/comment-form";
+import CommentReplies from "@/components/comments/comment-replies";
 
 interface CommentItem {
     comment: CommentsGetManyOutput["items"][number]
@@ -142,12 +150,23 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                     />
                     {comment.replyCount > 0 && variant === "comment" && (
                         <div className="pl-14">
-                            <Button>
+                            <Button
+                                size="sm"
+                                variant="tertiary"
+                                onClick={() => setIsRepliesOpen(current => !current)}
+                            >
+                                {isReplyOpen ? <ChevronUpIcon/> : <ChevronDownIcon/>}
                                 {comment.replyCount} replies
                             </Button>
                         </div>
                     )}
                 </div>
+            )}
+            {comment.replyCount > 0 && variant === "comment" && isRepliesOpen && (
+                <CommentReplies
+                    parentId={comment.id}
+                    videoId={comment.videoId}
+                />
             )}
         </div>
     )
