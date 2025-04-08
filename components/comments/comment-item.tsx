@@ -67,10 +67,10 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
         }
     })
     return (
-        <div className="">
+        <div>
             <div className="flex gap-4 ">
                 <Link href={`/users/${comment.userId}`}>
-                    <UserAvatar size="lg" imageUrl={comment.user.imageUrl} name={comment.user.name} />
+                    <UserAvatar size={variant === "reply" ? "sm" :"lg"} imageUrl={comment.user.imageUrl} name={comment.user.name} />
                 </Link>
                 <div className="flex-1 min-w-0">
                     <Link href={`/users/${comment.userId}`}>
@@ -112,27 +112,21 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                         )}
                     </div>
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <Button variant="ghost" size="icon" className="size-8">
-                            <MoreVerticalIcon className=""/>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {variant === "comment" && (
-                            <DropdownMenuItem onClick={() => setIsReplyOpen(true)}>
-                                <MessageSquareIcon className="size-4"/>
-                                Reply
-                            </DropdownMenuItem>
-                        )}
-                        {comment.user.clerkId === userId && (
+                { comment.user.clerkId === userId && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button variant="ghost" size="icon" className="size-8">
+                                <MoreVerticalIcon className=""/>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => remove.mutate({ id: comment.id })}>
                                 <Trash2Icon className="size-4"/>
                                 Delete
                             </DropdownMenuItem>
-                        )}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
             </div>
             {isReplyOpen && variant === "comment" && (
                 <div className="mt-4 pl-14">
@@ -148,7 +142,9 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                             setIsReplyOpen(false)
                         }}
                     />
-                    {comment.replyCount > 0 && variant === "comment" && (
+                </div>
+            )}
+            {comment.replyCount > 0 && variant === "comment" && (
                         <div className="pl-14">
                             <Button
                                 size="sm"
@@ -160,8 +156,6 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                             </Button>
                         </div>
                     )}
-                </div>
-            )}
             {comment.replyCount > 0 && variant === "comment" && isRepliesOpen && (
                 <CommentReplies
                     parentId={comment.id}
