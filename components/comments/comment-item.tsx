@@ -8,6 +8,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {Button} from "@/components/ui/button";
 import {MessageSquareIcon, MoreVerticalIcon, Trash2Icon} from "lucide-react";
 import {useAuth} from "@clerk/nextjs";
+import {toast} from "sonner";
 
 interface CommentItem {
     comment: CommentsGetManyOutput["items"][number]
@@ -15,9 +16,15 @@ interface CommentItem {
 
 export default function CommentItem({comment}: CommentItem) {
     const { userId } = useAuth()
+    const utils = trpc.useUtils()
     const remove = trpc.comments.remove.useMutation({
         onSuccess(){
-
+            toast.success("Comment removed")
+            utils.comments.getMany.invalidate({ videoId: comment.videoId})
+        },
+        onError(e){
+            toast.error("Something went wrong")
+            console.error(e)
         }
     })
     return (
@@ -52,7 +59,7 @@ export default function CommentItem({comment}: CommentItem) {
                             Reply
                         </DropdownMenuItem>
                         {comment.user.clerkId === userId && (
-                            <DropdownMenuItem onClick={() => {}}>
+                            <DropdownMenuItem onClick={() => remove.mutate({ id: comment.id })}>
                                 <Trash2Icon className="size-4"/>
                                 Delete
                             </DropdownMenuItem>
