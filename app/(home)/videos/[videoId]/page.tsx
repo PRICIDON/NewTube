@@ -3,6 +3,7 @@ import {HydrateClient, trpc} from "@/trpc/server";
 import VideoSection from "@/components/videos/sections/video-section";
 import SuggestionsSection from "@/components/videos/sections/suggestions-section";
 import CommentsSection from "@/components/videos/sections/comments-section";
+import {DEFAULT_LIMIT} from "@/lib/constants";
 
 export const dynamic = "force-dynamic"
 
@@ -15,7 +16,10 @@ export default async function Page({ params }: PageProps) {
 
     void trpc.videos.getOne.prefetch({ id: videoId })
 
-    void trpc.comments.getMany.prefetch({ videoId })
+    void trpc.comments.getMany.prefetchInfinite(
+        { videoId, limit: DEFAULT_LIMIT },
+        // @ts-ignore
+        { getNextPageParam: (lastPage) => lastPage.nextCursor})
 
     return (
         <HydrateClient>

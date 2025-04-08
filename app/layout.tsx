@@ -5,6 +5,7 @@ import {ClerkProvider} from "@clerk/nextjs";
 import { ReactNode } from "react";
 import {TRPCProvider} from "@/trpc/client";
 import {Toaster} from "@/components/ui/sonner";
+import {ThemeProvider} from "@/providers/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,12 +29,13 @@ export default function RootLayout({
                 className={inter.className}
             >
               <TRPCProvider>
-                <Toaster />
-                {children}
+                {/*<ThemeProvider attribute="class" defaultTheme="dark">*/}
+                  <Toaster />
+                  {children}
+                {/*</ThemeProvider>*/}
               </TRPCProvider>
             </body>
           </html>
-
       </ClerkProvider>
   );
 }
