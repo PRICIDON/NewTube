@@ -140,6 +140,13 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                             setIsReplyOpen(false)
                         }}
                     />
+                    {comment.replyCount > 0 && variant === "comment" && (
+                        <div className="pl-14">
+                            <Button>
+                                {comment.replyCount} replies
+                            </Button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

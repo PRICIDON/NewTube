@@ -2,7 +2,7 @@ import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {db} from "@/db";
 import {commentReactions, comments, users } from "@/db/schema";
-import {and, count, desc, eq, getTableColumns, inArray, isNull, lt, or} from "drizzle-orm";
+import {and, count, desc, eq, getTableColumns, inArray, isNotNull, isNull, lt, or} from "drizzle-orm";
 import {TRPCError} from "@trpc/server";
 
 export const commentsRouter = createTRPCRouter({
@@ -67,18 +67,31 @@ export const commentsRouter = createTRPCRouter({
                 type: commentReactions.type,
             }).from(commentReactions).where(inArray(commentReactions.userId, userId ? [userId] : []))
         )
+
+        const replies = db.$with("replies").as(
+            db
+                .select({
+                    parentId: comments.parentId,
+                    count: count(comments.id).as("count"),
+                })
+                .from(comments)
+                .where(isNotNull(comments.parentId))
+                .groupBy(comments.parentId)
+        )
+
         const [data, totalData] = await Promise.all([
-            db.with(viewerReactions).select({
+            db.with(viewerReactions, replies).select({
                 ...getTableColumns(comments),
                 user: users,
-                // totalCount: db.$count(comments, eq(comments.videoId, videoId)),
                 likeCount: db.$count(commentReactions, and(eq(commentReactions.commentId, comments.id), eq(commentReactions.type, "like"))),
                 dislikeCount: db.$count(commentReactions, and(eq(commentReactions.commentId, comments.id), eq(commentReactions.type, "dislike"))),
+                replyCount: replies.count,
                 viewerReactions: viewerReactions.type,
             })
             .from(comments)
             .innerJoin(users, eq(comments.userId, users.id))
             .leftJoin(viewerReactions, eq(viewerReactions.commentId, comments.id))
+            .leftJoin(replies, eq(comments.id, replies.parentId))
             .where(and(
                 eq(comments.videoId, videoId),
                 isNull(comments.parentId),
@@ -97,7 +110,7 @@ export const commentsRouter = createTRPCRouter({
                 count: count()
             })
             .from(comments)
-            .where(eq(comments.videoId, videoId))
+            .where(and(eq(comments.videoId, videoId), isNull(comments.parentId)))
         ])
         const hasMore = data.length > limit
         const items = hasMore ? data.slice(0, -1) : data
