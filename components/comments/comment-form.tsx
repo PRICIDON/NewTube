@@ -46,6 +46,7 @@ export default function CommentForm({ videoId, onSuccess, variant = "comment", o
         defaultValues: {
             videoId,
             value: "",
+            parentId
         }
     })
     const handleSubmit = (values: z.infer<typeof commentInsertSchema>) => {

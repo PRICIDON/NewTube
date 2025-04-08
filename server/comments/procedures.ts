@@ -1,18 +1,35 @@
 import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {db} from "@/db";
-import {commentReactions, comments, users, videoReactions, videos} from "@/db/schema";
-import {and, count, desc, eq, getTableColumns, inArray, lt, or} from "drizzle-orm";
+import {commentReactions, comments, users } from "@/db/schema";
+import {and, count, desc, eq, getTableColumns, inArray, isNull, lt, or} from "drizzle-orm";
 import {TRPCError} from "@trpc/server";
 
 export const commentsRouter = createTRPCRouter({
-    create: protectedProcedure.input(z.object({videoId: z.string().uuid(), value: z.string()})).mutation(async ({ ctx, input}) => {
+    create: protectedProcedure.input(z.object({
+        videoId: z.string().uuid(),
+        value: z.string(),
+        parentId: z.string().uuid().nullish(),
+    })).mutation(async ({ ctx, input}) => {
         const { id: userId } = ctx.user
-        const { videoId, value } = input
+        const { videoId, value, parentId } = input
+
+        const [existingComment] = await db
+            .select()
+            .from(comments)
+            .where(inArray(comments.id, parentId ? [parentId] : []))
+
+        if(!existingComment && parentId) {
+            throw new TRPCError({ code: "NOT_FOUND" })
+        }
+
+        if(parentId && existingComment?.parentId) {
+            throw new TRPCError({ code: "BAD_REQUEST" })
+        }
 
         const [createdComment] = await db
             .insert(comments)
-            .values({ userId, videoId, value })
+            .values({ userId, videoId, parentId, value })
             .returning()
         return createdComment;
     }),
@@ -64,6 +81,7 @@ export const commentsRouter = createTRPCRouter({
             .leftJoin(viewerReactions, eq(viewerReactions.commentId, comments.id))
             .where(and(
                 eq(comments.videoId, videoId),
+                isNull(comments.parentId),
                 cursor ? or(
                         lt(comments.updatedAt, cursor.updatedAt),
                         and(
