@@ -36,7 +36,6 @@ export default function CommentForm({ videoId, onSuccess, variant = "comment", o
             if(e.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn()
             }
-
         }
     })
 
