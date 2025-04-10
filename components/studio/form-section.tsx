@@ -256,7 +256,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                             )} />
                         </div>
                         <div className="flex flex-col lg:col-span-2">
-                            <div className="flex flex-col gap-4 bg-[#f9f9f9] rounded-xl overflow-hidden h-fit">
+                            <div className="flex flex-col gap-4 bg-[#f9f9f9] dark:bg-secondary rounded-xl overflow-hidden h-fit">
                                 <div className="aspect-video overflow-hidden relative">
                                     <VideoPlayer playbackId={video.muxPlaybackId!} thumbnailUrl={video.thumbnailUrl!}/>
                                 </div>

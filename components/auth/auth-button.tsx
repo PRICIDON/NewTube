@@ -21,9 +21,8 @@ export default function AuthButton() {
                 </SignInButton>
             </SignedOut>
             <SignedIn>
-                <UserButton>
+                <UserButton >
                     <UserButton.MenuItems>
-                        <UserButton.Action label="manageAccount"/>
                         <UserButton.Link href="/studio" label={t("name")} labelIcon={<ClapperboardIcon className="size-4"/>} />
                     </UserButton.MenuItems>
                 </UserButton>
