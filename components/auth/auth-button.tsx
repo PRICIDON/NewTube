@@ -3,8 +3,10 @@ import React from 'react'
 import {Button} from "@/components/ui/button";
 import {ClapperboardIcon, UserCircleIcon} from "lucide-react";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
+import {useTranslations} from "next-intl";
 
 export default function AuthButton() {
+    const t = useTranslations("studio")
     return (
         <>
             <SignedOut>
@@ -22,7 +24,7 @@ export default function AuthButton() {
                 <UserButton>
                     <UserButton.MenuItems>
                         <UserButton.Action label="manageAccount"/>
-                        <UserButton.Link href="/studio" label="Studio" labelIcon={<ClapperboardIcon className="size-4"/>} />
+                        <UserButton.Link href="/studio" label={t("name")} labelIcon={<ClapperboardIcon className="size-4"/>} />
                     </UserButton.MenuItems>
                 </UserButton>
             </SignedIn>
