@@ -44,10 +44,10 @@ export default async function RootLayout({
             >
               <TRPCProvider>
                   <NextIntlClientProvider messages={messages}>
-                    {/*<ThemeProvider attribute="class" defaultTheme="dark">*/}
+                    <ThemeProvider attribute="class" defaultTheme="dark">
                       <Toaster />
                       {children}
-                    {/*</ThemeProvider>*/}
+                    </ThemeProvider>
                   </NextIntlClientProvider>
               </TRPCProvider>
             </body>
