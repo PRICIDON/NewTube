@@ -1,7 +1,8 @@
 {
   "layouts": {
     "main": {
-      "description": "Клон ютуба by Pricidon"
+      "description": "Клон ютуба by Pricidon",
+      "title": "Я даун"
     }
   }
 }
