@@ -47,7 +47,11 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
     const [thumbnailModalOpen, setThumbnailModalOpen] = useState(false)
     const [thumbnailGenerateModalOpen, setThumbnailGenerateModalOpen] = useState(false)
     const onCopy = async () => {
-        await setLanguage(locale as Language)
+        try {
+            await setLanguage(locale as Language)
+        } catch {
+            console.error("eRROR")
+        }
         await navigator.clipboard.writeText(fullUrl);
         setIsCopied(true)
         setTimeout(() => setIsCopied(false), 2000)
