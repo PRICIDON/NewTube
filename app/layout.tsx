@@ -8,18 +8,11 @@ import {Toaster} from "@/components/ui/sonner";
 import {ThemeProvider} from "@/providers/ThemeProvider";
 import {NextIntlClientProvider} from "next-intl";
 import {getLocale, getMessages, getTranslations} from "next-intl/server";
-import {setLanguage} from "@/lib/i18n/language";
-import {type Language} from "@/lib/i18n/config";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
-
-// export const metadata: Metadata = {
-//   title: "NewTube",
-//   description: "Clone YouTube",
-// };
 
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations("layouts.main")
@@ -44,7 +37,7 @@ export default async function RootLayout({
             >
               <TRPCProvider>
                   <NextIntlClientProvider messages={messages}>
-                    <ThemeProvider attribute="class" defaultTheme="dark">
+                    <ThemeProvider attribute="class" defaultTheme="light">
                       <Toaster />
                       {children}
                     </ThemeProvider>
