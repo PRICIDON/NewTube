@@ -8,6 +8,7 @@ import {Toaster} from "@/components/ui/sonner";
 import {ThemeProvider} from "@/providers/ThemeProvider";
 import {NextIntlClientProvider} from "next-intl";
 import {getLocale, getMessages, getTranslations} from "next-intl/server";
+import {enUS, ruRU} from "@clerk/localizations";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,7 +31,7 @@ export default async function RootLayout({
     const locale = await getLocale();
     const messages = await getMessages();
   return (
-      <ClerkProvider afterSignOutUrl="/">
+      <ClerkProvider afterSignOutUrl="/" localization={locale === "ru" ? ruRU : enUS}>
           <html lang={locale} suppressHydrationWarning>
             <body
                 className={inter.className}
