@@ -42,7 +42,7 @@ export default function FilterCarousel({ value = null,isLoading, data, onSelect 
     return (
         <div className="relative w-full">
             {/* Left fade */}
-            <div className={cn("absolute left-12 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none", current === 1 && "hidden")}/>
+            <div className={cn("absolute left-12 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-white dark:from-background to-transparent pointer-events-none", current === 1 && "hidden")}/>
             <Carousel opts={{align: 'start', dragFree: true}} className="px-12 w-full" setApi={setApi}>
                 <CarouselContent className="-ml-3">
                     <CarouselItem className="pl-3 flex-none" onClick={() => onSelect(value)}>
@@ -75,7 +75,7 @@ export default function FilterCarousel({ value = null,isLoading, data, onSelect 
                 <CarouselNext className="right-0 z-20"/>
             </Carousel>
             {/* Right fade */}
-            <div className={cn("absolute right-12 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none", current === count && "hidden")}/>
+            <div className={cn("absolute right-12 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-white dark:from-background to-transparent pointer-events-none", current === count && "hidden")}/>
         </div>
     )
 }
