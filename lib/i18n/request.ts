@@ -6,6 +6,6 @@ export default getRequestConfig(async () => {
 
     return {
         locale: language,
-        messages: (await import(`../../../public/languages/${language}.json`)).default
+        messages: (await import(`@/public/languages/${language}.json`)).default
     }
 })
