@@ -2,7 +2,7 @@ import React from 'react'
 import {SidebarProvider} from "@/components/ui/sidebar";
 import {Navbar} from "@/components/navbar/navbar";
 import type {Metadata} from "next";
-import SSidebar from "@/components/sidebar/sidebar";
+import Sidebar from "@/components/sidebar/sidebar";
 
 
 interface LayoutProps {
@@ -20,7 +20,7 @@ export default function HomeLayout({ children }: LayoutProps) {
             <div className="w-full">
                 <Navbar studio/>
                 <div className="flex min-h-screen pt-[4rem]">
-                    <SSidebar studio/>
+                    <Sidebar studio/>
                     <main className="flex-1 overflow-y-auto">{children}</main>
                 </div>
             </div>
