@@ -6,9 +6,7 @@ import {COOKIE_NAME, defaultLanguage, type Language} from "@/lib/i18n/config";
 export async function getCurrentLanguage() {
     const cookieStore = await cookies()
 
-    const language = cookieStore.get(COOKIE_NAME)?.value ?? defaultLanguage
-
-    return language
+    return cookieStore.get(COOKIE_NAME)?.value ?? defaultLanguage
 }
 
 
