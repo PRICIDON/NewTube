@@ -8,6 +8,7 @@ import {Toaster} from "@/components/ui/sonner";
 import {ThemeProvider} from "@/providers/ThemeProvider";
 import {NextIntlClientProvider} from "next-intl";
 import {getLocale, getMessages, getTranslations} from "next-intl/server";
+import {setLanguage} from "@/lib/i18n/language";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,7 +35,7 @@ export default async function RootLayout({
 }>) {
     const locale = await getLocale();
     const messages = await getMessages();
-
+    // await setLanguage(locale);
   return (
       <ClerkProvider afterSignOutUrl="/">
           <html lang={locale} suppressHydrationWarning>
@@ -46,6 +47,7 @@ export default async function RootLayout({
                     {/*<ThemeProvider attribute="class" defaultTheme="dark">*/}
                       <Toaster />
                       {children}
+                      {JSON.stringify(locale)}
                     {/*</ThemeProvider>*/}
                   </NextIntlClientProvider>
               </TRPCProvider>
