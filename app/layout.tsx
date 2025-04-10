@@ -36,7 +36,6 @@ export default async function RootLayout({
 }>) {
     const locale = await getLocale();
     const messages = await getMessages();
-    await setLanguage(locale as Language);
   return (
       <ClerkProvider afterSignOutUrl="/">
           <html lang={locale} suppressHydrationWarning>
