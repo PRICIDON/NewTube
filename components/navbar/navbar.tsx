@@ -25,7 +25,6 @@ export const HomeNavbar = () => {
                     <SearchInput/>
                 </div>
                 <div className="flex-shrink-0 items-center flex gap-4">
-                    <ThemeButton />
                     <AuthButton />
                 </div>
             </div>
@@ -82,7 +81,7 @@ export const Navbar = ({ studio} : { studio?: boolean}) => {
                         )
                 }
                 <div className="flex-shrink-0 items-center flex gap-4">
-                    {studio && <StudioUploadModal/>}
+                    {studio ? <StudioUploadModal/> : <ThemeButton />}
                     <AuthButton />
                 </div>
             </div>
