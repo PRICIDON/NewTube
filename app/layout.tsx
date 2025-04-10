@@ -37,7 +37,7 @@ export default async function RootLayout({
             >
               <TRPCProvider>
                   <NextIntlClientProvider messages={messages}>
-                    <ThemeProvider attribute="class" defaultTheme="light">
+                    <ThemeProvider attribute="class" defaultTheme="dark">
                       <Toaster />
                       {children}
                     </ThemeProvider>
