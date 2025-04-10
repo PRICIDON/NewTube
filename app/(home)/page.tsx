@@ -1,6 +1,9 @@
 import {HydrateClient, trpc} from "@/trpc/server";
 import CategorySection from "@/components/categories/category-section";
 import React from "react";
+import {useLocale} from "next-intl";
+import {setLanguage} from "@/lib/i18n/language";
+import {Language} from "@/lib/i18n/config";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +13,8 @@ interface PageProps {
 
 export default async function Home({searchParams}: PageProps) {
     const { categoryId } = await searchParams;
+    const locale = useLocale();
+    await setLanguage(locale as Language)
 
     void trpc.categories.getMany.prefetch()
 

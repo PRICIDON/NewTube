@@ -32,26 +32,18 @@ import Image from "next/image";
 import ThumbnailUploadModal from "@/components/studio/thumbnail-upload-modal";
 import { Skeleton } from '../ui/skeleton';
 import ThumbnailGenerateModal from "@/components/studio/thumbnail-generate-modal";
-import {useLocale} from "next-intl";
-import {setLanguage} from "@/lib/i18n/language";
-import {Language} from "@/lib/i18n/config";
 
 interface FormSectionProps {
     videoId: string
 }
 
 function FormSectionSuspense({ videoId }: FormSectionProps) {
-    const locale = useLocale();
     const fullUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}/videos/${videoId}`;
     const [isCopied, setIsCopied] = useState(false)
     const [thumbnailModalOpen, setThumbnailModalOpen] = useState(false)
     const [thumbnailGenerateModalOpen, setThumbnailGenerateModalOpen] = useState(false)
     const onCopy = async () => {
-        try {
-            await setLanguage(locale as Language)
-        } catch {
-            console.error("eRROR")
-        }
+
         await navigator.clipboard.writeText(fullUrl);
         setIsCopied(true)
         setTimeout(() => setIsCopied(false), 2000)
