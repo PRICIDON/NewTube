@@ -4,6 +4,7 @@ import Image from "next/image";
 import SearchInput from "./search-input";
 import AuthButton from "@/components/auth/auth-button";
 import StudioUploadModal from "@/components/studio/StudioUploadModal";
+import ThemeButton from "@/components/theme-button";
 
 export const HomeNavbar = () => {
     return (
@@ -24,6 +25,7 @@ export const HomeNavbar = () => {
                     <SearchInput/>
                 </div>
                 <div className="flex-shrink-0 items-center flex gap-4">
+                    <ThemeButton />
                     <AuthButton />
                 </div>
             </div>
