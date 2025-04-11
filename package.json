@@ -43,6 +43,7 @@
     "drizzle-orm": "^0.41.0",
     "drizzle-zod": "^0.7.1",
     "embla-carousel-react": "^8.5.2",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.483.0",
     "next": "15.1.6",
     "next-intl": "^4.0.2",

@@ -30,7 +30,7 @@ export const { POST } = serve(
 
 
       const { body } =  await context.call<{data: { url: string}[]}>("generate-thumbnail", {
-          url: "https://api.openai.com/v1/images/generations",
+          url: "https://llm.api.cloud.yandex.net/foundationModels/v1/completion",
           method: "POST",
           body: {
               prompt,

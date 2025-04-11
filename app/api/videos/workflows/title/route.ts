@@ -3,6 +3,7 @@ import {db} from "@/db";
 import {videos} from "@/db/schema";
 import {and, eq} from "drizzle-orm";
 import {TITLE_SYSTEM_PROMPT} from "@/lib/system_prompts";
+import {getIamToken} from "@/lib/get-i-am-token";
 
 interface InputType {
     userId: string
@@ -31,26 +32,43 @@ export const { POST } = serve(
           return response.text()
       })
 
-      const generatedTitle =  await context.api.openai.call(
-          "Call OpenAI",
-          {
-            token: process.env.OPENAI_API_KEY!,
-            operation: "chat.completions.create",
-            body: {
-              model: "gpt-4o",
-              messages: [
-                {
-                  role: "system",
-                  content: TITLE_SYSTEM_PROMPT,
-                },
-                {
-                  role: "user",
-                  content: transcript
-                }
-              ],
+      const generatedTitle = await context.run("generate-title", async () => {
+        const iamToken = await getIamToken();
+        const response = await fetch("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${iamToken}`,
+                "Content-Type": "application/json"
             },
-          }
-        );
+            body: JSON.stringify({
+                modelUri: `gpt://${process.env.YANDEX_FOLDER_ID}/yandexgpt/rc`,
+                completionOptions: {
+                    stream: false,
+                    temperature: 0.7,
+                    maxTokens: 100
+                },
+                messages: [
+                    {
+                        role: "system",
+                        text: TITLE_SYSTEM_PROMPT
+                    },
+                    {
+                        role: "user",
+                        text: transcript
+                    }
+                ]
+            })
+        });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error("YandexGPT Error: " + errorText);
+    }
+
+    const result = await response.json();
+    return result.choices[0]?.message?.text || "";
+});
+
 
       await context.run("update-video", async () => {
         const title = generatedTitle.body.choices[0]?.message.content;
