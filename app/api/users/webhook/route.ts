@@ -38,7 +38,7 @@ export async function POST(req: Request) {
       const { id, first_name, last_name, image_url } = evt.data;
       await db.insert(users).values({
         clerkId: id,
-        name: `${first_name} ${last_name}`,
+        name: `${first_name} ${last_name ?? ""}`,
         imageUrl: image_url,
       });
     }

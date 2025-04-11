@@ -79,7 +79,6 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
         onSuccess() {
             utils.studio.getMany.invalidate()
             utils.studio.getOne.invalidate({ id: videoId })
-            router.push("/studio")
             toast.success("Video revalidated successfully.")
         },
         onError(e) {

@@ -93,13 +93,13 @@ export const videosRouter = createTRPCRouter({
         const directUpload = await mux.video.uploads.retrieve(existingVideo.muxUploadId)
         if (!directUpload || !directUpload.asset_id) throw new TRPCError({ code: "BAD_REQUEST"})
 
-        const asset = mux.video.assets.retrieve(directUpload.asset_id)
-
+        const asset = await mux.video.assets.retrieve(directUpload.asset_id)
+        console.log(asset)
         if (!asset) throw new TRPCError({ code: "BAD_REQUEST"})
 
         const playbackId = asset.playback_ids?.[0].id
-
         const duration = asset.duration ? Math.round(asset.duration * 1000) : 0;
+
 
         const [updatedVideo] = await db.update(videos).set({
             muxStatus: asset.status,
