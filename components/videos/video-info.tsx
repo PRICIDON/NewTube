@@ -5,12 +5,24 @@ import Link from "next/link";
 import UserAvatar from "@/components/avatar";
 import UserInfo from "@/components/users/user-info";
 import VideoMenu from "@/components/videos/video-menu";
+import {Skeleton} from "@/components/ui/skeleton";
 
 interface VideoInfo {
     data: VideoGetManyOutput["items"][number]
     onRemove?: () => void
 }
 
+export function VideoInfoSkeleton() {
+    return (
+        <div className="flex gap-3">
+            <Skeleton className="size-10 shrink-0 rounded-full" />
+            <div className="min-w-0 flex space-y-2">
+                <Skeleton className="h-5 w-[90%]"></Skeleton>
+                <Skeleton className="h-5 w-[70%]"></Skeleton>
+            </div>
+        </div>
+    )
+}
 
 export default function VideoInfo({ data, onRemove }: VideoInfo) {
     const compactDate = useMemo(() => {
