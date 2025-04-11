@@ -30,7 +30,8 @@ function CategoriesSectionSuspense({ categoryId }: CategorySectionProps) {
         const url = new URL(window.location.href)
         if(value) {
             url.searchParams.set("categoryId", value)
-        } else {
+        }
+        if(value === "") {
             url.searchParams.delete("categoryId")
         }
         router.push(url.href)

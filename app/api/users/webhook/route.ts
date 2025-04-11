@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     if (eventType === "user.updated") {
       const { id, first_name, last_name, image_url } = evt.data;
       await db.update(users).set({
-        name: `${first_name} ${last_name}`,
+        name: `${first_name} ${last_name ?? ""}`,
         imageUrl: image_url,
       }).where(eq(users.clerkId, id));
     }

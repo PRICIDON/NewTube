@@ -2,7 +2,7 @@ import React from 'react'
 import {HydrateClient, trpc} from "@/trpc/server";
 import CategoriesSection from "@/components/categories/category-section";
 import {DEFAULT_LIMIT} from "@/lib/constants";
-import ResultsSection from "@/server/search/results-section";
+import ResultsSection from "@/components/search/results-section";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,7 @@ export default async function Page({ searchParams }: PageProps) {
     }, { getNextPageParam: (lastPage) => lastPage.nextCursor })
     return (
         <HydrateClient>
-            <div className="max-w-[1300px] mx-auto mb-10 flex flex-col gap-y-y px-4 pt-2.5">
+            <div className="max-w-[1300px] mx-auto mb-10 flex flex-col gap-y-6 px-4 pt-2.5">
                 <CategoriesSection categoryId={categoryId} />
                 <ResultsSection query={query} categoryId={categoryId} />
             </div>

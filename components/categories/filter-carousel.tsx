@@ -45,7 +45,7 @@ export default function FilterCarousel({ value = null,isLoading, data, onSelect 
             <div className={cn("absolute left-12 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-white dark:from-background to-transparent pointer-events-none", current === 1 && "hidden")}/>
             <Carousel opts={{align: 'start', dragFree: true}} className="px-12 w-full" setApi={setApi}>
                 <CarouselContent className="-ml-3">
-                    <CarouselItem className="pl-3 flex-none" onClick={() => onSelect(value)}>
+                    <CarouselItem className="pl-3 flex-none" onClick={() => onSelect("")}>
                         <Badge
                             variant={!value ? "default" : 'secondary'}
                             className="rounded-lg px-3 py-1 cursor-pointer whitespace-nowrap text-sm"
