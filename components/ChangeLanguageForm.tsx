@@ -1,6 +1,6 @@
 'use client'
 import React, {useTransition} from 'react'
-import {Form, FormField} from "@/components/ui/form";
+import {Form, FormField, FormItem} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {useLocale} from "next-intl";
 import {useForm} from "react-hook-form";
@@ -39,32 +39,28 @@ export default function ChangeLanguageForm() {
                 control={form.control}
                 name='language'
                 render={({ field }) => (
-                    <Select
-                        onValueChange={value => {
-                            field.onChange(value)
-                            form.handleSubmit(onSubmit)()
-                        }}
-                        value={field.value}
-                    >
-                        <SelectTrigger className='w-[180px]'>
-                            <SelectValue
-                                placeholder={"Русский"}
-                            />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {Object.entries(languages).map(
-                                ([code, name]) => (
-                                    <SelectItem
-                                        key={code}
-                                        value={code}
-                                        disabled={isPending}
-                                    >
-                                        {name}
-                                    </SelectItem>
-                                )
-                            )}
-                        </SelectContent>
-                    </Select>
+                    <FormItem>
+                        <Select
+                            onValueChange={value => {
+                                field.onChange(value)
+                                form.handleSubmit(onSubmit)()
+                            }}
+                            value={field.value}
+                        >
+                            <SelectTrigger className='w-[180px]'>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="z-50" asChild>
+                              <div className="z-50 bg-white border rounded-md shadow-md">
+                                {Object.entries(languages).map(([code, name]) => (
+                                  <SelectItem key={code} value={code} disabled={isPending}>
+                                    {name}
+                                  </SelectItem>
+                                ))}
+                              </div>
+                            </SelectContent>
+                        </Select>
+                    </FormItem>
                 )}
             />
         </Form>

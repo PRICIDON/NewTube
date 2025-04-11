@@ -31,16 +31,16 @@ export default function AuthButton() {
                     <UserButton.MenuItems>
                         <UserButton.Link href="/studio" label={t("name")} labelIcon={<ClapperboardIcon className="size-4"/>} />
                     </UserButton.MenuItems>
-                    <UserButton.UserProfilePage label={"Кастомизация"} labelIcon={<Palette className="size-4" />} url="appearence" >
-                      <div>
-                        <h1 className="font-bold text-md">Кастомизация</h1>
-                        <Separator className="mt-4 bg-gray-500" />
-                          <div className="mt-5">
-                              <h1 className="font-medium text-sm">Язык</h1>
-                              <ChangeLanguageForm/>
-                          </div>
-                      </div>
-                    </UserButton.UserProfilePage>
+                    {/*<UserButton.UserProfilePage label={"Кастомизация"} labelIcon={<Palette className="size-4" />} url="appearence" >*/}
+                    {/*  <div>*/}
+                    {/*    <h1 className="font-bold text-md">Кастомизация</h1>*/}
+                    {/*    <Separator className="mt-4 bg-gray-500" />*/}
+                    {/*      <div className="mt-5 gap-y-2 flex flex-col">*/}
+                    {/*          <h1 className="font-medium text-sm">Язык</h1>*/}
+                    {/*          <ChangeLanguageForm/>*/}
+                    {/*      </div>*/}
+                    {/*  </div>*/}
+                    {/*</UserButton.UserProfilePage>*/}
                 </UserButton>
             </SignedIn>
         </>
