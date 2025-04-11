@@ -2,7 +2,7 @@ import React from 'react'
 import {useUser} from "@clerk/nextjs";
 import {SidebarHeader, SidebarMenuButton, SidebarMenuItem, useSidebar} from "@/components/ui/sidebar";
 import Link from "next/link";
-import UserAvatar from "@/components/avatar";
+import UserAvatar from "@/components/users/avatar";
 import {Skeleton} from "@/components/ui/skeleton";
 
 export default function StudioSidebarHeader() {

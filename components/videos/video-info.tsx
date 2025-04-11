@@ -2,7 +2,7 @@ import {VideoGetManyOutput} from "@/components/videos/types";
 import React, {useMemo} from 'react'
 import {formatDistanceToNow} from "date-fns";
 import Link from "next/link";
-import UserAvatar from "@/components/avatar";
+import UserAvatar from "@/components/users/avatar";
 import UserInfo from "@/components/users/user-info";
 import VideoMenu from "@/components/videos/video-menu";
 import {Skeleton} from "@/components/ui/skeleton";

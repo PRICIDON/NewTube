@@ -1,14 +1,13 @@
 import React, {useState} from 'react'
 import {CommentsGetManyOutput} from "@/components/comments/types";
 import Link from "next/link";
-import UserAvatar from "@/components/avatar";
+import UserAvatar from "@/components/users/avatar";
 import {formatDistanceToNow} from "date-fns";
 import {trpc} from "@/trpc/client";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {
     ChevronDownIcon, ChevronUpIcon,
-    MessageSquareIcon,
     MoreVerticalIcon,
     ThumbsDownIcon,
     ThumbsUpIcon,

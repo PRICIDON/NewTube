@@ -4,7 +4,7 @@ import {VideoGetManyOutput} from "@/components/videos/types";
 import Link from "next/link";
 import VideoThumbnail, {VideoThumbnailSkeleton} from "@/components/videos/video-thumbnail";
 import {cn} from "@/lib/utils";
-import UserAvatar from "@/components/avatar";
+import UserAvatar from "@/components/users/avatar";
 import UserInfo from "@/components/users/user-info";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 import VideoMenu from "@/components/videos/video-menu";

@@ -1,5 +1,5 @@
 import React from 'react'
-import UserAvatar from "@/components/avatar";
+import UserAvatar from "@/components/users/avatar";
 import {useClerk, useUser} from "@clerk/nextjs";
 import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
