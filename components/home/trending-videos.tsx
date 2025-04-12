@@ -6,22 +6,19 @@ import {DEFAULT_LIMIT} from "@/lib/constants";
 import VideoGridCard, {VideoGridCardSkeleton} from "@/components/suggestions/video-grid-card";
 import InfiniteScroll from "@/components/infinite-scroll";
 
-interface HomeVideosSectionProps {
-    categoryId?: string
-}
 
-export default function HomeVideosSection({ categoryId }: HomeVideosSectionProps) {
+export default function TrendingVideosSection() {
     return (
-        <Suspense key={categoryId} fallback={<HomeVideosSectionSkeleton/>}>
+        <Suspense fallback={<TrendingVideosSectionSkeleton/>}>
             <ErrorBoundary fallback={<p>Error...</p>}>
-                <HomeVideosSectionSuspense categoryId={categoryId} />
+                <TrendingVideosSectionSuspense />
             </ErrorBoundary>
         </Suspense>
     )
 }
 
-function HomeVideosSectionSuspense({ categoryId }: HomeVideosSectionProps) {
-    const [videos, query] = trpc.videos.getMany.useSuspenseInfiniteQuery({ categoryId, limit: DEFAULT_LIMIT}, { getNextPageParam: lastPage => lastPage.nextCursor })
+function TrendingVideosSectionSuspense() {
+    const [videos, query] = trpc.videos.getTrending.useSuspenseInfiniteQuery({  limit: DEFAULT_LIMIT}, { getNextPageParam: lastPage => lastPage.nextCursor })
 
     return (
         <div className="">
@@ -37,7 +34,7 @@ function HomeVideosSectionSuspense({ categoryId }: HomeVideosSectionProps) {
     )
 }
 
-function HomeVideosSectionSkeleton() {
+function TrendingVideosSectionSkeleton() {
     return (
         <div
             className="gap-4 gap-y-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 [@media(min-width:1920px]:grid-cols-5 [@media(min-width:2200px]:grid-cols-6"

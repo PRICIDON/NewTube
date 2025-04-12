@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react'
+import React from 'react'
 import {VideoGetManyOutput} from "@/components/videos/types";
 import Link from "next/link";
 import VideoThumbnail, {VideoThumbnailSkeleton} from "@/components/videos/video-thumbnail";
@@ -12,7 +12,7 @@ interface VideoGridCardProps{
 
 export const VideoGridCardSkeleton = () => {
     return (
-        <div className="flex flec-col gap-2 w-full">
+        <div className="flex flex-col gap-2 w-full">
             <VideoThumbnailSkeleton />
             <VideoInfoSkeleton />
         </div>
