@@ -48,18 +48,17 @@ export const VideoRowCardSkeleton = ({ size = "default"}: VariantProps<typeof vi
             </div>
             {/* Info skeleton */}
             <div className="flex-1 min-w-0">
-                <div className="flex justify-between gap-x-2">
+                <div className="flex flex-col justify-between gap-x-2">
                     <div className="flex-1 min-w-0">
                         <Skeleton className={cn("h-5 w-[40%]", size === "compact" && "h-4")} />
                     </div>
                     {size === "default" ? (
                         <>
-                            <Skeleton className="h-4 w-[20%] mt-1">
-                                <div className="flex items-center gap-2 my-3">
-                                    <Skeleton className="size-8 rounded-full"/>
-                                    <Skeleton className="h-4 w-24"/>
-                                </div>
-                            </Skeleton>
+                            <Skeleton className="h-4 w-[20%] mt-1"/>
+                            <div className="flex items-center gap-2 my-3">
+                                <Skeleton className="size-8 rounded-full"/>
+                                <Skeleton className="h-4 w-24"/>
+                            </div>
                         </>
                     ) : (
                         <>

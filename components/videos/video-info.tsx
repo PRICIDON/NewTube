@@ -13,15 +13,15 @@ interface VideoInfo {
 }
 
 export function VideoInfoSkeleton() {
-    return (
-        <div className="flex gap-3">
-            <Skeleton className="size-10 shrink-0 rounded-full" />
-            <div className="min-w-0 flex space-y-2">
-                <Skeleton className="h-5 w-[90%]"/>
-                <Skeleton className="h-5 w-[70%]"/>
-            </div>
-        </div>
-    )
+  return (
+    <div className="flex gap-3 p-4 ">
+      <Skeleton className="size-10 shrink-0 rounded-full " />
+      <div className="flex flex-col space-y-2 w-full">
+        <Skeleton className="h-5 w-[90%] " />
+        <Skeleton className="h-5 w-[70%] " />
+      </div>
+    </div>
+  );
 }
 
 export default function VideoInfo({ data, onRemove }: VideoInfo) {

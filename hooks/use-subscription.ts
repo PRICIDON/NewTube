@@ -14,7 +14,8 @@ export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubsc
 
     const subscribe = trpc.subscriptions.create.useMutation({
         onSuccess() {
-            toast.success("Subscribe")
+            toast.success("Subscribed")
+            utils.videos.getSubscribed.invalidate()
             fromVideoId && utils.videos.getOne.invalidate({ id: fromVideoId})
         },
         onError(e) {
@@ -26,7 +27,8 @@ export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubsc
     })
     const unsubscribe = trpc.subscriptions.remove.useMutation({
         onSuccess() {
-            toast.success("Unsubscribe")
+            toast.success("Unsubscribed")
+            utils.videos.getSubscribed.invalidate()
             fromVideoId && utils.videos.getOne.invalidate({ id: fromVideoId})
         },
         onError(e) {

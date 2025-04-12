@@ -27,7 +27,7 @@ export default function UserInfo({ name, className, size }: UserInfo) {
         <div className={cn(userInfoVariants({ size, className}))}>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <p className="text-gray-500 hover:text-gray-800 line-clamp-1">
+                    <p className="text-gray-500 hover:text-gray-800 dark:text-muted-foreground dark:hover:text-white line-clamp-1">
                         {name}
                     </p>
                 </TooltipTrigger>
