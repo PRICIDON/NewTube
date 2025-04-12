@@ -3,6 +3,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {ListPlusIcon, MoreVerticalIcon, ShareIcon, Trash2Icon} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
+import {APP_URL} from "@/lib/constants";
 
 interface VideoMenuProps {
     videoId: string;
@@ -12,7 +13,7 @@ interface VideoMenuProps {
 
 export default function VideoMenu({ videoId, variant = "ghost", onRemove }: VideoMenuProps) {
     const onShare = () => {
-        const fullUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}/videos/${videoId}`
+        const fullUrl = `${APP_URL}/videos/${videoId}`
         navigator.clipboard.writeText(fullUrl)
         toast.success("Link copied to clipboard")
     }

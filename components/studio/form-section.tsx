@@ -32,13 +32,14 @@ import Image from "next/image";
 import ThumbnailUploadModal from "@/components/studio/thumbnail-upload-modal";
 import { Skeleton } from '../ui/skeleton';
 import ThumbnailGenerateModal from "@/components/studio/thumbnail-generate-modal";
+import {APP_URL} from "@/lib/constants";
 
 interface FormSectionProps {
     videoId: string
 }
 
 function FormSectionSuspense({ videoId }: FormSectionProps) {
-    const fullUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}/videos/${videoId}`;
+    const fullUrl = `${APP_URL}/videos/${videoId}`;
     const [isCopied, setIsCopied] = useState(false)
     const [thumbnailModalOpen, setThumbnailModalOpen] = useState(false)
     const [thumbnailGenerateModalOpen, setThumbnailGenerateModalOpen] = useState(false)

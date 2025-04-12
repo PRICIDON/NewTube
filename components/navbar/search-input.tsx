@@ -3,13 +3,14 @@ import React, {useState} from 'react'
 import {SearchIcon, XIcon} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
+import {APP_URL} from "@/lib/constants";
 
 export default function SearchInput() {
     const router = useRouter();
     const [value, setValue] = useState("")
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const url = new URL("/search", process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000")
+        const url = new URL("/search", APP_URL)
         const newQuery = value.trim()
         url.searchParams.set("query", encodeURIComponent(newQuery))
 
