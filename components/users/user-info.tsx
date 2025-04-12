@@ -31,7 +31,7 @@ export default function UserInfo({ name, className, size }: UserInfo) {
                         {name}
                     </p>
                 </TooltipTrigger>
-                <TooltipContent align="center" className="bg-black/70">
+                <TooltipContent align="center" className="bg-black/70 dark:bg-white">
                     <p>
                         {name}
                     </p>

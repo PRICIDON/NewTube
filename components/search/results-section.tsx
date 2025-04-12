@@ -16,7 +16,7 @@ interface ResultsSectionProps {
 
 export default function ResultsSection({query, categoryId}: ResultsSectionProps) {
     return (
-        <Suspense fallback={<ResultsSectionSkeleton/>}>
+        <Suspense key={`${query}-${categoryId}`} fallback={<ResultsSectionSkeleton/>}>
             <ErrorBoundary fallback={<p>Error...</p>}>
                 <ResultsSectionSuspense query={query} categoryId={categoryId} />
             </ErrorBoundary>

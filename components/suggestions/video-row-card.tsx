@@ -99,7 +99,7 @@ export default function VideoRowCard({data, onRemove, size = "default"}: VideoRo
                                             {data.description ?? "No description"}
                                         </p>
                                     </TooltipTrigger>
-                                    <TooltipContent side="bottom" align="center" className="bg-black/70">
+                                    <TooltipContent side="bottom" align="center" className="bg-black/70 dark:bg-white">
                                         <p className="">From the video description</p>
                                     </TooltipContent>
                                 </Tooltip>
