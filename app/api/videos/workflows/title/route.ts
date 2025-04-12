@@ -1,86 +1,81 @@
-import { serve } from "@upstash/workflow/nextjs"
-import {db} from "@/db";
-import {videos} from "@/db/schema";
-import {and, eq} from "drizzle-orm";
-import {TITLE_SYSTEM_PROMPT} from "@/lib/system_prompts";
-import {getIamToken} from "@/lib/get-i-am-token";
+import { serve } from "@upstash/workflow/nextjs";
+import { db } from "@/db";
+import { videos } from "@/db/schema";
+import { and, eq } from "drizzle-orm";
+import { TITLE_SYSTEM_PROMPT } from "@/lib/system_prompts";
 
 interface InputType {
-    userId: string
-    videoId: string
+  userId: string;
+  videoId: string;
 }
 
-export const { POST } = serve(
-  async (context) => {
-      const input = context.requestPayload as InputType
-      const {videoId, userId} = input
-      const video = await context.run("get-video", async () => {
-            const [existingVideo] = await db.select().from(videos).where(and(
-                eq(videos.id, videoId),
-                eq(videos.userId, userId),
-            ))
+export const { POST } = serve(async (context) => {
+  const input = context.requestPayload as InputType;
+  const { videoId, userId } = input;
 
-            if (!existingVideo) {
-                throw new Error("No video found.")
-            }
-            return existingVideo
-      })
+  const video = await context.run("get-video", async () => {
+    const [existingVideo] = await db
+      .select()
+      .from(videos)
+      .where(and(eq(videos.id, videoId), eq(videos.userId, userId)));
 
-      const transcript = await context.run("get-transcript", async () => {
-          const trackUrl = `https://stream.mux.com/${video.muxPlaybackId}/text/${video.muxTrackId}.txt`
-          const response = await fetch(trackUrl)
-          return response.text()
-      })
+    if (!existingVideo) {
+      throw new Error("No video found.");
+    }
+    return existingVideo;
+  });
 
-      const generatedTitle = await context.run("generate-title", async () => {
-        const iamToken = await getIamToken();
-        const response = await fetch("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${iamToken}`,
-                "Content-Type": "application/json"
+  const transcript = await context.run("get-transcript", async () => {
+    const trackUrl = `https://stream.mux.com/${video.muxPlaybackId}/text/${video.muxTrackId}.txt`;
+    const response = await fetch(trackUrl);
+    return response.text();
+  });
+
+  const yandexResponse = await context.run("generate-title", async () => {
+    const response = await fetch(
+      "https://llm.api.cloud.yandex.net/foundationModels/v1/completion",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Api-Key ${process.env.YANDEX_API_KEY!}`,
+        },
+        body: JSON.stringify({
+          modelUri: `gpt://${process.env.YANDEX_FOLDER_ID}/yandexgpt/latest`,
+          completionOptions: {
+            stream: false,
+            temperature: 0.7,
+            maxTokens: 100,
+          },
+          messages: [
+            {
+              role: "system",
+              text: TITLE_SYSTEM_PROMPT,
             },
-            body: JSON.stringify({
-                modelUri: `gpt://${process.env.YANDEX_FOLDER_ID}/yandexgpt/rc`,
-                completionOptions: {
-                    stream: false,
-                    temperature: 0.7,
-                    maxTokens: 100
-                },
-                messages: [
-                    {
-                        role: "system",
-                        text: TITLE_SYSTEM_PROMPT
-                    },
-                    {
-                        role: "user",
-                        text: transcript
-                    }
-                ]
-            })
-        });
+            {
+              role: "user",
+              text: transcript,
+            },
+          ],
+        }),
+      }
+    );
 
+    const data = await response.json();
     if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error("YandexGPT Error: " + errorText);
+      throw new Error(`YandexGPT Error: ${JSON.stringify(data)}`);
     }
 
-    const result = await response.json();
-    return result.choices[0]?.message?.text || "";
+    return data.choices[0]?.message.text;
+  });
+
+  await context.run("update-video", async () => {
+    const title = yandexResponse;
+    if (!title) throw new Error("Failed to generate title");
+
+    await db
+      .update(videos)
+      .set({ title: title || video.title })
+      .where(and(eq(videos.id, video.id), eq(videos.userId, userId)));
+  });
 });
-
-
-      await context.run("update-video", async () => {
-        const title = generatedTitle.body.choices[0]?.message.content;
-        if(!title) throw new Error("Bad request");
-
-          await db.update(videos).set({
-              title: title || video.title
-          }).where(and(
-              eq(videos.id, video.id),
-              eq(videos.userId, userId),
-          ))
-      })
-  },
-
-)
