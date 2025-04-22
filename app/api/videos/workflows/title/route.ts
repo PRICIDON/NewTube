@@ -31,7 +31,7 @@ export const { POST } = serve(async (context) => {
     return response.text();
   });
 
-  const yandexResponse = await context.run("generate-title", async () => {
+  const generateTitle = await context.run("generate-title", async () => {
     const response = await fetch(
       "https://llm.api.cloud.yandex.net/foundationModels/v1/completion",
       {
@@ -70,7 +70,7 @@ export const { POST } = serve(async (context) => {
   });
 
   await context.run("update-video", async () => {
-    const title = yandexResponse;
+    const title = generateTitle;
     if (!title) throw new Error("Failed to generate title");
 
     await db

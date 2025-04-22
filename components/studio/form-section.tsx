@@ -32,7 +32,7 @@ import Image from "next/image";
 import ThumbnailUploadModal from "@/components/studio/thumbnail-upload-modal";
 import { Skeleton } from '../ui/skeleton';
 import ThumbnailGenerateModal from "@/components/studio/thumbnail-generate-modal";
-import {APP_URL} from "@/lib/constants";
+import {APP_URL, THUMBNAIL_FALLBACK} from "@/lib/constants";
 
 interface FormSectionProps {
     videoId: string
@@ -218,7 +218,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                     <FormLabel>Thumbnail</FormLabel>
                                     <FormControl>
                                         <div className="p-.5 border border-dashed border-neutral-400 relative h-[84px] w-[153px] group">
-                                            <Image src={video.thumbnailUrl ?? "/placeholder.svg"} fill alt="thumbnail" className="object-cover"/>
+                                            <Image src={video.thumbnailUrl ?? THUMBNAIL_FALLBACK} fill alt="thumbnail" className="object-cover"/>
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button
