@@ -79,15 +79,15 @@ export const playlistsRouter = createTRPCRouter({
         .select({
           ...getTableColumns(playlists),
           videoCount: db.$count(playlistVideos, eq(playlists.id, playlistVideos.playlistId)),
+          user: users,
           thumbnailUrl: sql<string | null>`(
-                        SELECT v.thumbnail_url
-                        FROM ${playlistVideos} pv
-                        JOIN ${videos} v ON v.id = pv.video_id
-                        WHERE pv.playlist_id = ${playlists.id}
-                        ORDER BY pv.updated_at DESC
-                        LIMIT 1
-                    )`,
-          user: users
+                    SELECT v.thumbnail_url
+                    FROM ${playlistVideos} pv
+                    JOIN ${videos} v ON v.id = pv.video_id
+                    WHERE pv.playlist_id = ${playlists.id}
+                    ORDER BY pv.updated_at DESC
+                    LIMIT 1
+                    )`.as('thumbnailUrl')
         })
         .from(playlists)
         .innerJoin(users, eq(playlists.userId, users.id))
@@ -98,7 +98,7 @@ export const playlistsRouter = createTRPCRouter({
               lt(playlists.updatedAt, cursor.updatedAt),
               and(
                 eq(playlists.updatedAt, cursor.updatedAt),
-                lt(videos.id, cursor.id)
+                lt(playlists.id, cursor.id)
               )
             ) : undefined
           )
