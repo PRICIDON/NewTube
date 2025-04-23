@@ -81,13 +81,13 @@ export const playlistsRouter = createTRPCRouter({
           videoCount: db.$count(playlistVideos, eq(playlists.id, playlistVideos.playlistId)),
           user: users,
           thumbnailUrl: sql<string | null>`(
-                    SELECT v.thumbnail_url
-                    FROM ${playlistVideos} pv
-                    JOIN ${videos} v ON v.id = pv.video_id
-                    WHERE pv.playlist_id = ${playlists.id}
-                    ORDER BY pv.updated_at DESC
-                    LIMIT 1
-                    )`.as('thumbnailUrl')
+            SELECT v.thumbnail_url
+            FROM ${playlistVideos} pv
+            JOIN ${videos} v ON v.id = pv.video_id
+            WHERE pv.playlist_id = ${playlists.id}
+            ORDER BY pv.updated_at DESC
+            LIMIT 1
+          )`
         })
         .from(playlists)
         .innerJoin(users, eq(playlists.userId, users.id))

@@ -1,7 +1,7 @@
 import {PlaylistGetManyOutput} from '@/components/playlists/types'
 import React from 'react'
 import Link from 'next/link'
-import {THUMBNAIL_FALLBACK} from '@/lib/constants'
+// import {THUMBNAIL_FALLBACK} from '@/lib/constants'
 import PlaylistThumbnail
   from '@/components/playlists/grid-card/PlaylistThumbnail'
 import PlaylistInfo, {
@@ -18,7 +18,7 @@ export default function PlaylistGridCard({ data }: Props) {
     return (
         <Link href={`/playlists/${data.id}`}>
             <div className="flex flex-col gap-2 w-full group">
-                <PlaylistThumbnail thumbnailUrl={data.thumnailUrl || THUMBNAIL_FALLBACK} title={data.name} videoCount={data.videoCount} />
+                <PlaylistThumbnail thumbnailUrl={data.thumbnailUrl} title={data.name} videoCount={data.videoCount} />
                 <PlaylistInfo data={data}/>
             </div>
         </Link>
