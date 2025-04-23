@@ -283,11 +283,13 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                                 Video link
                                             </p>
                                             <div className="flex items-center gap-x-2">
-                                                <Link href={`/videos/${videoId}`}>
-                                                    <p className="line-clamp-1 text-sm text-blue-500">
-                                                        {fullUrl}
-                                                    </p>
-                                                </Link>
+                                                <div className="max-w-[calc(100%-40px)] overflow-hidden">
+                                                    <Link href={`/videos/${videoId}`}>
+                                                        <p className="line-clamp-1 text-sm text-blue-500 truncate">
+                                                            {fullUrl}
+                                                        </p>
+                                                    </Link>
+                                                </div>
                                                 <Button
                                                     type="button"
                                                     variant="ghost"
@@ -296,7 +298,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
                                                     onClick={onCopy}
                                                     disabled={isCopied}
                                                 >
-                                                    {isCopied ? <CopyCheckIcon/> : <CopyIcon />}
+                                                    {isCopied ? <CopyCheckIcon /> : <CopyIcon />}
                                                 </Button>
                                             </div>
                                         </div>

@@ -7,9 +7,7 @@ export const dynamic = "force-dynamic"
 
 export default function Page() {
     void trpc.studio.getMany.prefetchInfinite(
-        {  limit: DEFAULT_LIMIT },
-        // @ts-ignore
-        { getNextPageParam: (lastPage) => lastPage.nextCursor})
+        { limit: DEFAULT_LIMIT })
     return (
         <HydrateClient>
             <div className="flex flex-col gap-y-6 pt-2.5">
