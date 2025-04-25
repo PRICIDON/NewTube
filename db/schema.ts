@@ -8,13 +8,13 @@ import {
     timestamp,
     uniqueIndex,
     uuid
-} from "drizzle-orm/pg-core";
-import {relations} from "drizzle-orm";
+} from 'drizzle-orm/pg-core'
+import {relations} from 'drizzle-orm'
 import {
     createInsertSchema,
     createSelectSchema,
     createUpdateSchema
-} from "drizzle-zod";
+} from 'drizzle-zod'
 
 export const videoVisibility = pgEnum("video_visibility", [
     "private",
@@ -27,6 +27,8 @@ export const users = pgTable("users", {
     clerkId: text("clerk_id").unique().notNull(),
     name: text("name").notNull(),
     imageUrl: text("image_url").notNull(),
+    bannerUrl: text("banner_url"),
+    bannerKey: text("banner_key"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
 }, t => [uniqueIndex("clerk_id_idx").on(t.clerkId)])

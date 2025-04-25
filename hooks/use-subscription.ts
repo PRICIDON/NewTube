@@ -1,6 +1,6 @@
-import {trpc} from "@/trpc/client";
-import {useClerk} from "@clerk/nextjs";
-import {toast} from "sonner";
+import {trpc} from '@/trpc/client'
+import {useClerk} from '@clerk/nextjs'
+import {toast} from 'sonner'
 
 interface UseSubscription {
     userId: string
@@ -16,7 +16,10 @@ export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubsc
         onSuccess() {
             toast.success("Subscribed")
             utils.videos.getSubscribed.invalidate()
+            utils.users.getOne.invalidate({ id: userId})
+            
             fromVideoId && utils.videos.getOne.invalidate({ id: fromVideoId})
+            
         },
         onError(e) {
             toast.error("Something went wrong")
@@ -29,6 +32,8 @@ export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubsc
         onSuccess() {
             toast.success("Unsubscribed")
             utils.videos.getSubscribed.invalidate()
+            utils.users.getOne.invalidate({ id: userId})
+            
             fromVideoId && utils.videos.getOne.invalidate({ id: fromVideoId})
         },
         onError(e) {
