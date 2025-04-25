@@ -1,16 +1,23 @@
 'use client'
 import React, {Suspense} from 'react'
-import {trpc} from "@/trpc/client";
-import {DEFAULT_LIMIT} from "@/lib/constants";
-import InfiniteScroll from "@/components/infinite-scroll";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '../ui/table';
-import Link from "next/link";
-import VideoThumbnail from "@/components/videos/video-thumbnail";
-import { format } from 'date-fns'
-import {snakeCaseToTitle} from "@/lib/utils";
-import {Globe2Icon, LockIcon} from "lucide-react";
-import {Skeleton} from "@/components/ui/skeleton";
-import {ErrorBoundary} from "react-error-boundary";
+import {trpc} from '@/trpc/client'
+import {DEFAULT_LIMIT} from '@/lib/constants'
+import InfiniteScroll from '@/components/infinite-scroll'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from '../ui/table'
+import Link from 'next/link'
+import VideoThumbnail from '@/components/videos/video-thumbnail'
+import {format} from 'date-fns'
+import {snakeCaseToTitle} from '@/lib/utils'
+import {Globe2Icon, LockIcon} from 'lucide-react'
+import {Skeleton} from '@/components/ui/skeleton'
+import {ErrorBoundary} from 'react-error-boundary'
 
 function VideoSectionSkeleton() {
     return (
@@ -133,9 +140,9 @@ function VideosSectionSuspense () {
                                         </div>
                                     </TableCell>
                                     <TableCell className="truncate text-sm">{format(new Date(video.updatedAt), "d MMM yyyy")}</TableCell>
-                                    <TableCell className="text-right">views</TableCell>
-                                    <TableCell className="text-right">comments</TableCell>
-                                    <TableCell className="text-right pr-6">likes</TableCell>
+                                    <TableCell className="text-right">{video.viewCount}</TableCell>
+                                    <TableCell className="text-right">{video.commentCount}</TableCell>
+                                    <TableCell className="text-right pr-6">{video.likeCount}</TableCell>
                                 </TableRow>
                             </Link>
                         ))}

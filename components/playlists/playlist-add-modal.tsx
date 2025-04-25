@@ -1,12 +1,12 @@
 'use client'
 import React from 'react'
-import ResponsiveDialog from "@/components/responsive-dialog";
-import {trpc} from "@/trpc/client";
-import {DEFAULT_LIMIT} from "@/lib/constants";
-import { Button } from "@/components/ui/button";
-import {Loader2Icon, SquareCheckIcon, SquareIcon} from "lucide-react";
-import InfiniteScroll from "@/components/infinite-scroll";
-import {toast} from "sonner";
+import ResponsiveDialog from '@/components/responsive-dialog'
+import {trpc} from '@/trpc/client'
+import {DEFAULT_LIMIT} from '@/lib/constants'
+import {Button} from '@/components/ui/button'
+import {Loader2Icon, SquareCheckIcon, SquareIcon} from 'lucide-react'
+import InfiniteScroll from '@/components/infinite-scroll'
+import {toast} from 'sonner'
 
 interface Props {
     videoId: string;
@@ -18,10 +18,12 @@ export default function PlaylistAddModal({ open, onOpenChange, videoId }: Props)
     const utils = trpc.useUtils();
     const { data: playlists, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage} = trpc.playlists.getManyForVideo.useInfiniteQuery({ limit: DEFAULT_LIMIT, videoId }, { getNextPageParam: lastPage => lastPage.nextCursor, enabled: !!videoId && open})
     const addVideo = trpc.playlists.addVideo.useMutation({
-        onSuccess() {
+        onSuccess(data) {
             toast.success("Video added to playlist")
             utils.playlists.getMany.invalidate()
             utils.playlists.getManyForVideo.invalidate({ videoId})
+            utils.playlists.getOne.invalidate({ id: data.playlistId})
+            utils.playlists.getVideos.invalidate({ playlistId: data.playlistId })
         },
         onError(e) {
             toast.error("Something went wrong")
@@ -29,10 +31,12 @@ export default function PlaylistAddModal({ open, onOpenChange, videoId }: Props)
         }
     })
     const removeVideo = trpc.playlists.removeVideo.useMutation({
-        onSuccess() {
+        onSuccess(data) {
             toast.success("Video remove from playlist")
             utils.playlists.getMany.invalidate()
             utils.playlists.getManyForVideo.invalidate({ videoId})
+            utils.playlists.getOne.invalidate({ id: data.playlistId})
+            utils.playlists.getVideos.invalidate({ playlistId: data.playlistId })
         },
         onError(e) {
             toast.error("Something went wrong")

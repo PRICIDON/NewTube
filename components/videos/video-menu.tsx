@@ -1,10 +1,20 @@
 import React, {useState} from 'react'
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {ListPlusIcon, MoreVerticalIcon, ShareIcon, Trash2Icon} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {toast} from "sonner";
-import {APP_URL} from "@/lib/constants";
-import PlaylistAddModal from "@/components/playlists/playlist-add-modal";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import {
+    ListPlusIcon,
+    MoreVerticalIcon,
+    ShareIcon,
+    Trash2Icon
+} from 'lucide-react'
+import {Button} from '@/components/ui/button'
+import {toast} from 'sonner'
+import {APP_URL} from '@/lib/constants'
+import PlaylistAddModal from '@/components/playlists/playlist-add-modal'
 
 interface VideoMenuProps {
     videoId: string;
@@ -39,7 +49,7 @@ export default function VideoMenu({ videoId, variant = "ghost", onRemove }: Vide
                         Add to playlist
                     </DropdownMenuItem>
                     {onRemove && (
-                    <DropdownMenuItem onClick={() => {}}>
+                    <DropdownMenuItem onClick={onRemove}>
                         <Trash2Icon className="mr-2 size-4" />
                         Remove
                     </DropdownMenuItem>

@@ -4,9 +4,10 @@ import MuxUploader, {
     MuxUploaderFileSelect,
     MuxUploaderProgress,
     MuxUploaderStatus
-} from "@mux/mux-uploader-react";
-import {UploadIcon} from "lucide-react";
-import {Button} from "@/components/ui/button";
+} from '@mux/mux-uploader-react'
+import {UploadIcon} from 'lucide-react'
+import {Button} from '@/components/ui/button'
+import {useTheme} from 'next-themes'
 
 interface StudioUploaderProps {
     endpoint?: string | null
@@ -16,6 +17,7 @@ interface StudioUploaderProps {
 const UPLOADER_ID = "video-uploader"
 
 export default function StudioUploader({ endpoint, onSuccess }: StudioUploaderProps) {
+    const theme = useTheme()
     return (
         <div>
             <MuxUploader
@@ -40,7 +42,7 @@ export default function StudioUploader({ endpoint, onSuccess }: StudioUploaderPr
                 <span slot="separator" className="hidden"/>
                 <MuxUploaderStatus muxUploader={UPLOADER_ID} className="text-sm" />
                 <MuxUploaderProgress muxUploader={UPLOADER_ID} type="percentage" className="text-sm"/>
-                <MuxUploaderProgress muxUploader={UPLOADER_ID} type="bar"/>
+                <MuxUploaderProgress muxUploader={UPLOADER_ID} type="bar" style={theme === "dark" ? {"--progress-bar-fill-color": "white"} : {}}/>
             </MuxUploaderDrop>
         </div>
     )

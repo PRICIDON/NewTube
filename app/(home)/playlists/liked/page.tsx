@@ -1,7 +1,8 @@
 import React from 'react'
-import {HydrateClient, trpc} from "@/trpc/server";
-import {DEFAULT_LIMIT} from "@/lib/constants";
-import LikedVideosSection from "@/components/playlists/liked-videos-section";
+import {HydrateClient, trpc} from '@/trpc/server'
+import {DEFAULT_LIMIT} from '@/lib/constants'
+import LikedVideosSection
+    from '@/components/playlists/section/liked-videos-section'
 
 export const dynamic = "force-dynamic"
 
