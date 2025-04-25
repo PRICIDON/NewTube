@@ -33,7 +33,7 @@ function VideosSectionSuspense({ playlistId }: Props) {
       onSuccess(data) {
         toast.success("Video remove from playlist")
         utils.playlists.getMany.invalidate()
-        utils.playlists.getManyForVideo.invalidate({ videoId})
+        utils.playlists.getManyForVideo.invalidate({ videoId: data.videoId })
         utils.playlists.getOne.invalidate({ id: data.playlistId})
         utils.playlists.getVideos.invalidate({ playlistId: data.playlistId })
       },
