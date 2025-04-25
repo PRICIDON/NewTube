@@ -1,12 +1,9 @@
-"use client"
+'use client'
 import React from 'react'
-import {Button} from "@/components/ui/button";
-import {ClapperboardIcon, Palette, UserCircleIcon} from "lucide-react";
-import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
-import { useTranslations} from "next-intl";
-import {Separator} from "@/components/ui/separator";
-import ChangeLanguageForm from "@/components/ChangeLanguageForm";
-
+import {Button} from '@/components/ui/button'
+import {ClapperboardIcon, UserCircleIcon, UserIcon} from 'lucide-react'
+import {SignedIn, SignedOut, SignInButton, UserButton} from '@clerk/nextjs'
+import {useTranslations} from 'next-intl'
 
 
 export default function AuthButton() {
@@ -30,6 +27,9 @@ export default function AuthButton() {
                 <UserButton >
                     <UserButton.MenuItems>
                         <UserButton.Link href="/studio" label={t("name")} labelIcon={<ClapperboardIcon className="size-4"/>} />
+                    </UserButton.MenuItems>
+                    <UserButton.MenuItems>
+                        <UserButton.Link href="/users/current" label="My profile" labelIcon={<UserIcon className="size-4"/>} />
                     </UserButton.MenuItems>
                     {/*<UserButton.UserProfilePage label={"Кастомизация"} labelIcon={<Palette className="size-4" />} url="appearence" >*/}
                     {/*  <div>*/}

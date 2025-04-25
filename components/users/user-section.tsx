@@ -2,8 +2,12 @@
 import React, {Suspense} from 'react'
 import {ErrorBoundary} from 'react-error-boundary'
 import {trpc} from '@/trpc/client'
-import UserPageBanner from '@/components/users/user-page-banner'
-import UserPageInfo from '@/components/users/user-page-info'
+import UserPageBanner, {
+	UserPageBannerSkeleton
+} from '@/components/users/user-page-banner'
+import UserPageInfo, {
+	UserPageInfoSkeleton
+} from '@/components/users/user-page-info'
 
 interface UserSectionProps {
 	userId: string
@@ -32,7 +36,10 @@ function UserSectionSuspense({ userId }: UserSectionProps) {
 
 function UserSectionSkeleton() {
 	return (
-		<div></div>
+		<div className="flex flex-col">
+			<UserPageBannerSkeleton />
+			<UserPageInfoSkeleton />
+		</div>
 	)
 }
 
