@@ -42,7 +42,7 @@ export default function StudioUploader({ endpoint, onSuccess }: StudioUploaderPr
                 <span slot="separator" className="hidden"/>
                 <MuxUploaderStatus muxUploader={UPLOADER_ID} className="text-sm" />
                 <MuxUploaderProgress muxUploader={UPLOADER_ID} type="percentage" className="text-sm"/>
-                <MuxUploaderProgress muxUploader={UPLOADER_ID} type="bar" style={theme === "dark" ? {"--progress-bar-fill-color": "white"} : {}}/>
+                <MuxUploaderProgress muxUploader={UPLOADER_ID} type="bar" style={theme.theme === "dark" ? {"--progress-bar-fill-color": "white"} : {}}/>
             </MuxUploaderDrop>
         </div>
     )
