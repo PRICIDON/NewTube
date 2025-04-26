@@ -1,18 +1,21 @@
 import React from 'react'
-import {SidebarProvider} from "@/components/ui/sidebar";
-import {Navbar} from "@/components/navbar/navbar";
-import type {Metadata} from "next";
-import Sidebar from "@/components/sidebar/sidebar";
-
+import {SidebarProvider} from '@/components/ui/sidebar'
+import {Navbar} from '@/components/navbar/navbar'
+import type {Metadata} from 'next'
+import Sidebar from '@/components/sidebar/sidebar'
+import {getTranslations} from 'next-intl/server'
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
-export const metadata: Metadata = {
-  title: "Studio",
-  description: "Studio NewTube",
-};
+export async function generateMetadata(): Metadata {
+  const t = await getTranslations("studio")
+  return {
+    title: t('title'),
+    description: t('description'),
+  }
+}
 
 export default function HomeLayout({ children }: LayoutProps) {
     return (

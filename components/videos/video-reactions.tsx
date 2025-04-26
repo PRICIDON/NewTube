@@ -1,12 +1,12 @@
 import React from 'react'
-import {Button} from "@/components/ui/button";
-import {ThumbsDownIcon, ThumbsUpIcon} from "lucide-react";
-import {cn} from "@/lib/utils";
-import {Separator} from "@/components/ui/separator";
-import {VideoGetOneOutput} from "@/components/videos/types";
-import {useClerk} from "@clerk/nextjs";
-import {trpc} from "@/trpc/client";
-import {toast} from "sonner";
+import {Button} from '@/components/ui/button'
+import {ThumbsDownIcon, ThumbsUpIcon} from 'lucide-react'
+import {cn} from '@/lib/utils'
+import {Separator} from '@/components/ui/separator'
+import {VideoGetOneOutput} from '@/components/videos/types'
+import {useClerk} from '@clerk/nextjs'
+import {trpc} from '@/trpc/client'
+import {toast} from 'sonner'
 
 interface VideoReactions {
     videoId:string
@@ -50,7 +50,7 @@ export default function VideoReactions({ videoId, viewerReaction, likes, dislike
                 onClick={() => like.mutate({ videoId })}
                 disabled={like.isPending || dislike.isPending}
             >
-                <ThumbsUpIcon className={cn("size-5", viewerReaction === 'like' && "fill-black")}/>
+                <ThumbsUpIcon className={cn("size-5", viewerReaction === 'like' && "fill-black dark:fill-white")}/>
                 {likes}
             </Button>
             <Separator orientation="vertical" className="h-7" />
@@ -60,7 +60,7 @@ export default function VideoReactions({ videoId, viewerReaction, likes, dislike
                 onClick={() => dislike.mutate({ videoId })}
                 disabled={dislike.isPending || like.isPending}
             >
-                <ThumbsDownIcon className={cn("size-5", viewerReaction === 'dislike' && "fill-black")}/>
+                <ThumbsDownIcon className={cn("size-5", viewerReaction === 'dislike' && "fill-black dark:fill-white")}/>
                 {dislikes}
             </Button>
         </div>

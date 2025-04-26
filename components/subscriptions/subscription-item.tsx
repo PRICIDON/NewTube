@@ -42,10 +42,12 @@ export function SubscriptionItemSkeleton() {
 			<Skeleton className="size-10 rounded-full" />
 			<div className="flex-1">
 				<div className="flex items-center justify-between">
-					<Skeleton className="h-4 w-24"/>
-					<Skeleton className="mt-1 h-3 w-20"/>
+					<div className="">
+						<Skeleton className="h-4 w-24"/>
+						<Skeleton className="mt-1 h-3 w-20"/>
+					</div>
+					<Skeleton className="h-8 w-20"/>
 				</div>
-				<Skeleton className="h-8 w-20"/>
 			</div>
 		</div>
 	)

@@ -1,9 +1,10 @@
 import React from 'react'
-import {trpc} from "@/trpc/client";
-import {DEFAULT_LIMIT} from "@/lib/constants";
-import {CornerDownRightIcon, Loader2Icon} from "lucide-react";
-import CommentItem from "@/components/comments/comment-item";
-import {Button} from "@/components/ui/button";
+import {trpc} from '@/trpc/client'
+import {DEFAULT_LIMIT} from '@/lib/constants'
+import {CornerDownRightIcon, Loader2Icon} from 'lucide-react'
+import CommentItem from '@/components/comments/comment-item'
+import {Button} from '@/components/ui/button'
+import {useTranslations} from 'next-intl'
 
 interface CommentRepliesProps {
     parentId: string;
@@ -20,7 +21,7 @@ export default function CommentReplies({ parentId, videoId }: CommentRepliesProp
             return lastPage.nextCursor
         }
     })
-
+    const t = useTranslations("comments")
     return (
         <div className="pl-14">
             <div className="flex flex-col gap-4 mt-2">
@@ -37,7 +38,7 @@ export default function CommentReplies({ parentId, videoId }: CommentRepliesProp
             {hasNextPage && (
                 <Button variant="tertiary" size="sm" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
                     <CornerDownRightIcon />
-                    Show more replies
+                    {t('showMore')}
                 </Button>
             )}
         </div>

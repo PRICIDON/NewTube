@@ -1,14 +1,83 @@
 {
   "layouts": {
-    "main": {
-      "description": "Clone Youtube by Pricidon",
-      "title": "I dayn"
+    "studio": {
+      "title": "Studio",
+      "description": "Studio NewTube"
     }
   },
   "studio": {
-    "name": "Studio"
+    "title": "Channel content",
+    "description": "Manage your channel content and videos"
   },
   "settings": {
     "label": "Appearance"
+  },
+  "feed": {
+    "trending": {
+      "title": "Trending",
+      "description": "Most popular videos at the moment"
+    },
+    "subscriptions": {
+      "title": "Subscribed",
+      "description": "Videos from your favorite creators"
+    }
+  },
+  "playlists": {
+    "title": "Playlists",
+    "description": "Collections you have created",
+    "liked": {
+      "title": "Liked",
+      "description": "Videos you have liked"
+    },
+    "history": {
+      "title": "History",
+      "description": "Videos you have watched"
+    }
+  },
+  "subscriptions": {
+    "title": "All subscriptions",
+    "description": "View and manage your subscriptions"
+  },
+  "components": {
+    "infiniteScroll": {
+      "end": "You have reached the end of the list",
+      "loading": "Loading...",
+      "next": "Load more"
+    },
+    "auth": {
+      "studio": "Studio",
+      "profile": "My profile",
+      "settings": "Settings",
+      "sign": "Sign in"
+    }
+  },
+  "categories": {
+      "all": "All",
+      "Cars and vehicles": "Cars and vehicles",
+      "Comedy": "Comedy",
+      "Education": "Education",
+      "Gaming": "Gaming",
+      "Entertainment": "Entertainment",
+      "Film and animation": "Film and animation",
+      "How-to and style": "How-to and style",
+      "Music": "Music",
+      "News and politics": "News and politics",
+      "People and blogs": "People and blogs",
+      "Pets and animals": "Pets and animals",
+      "Science and technologies": "Science and technologies",
+      "Sports": "Sports",
+      "Travel and events": "Travel and events"
+  },
+  "comments": {
+    "title": "Comment",
+    "titleReply": "Reply",
+    "reply": "Reply to this comment...",
+    "add": "Add a comment...",
+    "cancel": "Cancel",
+    "showMore": "Show more replies",
+    "error": "Error adding comment",
+    "success": "Comment add",
+    "delete": "Delete",
+    "countReply": "replies"
   }
 }

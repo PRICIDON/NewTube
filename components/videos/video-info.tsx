@@ -1,11 +1,13 @@
-import {VideoGetManyOutput} from "@/components/videos/types";
+import {VideoGetManyOutput} from '@/components/videos/types'
 import React, {useMemo} from 'react'
-import {formatDistanceToNow} from "date-fns";
-import Link from "next/link";
-import UserAvatar from "@/components/users/avatar";
-import UserInfo from "@/components/users/user-info";
-import VideoMenu from "@/components/videos/video-menu";
-import {Skeleton} from "@/components/ui/skeleton";
+import {formatDistanceToNow} from 'date-fns'
+import Link from 'next/link'
+import UserAvatar from '@/components/users/avatar'
+import UserInfo from '@/components/users/user-info'
+import VideoMenu from '@/components/videos/video-menu'
+import {Skeleton} from '@/components/ui/skeleton'
+import {useLocale} from 'next-intl'
+import {enUS, ru} from 'date-fns/locale'
 
 interface VideoInfo {
     data: VideoGetManyOutput["items"][number]
@@ -25,8 +27,9 @@ export function VideoInfoSkeleton() {
 }
 
 export default function VideoInfo({ data, onRemove }: VideoInfo) {
+    const locale = useLocale()
     const compactDate = useMemo(() => {
-        return formatDistanceToNow(data.createdAt, { addSuffix: true })
+        return formatDistanceToNow(data.createdAt, { addSuffix: true, locale: locale === "en" ? enUS : ru })
     }, [data.createdAt]);
     const compactViews = useMemo(() => Intl.NumberFormat("en", { notation: "compact"}).format(data.viewCount), [data.viewCount]);
     return (

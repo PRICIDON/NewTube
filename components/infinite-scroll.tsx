@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
-import {useIntersectionObserver} from "@/hooks/useIntersectionObserver";
-import {Button} from "@/components/ui/button";
+import {useIntersectionObserver} from '@/hooks/useIntersectionObserver'
+import {Button} from '@/components/ui/button'
+import {useTranslations} from 'next-intl'
 
 interface InfiniteScrollProps {
     isManual?: boolean;
@@ -10,11 +11,12 @@ interface InfiniteScrollProps {
 }
 
 export default function InfiniteScroll({ isManual, fetchNextPage, isFetchingNextPage, hasNextPage }: InfiniteScrollProps) {
+    const t = useTranslations("components.infiniteScroll")
     const {targetRef, isIntersecting } = useIntersectionObserver({
         threshold: 0.5,
         rootMargin: "100px"
     })
-
+    
     useEffect(() => {
         if(isIntersecting && hasNextPage && !isFetchingNextPage && !isManual) {
             fetchNextPage()
@@ -26,10 +28,10 @@ export default function InfiniteScroll({ isManual, fetchNextPage, isFetchingNext
             <div ref={targetRef} className="h-1"/>
             {hasNextPage ? (
                 <Button variant="secondary" disabled={!hasNextPage || isFetchingNextPage} onClick={fetchNextPage}>
-                    {isFetchingNextPage ? "Loading..." : "Load more"}
+                    {isFetchingNextPage ? t('loading') : t('next')}
                 </Button>
             ): (
-                <p className="text-xs text-muted-foreground">You have reached the end of the list</p>
+                <p className="text-xs text-muted-foreground">{t('end')}</p>
             )}
         </div>
     )

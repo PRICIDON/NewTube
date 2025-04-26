@@ -1,23 +1,30 @@
 import React, {useState} from 'react'
-import {CommentsGetManyOutput} from "@/components/comments/types";
-import Link from "next/link";
-import UserAvatar from "@/components/users/avatar";
-import {formatDistanceToNow} from "date-fns";
-import {trpc} from "@/trpc/client";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
+import {CommentsGetManyOutput} from '@/components/comments/types'
+import Link from 'next/link'
+import UserAvatar from '@/components/users/avatar'
+import {formatDistanceToNow} from 'date-fns'
+import {trpc} from '@/trpc/client'
 import {
-    ChevronDownIcon, ChevronUpIcon,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import {Button} from '@/components/ui/button'
+import {
+    ChevronDownIcon,
+    ChevronUpIcon,
     MoreVerticalIcon,
     ThumbsDownIcon,
     ThumbsUpIcon,
     Trash2Icon
-} from "lucide-react";
-import {useAuth, useClerk} from "@clerk/nextjs";
-import {toast} from "sonner";
-import {cn} from "@/lib/utils";
-import CommentForm from "@/components/comments/comment-form";
-import CommentReplies from "@/components/comments/comment-replies";
+} from 'lucide-react'
+import {useAuth, useClerk} from '@clerk/nextjs'
+import {toast} from 'sonner'
+import {cn} from '@/lib/utils'
+import CommentForm from '@/components/comments/comment-form'
+import CommentReplies from '@/components/comments/comment-replies'
+import {useTranslations} from 'next-intl'
 
 interface CommentItem {
     comment: CommentsGetManyOutput["items"][number]
@@ -27,6 +34,8 @@ interface CommentItem {
 export default function CommentItem({comment, variant = "comment"}: CommentItem) {
     const { userId } = useAuth()
     const clerk = useClerk();
+    
+    const t = useTranslations('comments')
 
     const [isReplyOpen, setIsReplyOpen] = useState(false)
     const [isRepliesOpen, setIsRepliesOpen] = useState(false)
@@ -92,7 +101,7 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                                 variant="ghost"
                                 onClick={() => like.mutate({ commentId: comment.id })}
                             >
-                                <ThumbsUpIcon className={cn("", comment.viewerReactions === "like" && "fill-black")}/>
+                                <ThumbsUpIcon className={cn("", comment.viewerReactions === "like" && "fill-black dark:fill-white")}/>
                             </Button>
                             <span className="text-xs text-muted-foreground">{comment.likeCount}</span>
                             <Button
@@ -102,12 +111,12 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                                 variant="ghost"
                                 onClick={() => dislike.mutate({ commentId: comment.id })}
                             >
-                                <ThumbsDownIcon className={cn("", comment.viewerReactions === "dislike" && "fill-black")}/>
+                                <ThumbsDownIcon className={cn("", comment.viewerReactions === "dislike" && "fill-black dark:fill-white")}/>
                             </Button>
                             <span className="text-xs text-muted-foreground">{comment.dislikeCount}</span>
                         </div>
                         {variant === "comment" && (
-                            <Button variant="ghost" size="sm" className="h-8" onClick={() => setIsReplyOpen(true)}>Reply</Button>
+                            <Button variant="ghost" size="sm" className="h-8" onClick={() => setIsReplyOpen(true)}>{t('titleReply')}</Button>
                         )}
                     </div>
                 </div>
@@ -121,7 +130,7 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => remove.mutate({ id: comment.id })}>
                                 <Trash2Icon className="size-4"/>
-                                Delete
+                                {t('delete')}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -151,7 +160,7 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                                 onClick={() => setIsRepliesOpen(current => !current)}
                             >
                                 {isReplyOpen ? <ChevronUpIcon/> : <ChevronDownIcon/>}
-                                {comment.replyCount} replies
+                                {comment.replyCount} {t('countReply')}
                             </Button>
                         </div>
                     )}

@@ -1,14 +1,83 @@
 {
   "layouts": {
-    "main": {
-      "description": "Клон ютуба by Pricidon",
-      "title": "Я даун"
+    "studio": {
+      "title": "Студия",
+      "description": "Студия NewTube"
     }
   },
   "studio": {
-    "name": "Студия"
+    "title": "Контент канала",
+    "description": "Управляйте контентом и видео вашего канала"
   },
   "settings": {
     "label": "Внешний вид"
+  },
+  "feed": {
+    "trending": {
+      "title": "Тренды",
+      "description": "Самые популярные видео на данный момент"
+    },
+    "subscriptions": {
+      "title": "Подписки",
+      "description": "Видео от ваших любимых ютуберов"
+    }
+  },
+  "playlists": {
+    "title": "Плейлисты",
+    "description": "Плейлисты, которые вы создали",
+    "liked": {
+      "title": "Понравившиеся",
+      "description": "Видео, которые вам понравились"
+    },
+    "history": {
+      "title": "История",
+      "description": "Видео, которые вы просмотрели"
+    }
+  },
+  "subscriptions": {
+    "title": "Все подписки",
+    "description": "Просматривайте и управляйте своими подписками"
+  },
+  "components": {
+    "infiniteScroll": {
+      "end": "Вы дошли до конца",
+      "loading": "Загрузка...",
+      "next": "Загрузить больше"
+    },
+    "auth": {
+      "studio": "Студия",
+      "profile": "Мой профиль",
+      "settings": "Настройки",
+      "sign": "Войти"
+    }
+  },
+  "categories": {
+      "all": "Все",
+      "Cars and vehicles": "Машины и велосипеды",
+      "Comedy": "Комедия",
+      "Education": "Обучение",
+      "Gaming": "Гейминг",
+      "Entertainment": "Развлечение",
+      "Film and animation": "Фильмы и анимация",
+      "How-to and style": "Как сделать и стиль",
+      "Music": "Музыка",
+      "News and politics": "Новости и политика",
+      "People and blogs": "Люди и блоги",
+      "Pets and animals": "Питомцы и животные",
+      "Science and technologies": "Наука и технологии",
+      "Sports": "Спорт",
+      "Travel and events": "Путешествия и ивенты"
+  },
+  "comments": {
+    "title": "Оставить комментарий",
+    "titleReply": "Ответить",
+    "reply": "Введите ответ...",
+    "add": "Введите комментарий...",
+    "cancel": "Отмена",
+    "showMore": "Показать больше ответов",
+    "error": "Ошибка при добавление комментария",
+    "success": "Комментарий добавлен",
+    "delete": "Удалить",
+    "countReply": "ответ(ов)"
   }
 }

@@ -8,10 +8,11 @@ import {
     CarouselItem,
     CarouselNext,
     CarouselPrevious
-} from "@/components/ui/carousel";
-import {Badge} from "@/components/ui/badge";
-import {cn} from "@/lib/utils";
-import {Skeleton} from "@/components/ui/skeleton";
+} from '@/components/ui/carousel'
+import {Badge} from '@/components/ui/badge'
+import {cn} from '@/lib/utils'
+import {Skeleton} from '@/components/ui/skeleton'
+import {useTranslations} from 'next-intl'
 
 interface FilterCarouselProps {
     value?: string | null
@@ -24,6 +25,7 @@ interface FilterCarouselProps {
 }
 
 export default function FilterCarousel({ value = null,isLoading, data, onSelect }: FilterCarouselProps) {
+    const t = useTranslations('categories')
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
     const [count, setCount] = useState(0)
@@ -50,7 +52,7 @@ export default function FilterCarousel({ value = null,isLoading, data, onSelect 
                             variant={!value ? "default" : 'secondary'}
                             className="rounded-lg px-3 py-1 cursor-pointer whitespace-nowrap text-sm"
                         >
-                            All
+                            {t('all')}
                         </Badge>
                     </CarouselItem>
                     {isLoading ?
@@ -64,7 +66,7 @@ export default function FilterCarousel({ value = null,isLoading, data, onSelect 
                             data.map(item => (
                                 <CarouselItem key={item.value} className="pl-3 flex-none" onClick={() => onSelect(item.value)}>
                                     <Badge variant={value === item.value ? 'default' : 'secondary'} className="rounded-lg px-3 py-1 cursor-pointer whitespace-nowrap text-sm">
-                                        {item.label}
+                                        {t(item.label)}
                                     </Badge>
                                 </CarouselItem>
                             ))
