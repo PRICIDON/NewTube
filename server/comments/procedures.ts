@@ -1,9 +1,20 @@
-import {baseProcedure, createTRPCRouter, protectedProcedure} from "@/trpc/init";
-import {z} from "zod";
-import {db} from "@/db";
-import {commentReactions, comments, users } from "@/db/schema";
-import {and, count, desc, eq, getTableColumns, inArray, isNotNull, isNull, lt, or} from "drizzle-orm";
-import {TRPCError} from "@trpc/server";
+import {baseProcedure, createTRPCRouter, protectedProcedure} from '@/trpc/init'
+import {z} from 'zod'
+import {db} from '@/db'
+import {commentReactions, comments, users} from '@/db/schema'
+import {
+    and,
+    count,
+    desc,
+    eq,
+    getTableColumns,
+    inArray,
+    isNotNull,
+    isNull,
+    lt,
+    or
+} from 'drizzle-orm'
+import {TRPCError} from '@trpc/server'
 
 export const commentsRouter = createTRPCRouter({
     create: protectedProcedure.input(z.object({
@@ -37,14 +48,14 @@ export const commentsRouter = createTRPCRouter({
         const { id: userId } = ctx.user
         const { id } = input
 
-        const [deleteddComment] = await db
+        const [deletedComment] = await db
             .delete(comments)
             .where(and(eq(comments.userId, userId), eq(comments.id, id)))
             .returning()
-        if (!deleteddComment) {
+        if (!deletedComment) {
             throw new TRPCError({ code: "NOT_FOUND" })
         }
-        return deleteddComment;
+        return deletedComment;
     }),
     getMany: baseProcedure.input(z.object({
         videoId: z.string().uuid(),

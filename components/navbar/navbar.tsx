@@ -6,11 +6,8 @@ import SearchInput from './search-input'
 import AuthButton from '@/components/auth/auth-button'
 import StudioUploadModal from '@/components/studio/StudioUploadModal'
 import ThemeButton from '@/components/theme-button'
-import {useIsMobile} from '@/hooks/use-mobile'
 
 export const Navbar = ({ studio} : { studio?: boolean}) => {
-    const isMobile = useIsMobile()
-    
     return (
         <nav className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-background flex items-center px-2 pr-5 z-50">
             <div className="flex items-center gap-4 w-full">
@@ -18,10 +15,10 @@ export const Navbar = ({ studio} : { studio?: boolean}) => {
                 <div className="flex items-center flex-shrink-0">
                     <SidebarTrigger/>
                     
-                        <Link href={studio ? "/studio" : "/"}>
+                        <Link href={studio ? "/studio" : "/"} className="hidden md:block">
                             <div className="p-4 flex items-center gap-1">
                                 <Image src="/logo.svg" alt="logo" width={32} height={32} />
-                                {!isMobile && (<p className="text-xl font-semibold tracking-tight">{studio ? "Studio" : "NewTube"}</p>)}
+                                <p className="text-xl font-semibold tracking-tight">{studio ? "Studio" : "NewTube"}</p>
                             </div>
                         </Link>
                 </div>
@@ -29,7 +26,7 @@ export const Navbar = ({ studio} : { studio?: boolean}) => {
                   <div className="flex-1"/>
                 ) : (
                   <div className="flex-1 flex justify-center max-w-[720px] mx-auto">
-                      {!isMobile && <SearchInput/>}
+                      <SearchInput/>
                   </div>
                 )}
                 <div className="flex-shrink-0 items-center flex gap-4">

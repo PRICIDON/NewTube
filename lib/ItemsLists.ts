@@ -7,7 +7,7 @@ import {
     PlaySquareIcon,
     ThumbsUpIcon,
     VideoIcon
-} from "lucide-react";
+} from 'lucide-react'
 
 export const items = {
     home:[
@@ -17,7 +17,7 @@ export const items = {
             icon: HomeIcon
         },
         {
-            title: "Subscriptions",
+            title: "Subscribed",
             url: "/feed/subscriptions",
             icon: PlaySquareIcon,
             auth: true

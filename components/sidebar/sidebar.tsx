@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
-import {Sidebar, SidebarContent} from "./../ui/sidebar";
-import {Separator} from "@/components/ui/separator";
-import Section from "@/components/sidebar/section";
-import {cn} from "@/lib/utils";
-import {items} from "@/lib/ItemsLists";
+import {Sidebar, SidebarContent} from './../ui/sidebar'
+import {Separator} from '@/components/ui/separator'
+import Section, {SubscriptionSection} from '@/components/sidebar/section'
+import {cn} from '@/lib/utils'
+import {items} from '@/lib/ItemsLists'
+import {SignedIn} from '@clerk/nextjs'
 
 
 export default function SSidebar({studio}: {studio?: boolean}) {
@@ -21,6 +22,12 @@ export default function SSidebar({studio}: {studio?: boolean}) {
                             <Section items={items.home} />
                             <Separator />
                             <Section items={items.homeYou} label="You" />
+                            <SignedIn>
+                              <>
+                                <Separator />
+                                <SubscriptionSection/>
+                              </>
+                            </SignedIn>
                         </>
                     )
                 }

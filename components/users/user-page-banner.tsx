@@ -1,10 +1,12 @@
-import React from 'react'
+'use client'
+import React, {useState} from 'react'
 import {UserGetOneOutput} from '@/components/users/types'
 import {cn} from '@/lib/utils'
 import {useAuth} from '@clerk/nextjs'
 import {Button} from '@/components/ui/button'
 import {Edit2Icon} from 'lucide-react'
 import {Skeleton} from '@/components/ui/skeleton'
+import BannerUploadModal from '@/components/users/banner-upload-modal'
 
 interface UserPageBanner {
 	user: UserGetOneOutput
@@ -12,9 +14,10 @@ interface UserPageBanner {
 
 export default function UserPageBanner({user}: UserPageBanner) {
 	const { userId } = useAuth()
+	const [isOpen, setIsOpen] = useState(false)
  	return (
 		<div className="relative group">
-			{/*TODO: Добавить загрузку баннера*/}
+			<BannerUploadModal userId={userId} open={isOpen} onOpenChange={setIsOpen}/>
 			<div
 				className={cn(
 					"w-full max-h-[200px] h-[15vh] md:h-[25vh] bg-gradient-to-r from-gray-100 dark:from-gray-500 to-gray-200 dark:to-gray-600 rounded-xl",
@@ -28,6 +31,7 @@ export default function UserPageBanner({user}: UserPageBanner) {
 						type="button"
 						size="icon"
 						className="absolute top-4 right-4 rounded-full bg-black/50 hover:bg-black/50 opacity-100 md:opacite-0 group-hover:opacity-100 transition-opacity duration-300"
+						onClick={() => setIsOpen(true)}
 					>
 						<Edit2Icon className="size-4 text-white" />
 					</Button>
