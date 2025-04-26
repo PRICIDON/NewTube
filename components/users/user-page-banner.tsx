@@ -17,7 +17,7 @@ export default function UserPageBanner({user}: UserPageBanner) {
 	const [isOpen, setIsOpen] = useState(false)
  	return (
 		<div className="relative group">
-			<BannerUploadModal userId={userId} open={isOpen} onOpenChange={setIsOpen}/>
+			<BannerUploadModal userId={userId!} open={isOpen} onOpenChange={setIsOpen}/>
 			<div
 				className={cn(
 					"w-full max-h-[200px] h-[15vh] md:h-[25vh] bg-gradient-to-r from-gray-100 dark:from-gray-500 to-gray-200 dark:to-gray-600 rounded-xl",
