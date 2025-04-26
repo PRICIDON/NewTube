@@ -9,8 +9,8 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
-export function generateMetadata(): Metadata {
-  const t = getTranslations("studio")
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("studio")
   return {
     title: t('title'),
     description: t('description'),
