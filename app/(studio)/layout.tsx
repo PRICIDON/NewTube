@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("studio")
+  const t = await getTranslations("layouts.studio")
   return {
     title: t('title'),
     description: t('description'),
