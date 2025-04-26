@@ -9,6 +9,7 @@ import Link from 'next/link'
 import SubscriptionItem, {
   SubscriptionItemSkeleton
 } from '@/components/subscriptions/subscription-item'
+import {useTranslations} from 'next-intl'
 
 
 export default function SubscriptionsSection() {
@@ -22,17 +23,18 @@ export default function SubscriptionsSection() {
 }
 
 function SubscriptionsSectionSuspense() {
+    const t = useTranslations('subscriptions')
     const utils = trpc.useUtils()
     const [subscriptions, query] = trpc.subscriptions.getMany.useSuspenseInfiniteQuery({  limit: DEFAULT_LIMIT}, { getNextPageParam: lastPage => lastPage.nextCursor })
     const unsubscribe = trpc.subscriptions.remove.useMutation({
         onSuccess(data) {
-            toast.success("Unsubscribed")
+            toast.success(t('success'))
             utils.videos.getSubscribed.invalidate()
             utils.users.getOne.invalidate({ id: data.creatorId })
             utils.subscriptions.getMany.invalidate()
         },
         onError() {
-             toast.error("Something went wrong")
+             toast.error(t('error'))
         }
     })
     return (

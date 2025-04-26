@@ -18,8 +18,11 @@ import {snakeCaseToTitle} from '@/lib/utils'
 import {Globe2Icon, LockIcon} from 'lucide-react'
 import {Skeleton} from '@/components/ui/skeleton'
 import {ErrorBoundary} from 'react-error-boundary'
+import {useLocale, useTranslations} from 'next-intl'
+import {enUS, ru} from 'date-fns/locale'
 
 function VideoSectionSkeleton() {
+    const t = useTranslations('studio.table')
     return (
         <>
             <div>
@@ -27,13 +30,13 @@ function VideoSectionSkeleton() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="pl-6 w-[510px]">Video</TableHead>
-                                <TableHead>Visibility</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Date</TableHead>
-                                <TableHead className="text-right">Views</TableHead>
-                                <TableHead className="text-right">Comments</TableHead>
-                                <TableHead className="text-right pr-6">Likes</TableHead>
+                                <TableHead className="pl-6 w-[510px]">{t("video")}</TableHead>
+                                <TableHead>{t("visibility")}</TableHead>
+                                <TableHead>{t("status")}</TableHead>
+                                <TableHead>{t("date")}</TableHead>
+                                <TableHead className="text-right">{t("views")}</TableHead>
+                                <TableHead className="text-right">{t("comments")}</TableHead>
+                                <TableHead className="text-right pr-6">{t("likes")}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -87,6 +90,8 @@ export default function VideosSection() {
 }
 
 function VideosSectionSuspense () {
+    const locale = useLocale()
+    const t = useTranslations('studio.table')
     const [videos, query] = trpc.studio.getMany.useSuspenseInfiniteQuery({
         limit: DEFAULT_LIMIT
     }, {
@@ -99,13 +104,13 @@ function VideosSectionSuspense () {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="pl-6 w-[510px]">Video</TableHead>
-                            <TableHead>Visibility</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead className="text-right">Views</TableHead>
-                            <TableHead className="text-right">Comments</TableHead>
-                            <TableHead className="text-right pr-6">Likes</TableHead>
+                            <TableHead className="pl-6 w-[510px]">{t("video")}</TableHead>
+                                <TableHead>{t("visibility")}</TableHead>
+                                <TableHead>{t("status")}</TableHead>
+                                <TableHead>{t("date")}</TableHead>
+                                <TableHead className="text-right">{t("views")}</TableHead>
+                                <TableHead className="text-right">{t("comments")}</TableHead>
+                                <TableHead className="text-right pr-6">{t("likes")}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -124,7 +129,7 @@ function VideosSectionSuspense () {
                                             </div>
                                             <div className="flex flex-col overflow-hidden gap-y-1">
                                                 <span className="text-sm line-clamp-1">{video.title}</span>
-                                                <span className="text-xs text-muted-foreground line-clamp-1">{video.description || "No description"}</span>
+                                                <span className="text-xs text-muted-foreground line-clamp-1">{video.description || t('noDesc')}</span>
                                             </div>
                                         </div>
                                     </TableCell>
@@ -139,7 +144,7 @@ function VideosSectionSuspense () {
                                             {snakeCaseToTitle(video.muxStatus!)}
                                         </div>
                                     </TableCell>
-                                    <TableCell className="truncate text-sm">{format(new Date(video.updatedAt), "d MMM yyyy")}</TableCell>
+                                    <TableCell className="truncate text-sm">{format(new Date(video.updatedAt), "d MMM yyyy", { locale: locale === "en" ? enUS : ru })}</TableCell>
                                     <TableCell className="text-right">{video.viewCount}</TableCell>
                                     <TableCell className="text-right">{video.commentCount}</TableCell>
                                     <TableCell className="text-right pr-6">{video.likeCount}</TableCell>

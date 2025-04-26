@@ -1,8 +1,9 @@
 'use client'
 import React from 'react'
-import ResponsiveDialog from "@/components/responsive-dialog";
-import {UploadDropzone} from "@/lib/uploadthing";
-import {trpc} from "@/trpc/client";
+import ResponsiveDialog from '@/components/responsive-dialog'
+import {UploadDropzone} from '@/lib/uploadthing'
+import {trpc} from '@/trpc/client'
+import {useTranslations} from 'next-intl'
 
 interface Props {
     videoId: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function ThumbnailUploadModal({ videoId, open, onOpenChange }: Props) {
+    const t = useTranslations('studio.thumbnailUploadModal')
     const utils = trpc.useUtils();
     const onUploadComplete = () => {
         utils.studio.getMany.invalidate()
@@ -18,7 +20,7 @@ export default function ThumbnailUploadModal({ videoId, open, onOpenChange }: Pr
         onOpenChange(false);
     }
     return (
-        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title="Upload a thumbnail">
+        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title={t('title')}>
             <UploadDropzone endpoint="thumbnailUploader" input={{videoId}} onClientUploadComplete={onUploadComplete} />
         </ResponsiveDialog>
     )

@@ -3,11 +3,75 @@
     "studio": {
       "title": "Студия",
       "description": "Студия NewTube"
+    },
+    "main": {
+      "description": "Клон Ютуба"
     }
+  },
+  "navbar": {
+    "label": "Студия",
+    "search": "Поиск..."
+  },
+  "user": {
+    "bannerUpload": "Загрузите шапка",
+    "subscriberCount": "подписчик(ов)",
+    "countVideo": "видео",
+    "goStudio": "В студию"
+  },
+  "video": {
+    "processed": "Это видео еще находится в обработкe"
+  },
+  "sidebar": {
+    "Home": "Главная",
+    "Subscribed": "Подписки",
+    "Trending": "Тренды",
+    "History":"История",
+    "Liked videos": "Понравившиеся видео",
+    "All playlists": "Все плейлисты",
+    "subscriptions": "Все подписки",
+    "You": "Вы",
+    "subscriptionsLabel": "Подписки",
+    "Content": "Контент",
+    "Exit studio": "Выйти из студии"
   },
   "studio": {
     "title": "Контент канала",
-    "description": "Управляйте контентом и видео вашего канала"
+    "description": "Управляйте контентом и видео вашего канала",
+    "header": "Ваш профиль",
+    "uploadModal": {
+      "title": "Загрузите видео",
+      "button": "Создать",
+      "success": "Видео создано",
+      "error": "Что-то пошло не так",
+      "uploader": {
+        "title": "Переташите файл видео для загрузки",
+        "description": "Ваши видео будут конфиденциальными до тех пор, пока вы их не опубликуете",
+        "button": "Выберите файл"
+      }
+    },
+    "thumbnailGenerateModal": {
+      "title": "Сгенерировать превью",
+      "label": "Пожелания",
+      "placeholder": "Описание ожидаемого превью",
+      "button": "Сгенерировать",
+      "success": "работа ИИ запущена",
+      "successDesc": "Это займет какое-то время",
+      "error": "Что-то пошло не так"
+
+    },
+    "thumbnailUploadModal": {
+      "title": "Загрузите превью"
+    },
+    "table": {
+      "video": "Видео",
+      "visibility": "Видимость",
+      "status": "Статус",
+      "date": "Дата",
+      "views": "Просмотры",
+      "comments": "Комментарии",
+      "likes": "Лайки",
+      "noDesc": "Нету описания"
+    }
   },
   "settings": {
     "label": "Внешний вид"
@@ -25,6 +89,14 @@
   "playlists": {
     "title": "Плейлисты",
     "description": "Плейлисты, которые вы создали",
+    "header": "Видео из плейлиста",
+    "play": "Возпроизвести все",
+    "countVideo": "видео",
+    "remove": "Плейлист удален",
+    "info": {
+      "title": "Плейлист",
+      "description": "Смотреть весь плейлист"
+    },
     "liked": {
       "title": "Понравившиеся",
       "description": "Видео, которые вам понравились"
@@ -32,11 +104,30 @@
     "history": {
       "title": "История",
       "description": "Видео, которые вы просмотрели"
+    },
+    "createModal": {
+      "title": "Создать плейлист",
+      "label": "Название",
+      "placeholder": "Мои любимые видео",
+      "create": "Создать",
+      "success": "Плейлист создан",
+      "error": "Что-то пошло не так"
+    },
+    "addModal": {
+      "title": "Добавить в плейлист",
+      "removeSuccess": "Видео удалено из плейлиста",
+      "addSuccess": "Видео добавлено в плейлист",
+      "error": "Что-то пошло не так"
     }
   },
   "subscriptions": {
     "title": "Все подписки",
-    "description": "Просматривайте и управляйте своими подписками"
+    "description": "Просматривайте и управляйте своими подписками",
+    "subscribersCount": "подписчик(ов)",
+    "error": "Что-то пошло не так",
+    "success": "Вы успешно отписались",
+    "unsubscribe": "Отписаться",
+    "subscribe": "Подписаться"
   },
   "components": {
     "infiniteScroll": {

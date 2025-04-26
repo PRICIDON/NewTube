@@ -1,14 +1,22 @@
 'use client'
 import React from 'react'
-import ResponsiveDialog from "@/components/responsive-dialog";
-import {trpc} from "@/trpc/client";
-import {z} from "zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Textarea} from "@/components/ui/textarea";
-import {Button} from "@/components/ui/button";
-import {toast} from "sonner";
+import ResponsiveDialog from '@/components/responsive-dialog'
+import {trpc} from '@/trpc/client'
+import {z} from 'zod'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '@/components/ui/form'
+import {useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Textarea} from '@/components/ui/textarea'
+import {Button} from '@/components/ui/button'
+import {toast} from 'sonner'
+import {useTranslations} from 'next-intl'
 
 interface Props {
     videoId: string;
@@ -21,14 +29,15 @@ const formSchema = z.object({
 })
 
 export default function ThumbnailGenerateModal({ videoId, open, onOpenChange }: Props) {
+    const t = useTranslations('studio.thumbnailGenerateModal')
     const generateThumbnail = trpc.videos.generateThumbnail.useMutation({
         onSuccess() {
-            toast.success("Background job started",{ description: "This may take some time" ,})
+            toast.success(t('success'),{ description: t('successDesc')})
             form.reset()
             onOpenChange(false)
         },
         onError(e) {
-            toast.error("Something went wrong")
+            toast.error(t('error'))
             console.log(e)
         }
     })
@@ -46,7 +55,7 @@ export default function ThumbnailGenerateModal({ videoId, open, onOpenChange }: 
         }
     });
     return (
-        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title="Upload a thumbnail">
+        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title={t('title')}>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -54,9 +63,9 @@ export default function ThumbnailGenerateModal({ videoId, open, onOpenChange }: 
                 >
                     <FormField control={form.control} name="prompt" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Prompt</FormLabel>
+                            <FormLabel>{t('label')}</FormLabel>
                             <FormControl>
-                                <Textarea {...field} className="resize-none" cols={30} rows={5} placeholder="A description of wanted thumbnail"/>
+                                <Textarea {...field} className="resize-none" cols={30} rows={5} placeholder={t('placeholder')}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -66,8 +75,7 @@ export default function ThumbnailGenerateModal({ videoId, open, onOpenChange }: 
                             type="submit"
                             disabled={generateThumbnail.isPending}
                         >
-                            Generate
-
+                            {t('button')}
                         </Button>
                     </div>
                 </form>

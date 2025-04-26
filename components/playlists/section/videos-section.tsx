@@ -11,6 +11,7 @@ import VideoRowCard, {
   VideoRowCardSkeleton
 } from '@/components/suggestions/video-row-card'
 import {toast} from 'sonner'
+import {useTranslations} from 'next-intl'
 
 interface Props {
 	playlistId: string;
@@ -27,18 +28,19 @@ export default function VideosSection({ playlistId }: Props) {
 }
 
 function VideosSectionSuspense({ playlistId }: Props) {
+    const t = useTranslations('playlist.addModal')
     const [videos, query] = trpc.playlists.getVideos.useSuspenseInfiniteQuery({  limit: DEFAULT_LIMIT, playlistId}, { getNextPageParam: lastPage => lastPage.nextCursor })
     const utils = trpc.useUtils();
     const removeVideo = trpc.playlists.removeVideo.useMutation({
       onSuccess(data) {
-        toast.success("Video remove from playlist")
+        toast.success(t('removeSuccess'))
         utils.playlists.getMany.invalidate()
         utils.playlists.getManyForVideo.invalidate({ videoId: data.videoId })
         utils.playlists.getOne.invalidate({ id: data.playlistId})
         utils.playlists.getVideos.invalidate({ playlistId: data.playlistId })
       },
       onError(e) {
-        toast.error("Something went wrong")
+        toast.error(t('error'))
         console.log(e)
       }
     })

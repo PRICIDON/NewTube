@@ -3,11 +3,75 @@
     "studio": {
       "title": "Studio",
       "description": "Studio NewTube"
+    },
+    "main": {
+      "description": "Clone Youtube"
     }
+  },
+  "navbar": {
+    "label": "Studio",
+    "search": "Search..."
+  },
+  "user": {
+    "bannerUpload": "Upload a banner",
+    "subscriberCount": "subscribers",
+    "countVideo": "videos",
+    "goStudio": "Go to studio"
+  },
+  "video": {
+    "processed": "This video is still being processed"
+  },
+  "sidebar": {
+    "Home": "Home",
+    "Subscribed": "Subscribed",
+    "Trending": "Trending",
+    "History":"History",
+    "Liked videos": "Liked videos",
+    "All playlists": "All playlists",
+    "subscriptions": "All subscriptions",
+    "You": "You",
+    "subscriptionsLabel": "Subscriptions",
+    "Content": "Content",
+    "Exit studio": "Exit studio"
   },
   "studio": {
     "title": "Channel content",
-    "description": "Manage your channel content and videos"
+    "description": "Manage your channel content and videos",
+    "header": "Your profile",
+    "uploadModal": {
+      "title": "Upload a video",
+      "button": "Create",
+      "success": "Video created",
+      "error": "Something went wrong",
+      "uploader": {
+        "title": "Drag and drop video files to upload",
+        "description": "Your videos will be private until you publish them",
+        "button": "Select files"
+      }
+    },
+    "thumbnailGenerateModal": {
+      "title": "Generate a thumbnail",
+      "label": "Prompt",
+      "placeholder": "A description of wanted thumbnail",
+      "button": "Generate",
+      "success": "Background job started",
+      "successDesc": "This may take some time",
+      "error": "Something went wrong"
+
+    },
+    "thumbnailUploadModal": {
+      "title": "Upload a thumbnail"
+    },
+    "table": {
+      "video": "Video",
+      "visibility": "Visibility",
+      "status": "Status",
+      "date": "Date",
+      "views": "Views",
+      "comments": "Comments",
+      "likes": "Likes",
+      "noDesc": "No description"
+    }
   },
   "settings": {
     "label": "Appearance"
@@ -25,6 +89,14 @@
   "playlists": {
     "title": "Playlists",
     "description": "Collections you have created",
+    "header": "Videos from the playlist",
+    "play": "Play all",
+    "countVideo": "videos",
+    "remove": "Playlist deleted",
+    "info": {
+      "title": "Playlist",
+      "description": "View full playlist"
+    },
     "liked": {
       "title": "Liked",
       "description": "Videos you have liked"
@@ -32,11 +104,30 @@
     "history": {
       "title": "History",
       "description": "Videos you have watched"
+    },
+    "createModal": {
+      "title": "Create a playlist",
+      "label": "Name",
+      "placeholder": "My favorite videos",
+      "create": "Create",
+      "success": "Playlist created",
+      "error": "Something went wrong"
+    },
+    "addModal": {
+      "title": "Add to playlist",
+      "removeSuccess": "Video remove from playlist",
+      "addSuccess": "Video added to playlist",
+      "error": "Something went wrong"
     }
   },
   "subscriptions": {
     "title": "All subscriptions",
-    "description": "View and manage your subscriptions"
+    "description": "View and manage your subscriptions",
+    "subscribersCount": "subscribers",
+    "error": "Something went wrong",
+    "success": "Unsubscribed",
+    "unsubscribe": "Unsubscribed",
+    "subscribe": "Subscribe"
   },
   "components": {
     "infiniteScroll": {

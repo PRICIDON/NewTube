@@ -1,14 +1,22 @@
 'use client'
 import React from 'react'
-import ResponsiveDialog from "@/components/responsive-dialog";
-import {trpc} from "@/trpc/client";
-import {z} from "zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Button} from "@/components/ui/button";
-import {toast} from "sonner";
-import {Input} from "@/components/ui/input";
+import ResponsiveDialog from '@/components/responsive-dialog'
+import {trpc} from '@/trpc/client'
+import {z} from 'zod'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '@/components/ui/form'
+import {useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Button} from '@/components/ui/button'
+import {toast} from 'sonner'
+import {Input} from '@/components/ui/input'
+import {useTranslations} from 'next-intl'
 
 interface Props {
     open: boolean;
@@ -20,16 +28,17 @@ const formSchema = z.object({
 })
 
 export default function PlaylistCreateModal({ open, onOpenChange }: Props) {
+    const t = useTranslations('playlists.createModal')
     const utils = trpc.useUtils()
     const create = trpc.playlists.create.useMutation({
         onSuccess() {
             utils.playlists.getMany.invalidate()
-            toast.success("Playlist created")
+            toast.success(t('success'))
             form.reset()
             onOpenChange(false)
         },
         onError(e) {
-            toast.error("Something went wrong")
+            toast.error(t('error'))
             console.log(e)
         }
     })
@@ -46,7 +55,7 @@ export default function PlaylistCreateModal({ open, onOpenChange }: Props) {
         }
     });
     return (
-        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title="Create a playlist">
+        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title={t('title')}>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -54,9 +63,9 @@ export default function PlaylistCreateModal({ open, onOpenChange }: Props) {
                 >
                     <FormField control={form.control} name="name" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>{t('label')}</FormLabel>
                             <FormControl>
-                                <Input {...field} placeholder="My favorite videos"/>
+                                <Input {...field} placeholder={t('placeholder')}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -66,7 +75,7 @@ export default function PlaylistCreateModal({ open, onOpenChange }: Props) {
                             type="submit"
                             disabled={create.isPending}
                         >
-                            Create
+                            {t('create')}
                         </Button>
                     </div>
                 </form>

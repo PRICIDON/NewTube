@@ -1,17 +1,20 @@
 import React, {useMemo} from 'react'
-import {VideoGetOneOutput} from "@/components/videos/types";
-import VideoOwner from "@/components/videos/video-owner";
-import VideoMenu from "@/components/videos/video-menu";
-import VideoReactions from "@/components/videos/video-reactions";
-import VideoDescription from "@/components/videos/video-description";
-import {format, formatDistanceToNow} from "date-fns";
-import {Skeleton} from "@/components/ui/skeleton";
+import {VideoGetOneOutput} from '@/components/videos/types'
+import VideoOwner from '@/components/videos/video-owner'
+import VideoMenu from '@/components/videos/video-menu'
+import VideoReactions from '@/components/videos/video-reactions'
+import VideoDescription from '@/components/videos/video-description'
+import {format, formatDistanceToNow} from 'date-fns'
+import {Skeleton} from '@/components/ui/skeleton'
+import {useLocale} from 'next-intl'
+import {enUS, ru} from 'date-fns/locale'
 
 interface VideoTopRowProps {
     video: VideoGetOneOutput
 }
 
 export default function VideoTopRow({ video }: VideoTopRowProps) {
+    const locale = useLocale()
     const compactViews = useMemo(() => {
         return Intl.NumberFormat("en", {
             notation: 'compact'
@@ -23,10 +26,10 @@ export default function VideoTopRow({ video }: VideoTopRowProps) {
         }).format(video.viewCount)
     }, [video.viewCount])
     const compactData = useMemo(() => {
-        return formatDistanceToNow(video.createdAt, { addSuffix: true })
+        return formatDistanceToNow(video.createdAt, { addSuffix: true, locale: locale === "en" ? enUS : ru })
     }, [video.createdAt])
     const expandedData = useMemo(() => {
-        return format(video.createdAt, "d MMM yyyy")
+        return format(video.createdAt, "d MMM yyyy", { locale: locale === "en" ? enUS : ru })
     }, [video.createdAt])
     return (
         <div className="flex flex-col gap-4 mt-4">
@@ -58,7 +61,7 @@ export function VideoTopRowSkeleton() {
                         <Skeleton className="h-5 w-3/5 md:w-1/5"/>
                     </div>
                 </div>
-                <Skeleton className="h-9 w-2/6 md:w-1/6 rounded-full"></Skeleton>
+                <Skeleton className="h-9 w-2/6 md:w-1/6 rounded-full"/>
             </div>
             <div className="h-[120px] w-full"></div>
         </div>

@@ -1,8 +1,9 @@
 import React, {useMemo} from 'react'
-import {cn} from "@/lib/utils";
+import {cn} from '@/lib/utils'
 import Image from 'next/image'
-import {THUMBNAIL_FALLBACK} from "@/lib/constants";
-import {ListVideoIcon, PlayIcon} from "lucide-react";
+import {THUMBNAIL_FALLBACK} from '@/lib/constants'
+import {ListVideoIcon, PlayIcon} from 'lucide-react'
+import {useTranslations} from 'next-intl'
 
 
 interface PlaylistThumbnailProps {
@@ -18,6 +19,7 @@ export default function PlaylistThumbnail({ thumbnailUrl, className, title, vide
             notation: 'compact'
         }).format(videoCount)
     }, [videoCount])
+    const t = useTranslations('playlists')
     return (
         <div className={cn("relative pt-3",className)}>
             {/* Stack effect layers*/}
@@ -33,14 +35,14 @@ export default function PlaylistThumbnail({ thumbnailUrl, className, title, vide
                 <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <div className="flex items-center gap-x-2">
                         <PlayIcon className="size-4 text-white fill-white"/>
-                        <span className="text-white font-medium">Play all</span>
+                        <span className="text-white font-medium">{t('play')}</span>
                     </div>
                 </div>
             </div>
             {/* Video count indicator */}
             <div className="absolute bottom-2 right-2 px-1 py-0.5 rounded bg-black/80 text-white text-xs font-medium flex items-center gap-x-1">
                 <ListVideoIcon className="size-4"/>
-                {compactViews} videos
+                {compactViews} {t('countVideo')}
             </div>
         </div>
     )

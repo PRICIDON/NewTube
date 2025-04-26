@@ -1,11 +1,13 @@
 'use client'
 import React, {useState} from 'react'
-import {SearchIcon, XIcon} from "lucide-react";
-import {useRouter, useSearchParams} from "next/navigation";
-import {Button} from "@/components/ui/button";
-import {APP_URL} from "@/lib/constants";
+import {SearchIcon, XIcon} from 'lucide-react'
+import {useRouter, useSearchParams} from 'next/navigation'
+import {Button} from '@/components/ui/button'
+import {APP_URL} from '@/lib/constants'
+import {useTranslations} from 'next-intl'
 
 export default function SearchInput() {
+    const t = useTranslations("navbar")
     const router = useRouter();
     const searchParams = useSearchParams();
     const query = searchParams.get("query") || "";
@@ -34,7 +36,7 @@ export default function SearchInput() {
             <div className="relative w-full">
                 <input
                     type="text"
-                    placeholder="Search"
+                    placeholder={t('search')}
                     value={value}
                     onChange={e => setValue(e.target.value)}
                     className="pl-4 w-full py-2 pr-12 rounded-l-full focus:outline-none focus:border-blue-500 border"

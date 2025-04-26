@@ -17,6 +17,7 @@ import {trpc} from '@/trpc/client'
 import {DEFAULT_LIMIT} from '@/lib/constants'
 import UserAvatar from '@/components/users/avatar'
 import {Skeleton} from '@/components/ui/skeleton'
+import {useTranslations} from 'next-intl'
 
 interface Item {
     title: string;
@@ -32,18 +33,19 @@ interface Props {
 }
 
 export default function Section({ items, label, studio }: Props) {
+    const t = useTranslations('sidebar')
     const path = usePathname()
     const clerk = useClerk()
     const { isSignedIn } = useAuth()
     return (
         <SidebarGroup>
-            {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
+            {label && <SidebarGroupLabel>{t(label)}</SidebarGroupLabel>}
             {studio && <StudioSidebarHeader/>}
             <SidebarGroupContent>
                 <SidebarMenu>
                     {items.map((item) => (
                             <SidebarMenuItem key={item.title}>
-                                <SidebarMenuButton tooltip={item.title} asChild isActive={path === item.url} onClick={(e) => {
+                                <SidebarMenuButton tooltip={t(item.title)} asChild isActive={path === item.url} onClick={(e) => {
                                     if(!isSignedIn && item.auth) {
                                         e.preventDefault()
                                         return clerk.openSignIn()
@@ -51,7 +53,7 @@ export default function Section({ items, label, studio }: Props) {
                                 }}>
                                     <Link href={item.url} className="flex items-center gap-4">
                                         <item.icon />
-                                        <span className="text-sm">{item.title}</span>
+                                        <span className="text-sm">{t(item.title)}</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
@@ -63,11 +65,12 @@ export default function Section({ items, label, studio }: Props) {
 }
 
 export function SubscriptionSection() {
+    const t = useTranslations('sidebar')
     const path = usePathname()
     const { data, isLoading } = trpc.subscriptions.getMany.useInfiniteQuery({ limit: DEFAULT_LIMIT}, { getNextPageParam: (lastPage) => lastPage.nextCursor})
     return (
         <SidebarGroup>
-            <SidebarGroupLabel>Subscriptions</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("subscriptionsLabel")}</SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                     {isLoading ? <LoadingSkeleton/> : (
@@ -86,7 +89,7 @@ export function SubscriptionSection() {
                             <SidebarMenuButton asChild isActive={path === `/subscriptions`}>
                                 <Link href={`/subscriptions`} className="flex items-center gap-4">
                                     <ListIcon className="size-4"/>
-                                    <span className="text-sm">All subscriptions</span>
+                                    <span className="text-sm">{t('subscriptions')}</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

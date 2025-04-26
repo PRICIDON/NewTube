@@ -8,12 +8,14 @@ import SubscriptionButton from '@/components/subscriptions/subscription-button'
 import {useSubscriptions} from '@/hooks/use-subscription'
 import {cn} from '@/lib/utils'
 import {Skeleton} from '@/components/ui/skeleton'
+import {useTranslations} from 'next-intl'
 
 interface Props {
 	user: UserGetOneOutput
 }
 
 export default function UserPageInfo({ user }: Props) {
+	const t = useTranslations('user')
 	const { userId, isLoaded } = useAuth()
 	const clerk = useClerk()
 	const {isPending, onClick} = useSubscriptions({ userId: user.id, isSubscribed: user.viewerSubscribed });
@@ -36,14 +38,14 @@ export default function UserPageInfo({ user }: Props) {
 					<div className="flex-1 min-w-0">
 						<h1 className="text-xl font-bold">{user.name}</h1>
 						<div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-							<span className="">{user.subscriberCount} subscribers &bull;</span>
-							<span className="">{user.videoCount} videos</span>
+							<span className="">{user.subscriberCount} {t("subscriberCount")} &bull;</span>
+							<span className="">{user.videoCount} {t("countVideo")}</span>
 						</div>
 					</div>
 				</div>
 				{userId === user.clerkId ? (
 					<Button asChild variant="secondary" className="w-full mt-3 rounded-full">
-						<Link href={`/studio`}>Go to studio</Link>
+						<Link href={`/studio`}>{t("goStudio")}</Link>
 					</Button>
 				) : (
 					<SubscriptionButton onClick={onClick} disabled={isPending || !isLoaded} isSubscribed={user.viewerSubscribed} className="w-full mt-3" />
@@ -65,12 +67,12 @@ export default function UserPageInfo({ user }: Props) {
 					<div className="flex-1 min-w-0">
 						<h1 className="text-4xl font-bold">{user.name}</h1>
 						<div className="flex items-center gap-1 text-sm text-muted-foreground mt-3">
-							<span className="">{user.subscriberCount} subscribers &bull;</span>
-							<span className="">{user.videoCount} videos</span>
+							<span className="">{user.subscriberCount} {t("subscriberCount")} &bull;</span>
+							<span className="">{user.videoCount} {t("countVideo")}</span>
 						</div>
 						{userId === user.clerkId ? (
 							<Button asChild variant="secondary" className="mt-3 rounded-full">
-								<Link href={`/studio`}>Go to studio</Link>
+								<Link href={`/studio`}>{t("goStudio")}</Link>
 							</Button>
 						) : (
 							<SubscriptionButton onClick={onClick} disabled={isPending || !isLoaded} isSubscribed={user.viewerSubscribed} className="mt-3" />

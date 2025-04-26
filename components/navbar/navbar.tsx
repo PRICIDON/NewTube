@@ -6,19 +6,20 @@ import SearchInput from './search-input'
 import AuthButton from '@/components/auth/auth-button'
 import StudioUploadModal from '@/components/studio/StudioUploadModal'
 import ThemeButton from '@/components/theme-button'
+import {useTranslations} from 'next-intl'
 
 export const Navbar = ({ studio} : { studio?: boolean}) => {
+    const t = useTranslations("navbar")
     return (
         <nav className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-background flex items-center px-2 pr-5 z-50">
             <div className="flex items-center gap-4 w-full">
                 {/* Menu and Logo */}
                 <div className="flex items-center flex-shrink-0">
                     <SidebarTrigger/>
-                    
                         <Link href={studio ? "/studio" : "/"} className="hidden md:block">
                             <div className="p-4 flex items-center gap-1">
                                 <Image src="/logo.svg" alt="logo" width={32} height={32} />
-                                <p className="text-xl font-semibold tracking-tight">{studio ? "Studio" : "NewTube"}</p>
+                                <p className="text-xl font-semibold tracking-tight">{studio ? t('label') : "NewTube"}</p>
                             </div>
                         </Link>
                 </div>

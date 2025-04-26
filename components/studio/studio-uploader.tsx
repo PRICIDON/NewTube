@@ -8,6 +8,7 @@ import MuxUploader, {
 import {UploadIcon} from 'lucide-react'
 import {Button} from '@/components/ui/button'
 import {useTheme} from 'next-themes'
+import {useTranslations} from 'next-intl'
 
 interface StudioUploaderProps {
     endpoint?: string | null
@@ -18,6 +19,7 @@ const UPLOADER_ID = "video-uploader"
 
 export default function StudioUploader({ endpoint, onSuccess }: StudioUploaderProps) {
     const theme = useTheme()
+    const t = useTranslations("studio.uploadModal.uploader")
     return (
         <div>
             <MuxUploader
@@ -32,11 +34,11 @@ export default function StudioUploader({ endpoint, onSuccess }: StudioUploaderPr
                         <UploadIcon className="size-10 text-muted-foreground group/drop-[$[active]]:animate-bounce transition-all duration-300" />
                     </div>
                     <div className="flex flex-col gap-2 text-center">
-                        <p className="text-sm">Drag and drop video files to upload</p>
-                        <p className="text-xs text-muted-foreground">Your videos will be private until you publish them</p>
+                        <p className="text-sm">{t('title')}</p>
+                        <p className="text-xs text-muted-foreground">{t('description')}</p>
                     </div>
                     <MuxUploaderFileSelect muxUploader={UPLOADER_ID}>
-                        <Button type="button" className="rounded-full">Select files</Button>
+                        <Button type="button" className="rounded-full">{t('button')}</Button>
                     </MuxUploaderFileSelect>
                 </div>
                 <span slot="separator" className="hidden"/>

@@ -2,6 +2,7 @@ import React from 'react'
 import UserAvatar from '@/components/users/avatar'
 import SubscriptionButton from '@/components/subscriptions/subscription-button'
 import {Skeleton} from '@/components/ui/skeleton'
+import {useTranslations} from 'next-intl'
 
 interface SubscriptionItem {
 	name: string;
@@ -12,6 +13,7 @@ interface SubscriptionItem {
 }
 
 export default function SubscriptionItem({ name, imageUrl, onUnsubscribe, disabled, subscriberCount }: SubscriptionItem) {
+	const t = useTranslations('subscriptions')
 	return (
 		<div className="flex items-start gap-4">
 			<UserAvatar imageUrl={imageUrl} name={name} size="lg" />
@@ -19,7 +21,7 @@ export default function SubscriptionItem({ name, imageUrl, onUnsubscribe, disabl
 				<div className="flex items-center justify-between">
 					<div>
 						<h3 className="text-sm">{name}</h3>
-						<p className="text-xs text-muted-foreground">{subscriberCount.toLocaleString()} subscribers</p>
+						<p className="text-xs text-muted-foreground">{subscriberCount.toLocaleString()} ${t('subscriberCount')}</p>
 					</div>
 					<SubscriptionButton
 						size="sm"

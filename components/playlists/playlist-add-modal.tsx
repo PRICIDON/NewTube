@@ -7,6 +7,7 @@ import {Button} from '@/components/ui/button'
 import {Loader2Icon, SquareCheckIcon, SquareIcon} from 'lucide-react'
 import InfiniteScroll from '@/components/infinite-scroll'
 import {toast} from 'sonner'
+import {useTranslations} from 'next-intl'
 
 interface Props {
     videoId: string;
@@ -15,36 +16,37 @@ interface Props {
 }
 
 export default function PlaylistAddModal({ open, onOpenChange, videoId }: Props) {
+    const t = useTranslations('playlists.addModal')
     const utils = trpc.useUtils();
     const { data: playlists, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage} = trpc.playlists.getManyForVideo.useInfiniteQuery({ limit: DEFAULT_LIMIT, videoId }, { getNextPageParam: lastPage => lastPage.nextCursor, enabled: !!videoId && open})
     const addVideo = trpc.playlists.addVideo.useMutation({
         onSuccess(data) {
-            toast.success("Video added to playlist")
+            toast.success(t('addSuccess'))
             utils.playlists.getMany.invalidate()
             utils.playlists.getManyForVideo.invalidate({ videoId})
             utils.playlists.getOne.invalidate({ id: data.playlistId})
             utils.playlists.getVideos.invalidate({ playlistId: data.playlistId })
         },
         onError(e) {
-            toast.error("Something went wrong")
+            toast.error(t('error'))
             console.log(e)
         }
     })
     const removeVideo = trpc.playlists.removeVideo.useMutation({
         onSuccess(data) {
-            toast.success("Video remove from playlist")
+            toast.success(t('removeSuccess'))
             utils.playlists.getMany.invalidate()
             utils.playlists.getManyForVideo.invalidate({ videoId})
             utils.playlists.getOne.invalidate({ id: data.playlistId})
             utils.playlists.getVideos.invalidate({ playlistId: data.playlistId })
         },
         onError(e) {
-            toast.error("Something went wrong")
+            toast.error(t('error'))
             console.log(e)
         }
     })
     return (
-        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title="Add to playlist">
+        <ResponsiveDialog onOpenChange={onOpenChange} open={open} title={t('title')}>
             <div className="flex flex-col gap-2">
                 {isLoading ? (
                     <div className="flex justify-center p-4">
