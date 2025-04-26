@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 export function generateMetadata(): Metadata {
-  const t = await getTranslations("studio")
+  const t = getTranslations("studio")
   return {
     title: t('title'),
     description: t('description'),
