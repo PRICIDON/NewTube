@@ -19,7 +19,18 @@
     "goStudio": "Go to studio"
   },
   "video": {
-    "processed": "This video is still being processed"
+    "processed": "This video is still being processed",
+    "less": "Show less",
+    "more": "Show more",
+    "views": "views",
+    "share": "Share",
+    "playlist": "Add to playlist",
+    "remove": "Remove",
+    "success": "Link copied to clipboard",
+    "subscriberCount": "subscribers",
+    "edit": "Edit video",
+    "error": "Something went wrong",
+    "commentCount": "Comments"
   },
   "sidebar": {
     "Home": "Home",
@@ -73,8 +84,10 @@
       "noDesc": "No description"
     }
   },
-  "settings": {
-    "label": "Appearance"
+  "appearance": {
+    "title": "Appearance",
+    "description": "Here you can change the appearance",
+    "label": "Language"
   },
   "feed": {
     "trending": {
@@ -138,7 +151,7 @@
     "auth": {
       "studio": "Studio",
       "profile": "My profile",
-      "settings": "Settings",
+      "appearance": "Appearance",
       "sign": "Sign in"
     }
   },

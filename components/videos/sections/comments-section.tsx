@@ -1,12 +1,13 @@
 'use client'
 import React, {Suspense} from 'react'
-import {ErrorBoundary} from "react-error-boundary";
-import {trpc} from "@/trpc/client";
-import CommentForm from "@/components/comments/comment-form";
-import CommentItem from "@/components/comments/comment-item";
-import {DEFAULT_LIMIT} from "@/lib/constants";
-import InfiniteScroll from "@/components/infinite-scroll";
-import {Loader2Icon} from "lucide-react";
+import {ErrorBoundary} from 'react-error-boundary'
+import {trpc} from '@/trpc/client'
+import CommentForm from '@/components/comments/comment-form'
+import CommentItem from '@/components/comments/comment-item'
+import {DEFAULT_LIMIT} from '@/lib/constants'
+import InfiniteScroll from '@/components/infinite-scroll'
+import {Loader2Icon} from 'lucide-react'
+import {useTranslations} from 'next-intl'
 
 export default function CommentsSection({ videoId } : { videoId: string}) {
     return (
@@ -19,11 +20,12 @@ export default function CommentsSection({ videoId } : { videoId: string}) {
 }
 
 function CommentsSectionSuspense({ videoId} : { videoId: string}) {
+    const t = useTranslations('video')
     const [comments, query] = trpc.comments.getMany.useSuspenseInfiniteQuery({ videoId, limit: DEFAULT_LIMIT }, { getNextPageParam: (lastPage) => lastPage.nextCursor})
     return (
         <div className="mt-6">
             <div className="flex flex-col gap-6">
-                <h1 className="tex-xl font-bold">{comments.pages[0].totalCount} Comments</h1>
+                <h1 className="tex-xl font-bold">{comments.pages[0].totalCount} {t('commentCount')}</h1>
                 <CommentForm videoId={videoId} />
             </div>
             <div className="flex flex-col gap-4 mt-2">

@@ -1,14 +1,16 @@
-import {cva, VariantProps} from "class-variance-authority";
+import {cva, VariantProps} from 'class-variance-authority'
 import React, {useMemo} from 'react'
-import {VideoGetManyOutput} from "@/components/videos/types";
-import Link from "next/link";
-import VideoThumbnail, {VideoThumbnailSkeleton} from "@/components/videos/video-thumbnail";
-import {cn} from "@/lib/utils";
-import UserAvatar from "@/components/users/avatar";
-import UserInfo from "@/components/users/user-info";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
-import VideoMenu from "@/components/videos/video-menu";
-import {Skeleton} from "@/components/ui/skeleton";
+import {VideoGetManyOutput} from '@/components/videos/types'
+import Link from 'next/link'
+import VideoThumbnail, {
+    VideoThumbnailSkeleton
+} from '@/components/videos/video-thumbnail'
+import {cn} from '@/lib/utils'
+import UserAvatar from '@/components/users/avatar'
+import UserInfo from '@/components/users/user-info'
+import {Tooltip, TooltipContent, TooltipTrigger} from '@/components/ui/tooltip'
+import VideoMenu from '@/components/videos/video-menu'
+import {Skeleton} from '@/components/ui/skeleton'
 
 const videoRowCardVariants = cva("group flex min-w-0", {
     variants: {
@@ -86,7 +88,7 @@ export default function VideoRowCard({data, onRemove, size = "default"}: VideoRo
                         {size === "default" && (
                             <>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                    {compactViews} views • {compactLikes} likes
+                                    {compactViews} views &bull; {compactLikes} likes
                                 </p>
                                 <div className="flex items-center gap-2 my-3">
                                     <UserAvatar size="sm" imageUrl={data.user.imageUrl!} name={data.user.name} />
@@ -99,7 +101,7 @@ export default function VideoRowCard({data, onRemove, size = "default"}: VideoRo
                                         </p>
                                     </TooltipTrigger>
                                     <TooltipContent side="bottom" align="center" className="bg-black/70 dark:bg-white">
-                                        <p className="">From the video description</p>
+                                        <p>From the video description</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </>
@@ -107,7 +109,7 @@ export default function VideoRowCard({data, onRemove, size = "default"}: VideoRo
                         {size === "compact" && (
                             <>
                                 <UserInfo size="sm" name={data.user.name}/>
-                                <p className="text-xs text-muted-foreground mt-1">{compactViews} views • {compactLikes} likes</p>
+                                <p className="text-xs text-muted-foreground mt-1">{compactViews} views &bull; {compactLikes} likes</p>
                             </>
                         )}
                     </Link>

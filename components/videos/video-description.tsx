@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import {cn} from "@/lib/utils";
-import {ChevronDownIcon, ChevronUpIcon} from "lucide-react";
+import {cn} from '@/lib/utils'
+import {ChevronDownIcon, ChevronUpIcon} from 'lucide-react'
+import {useTranslations} from 'next-intl'
 
 interface VideoDescriptionProps {
     compactViews: string
@@ -11,6 +12,7 @@ interface VideoDescriptionProps {
 }
 
 export default function VideoDescription({ compactViews, expandedViews, expandedData, compactData, description }: VideoDescriptionProps) {
+    const t = useTranslations('video')
     const [isExpanded, setIsExpanded] = useState(false)
     return (
         <div
@@ -19,7 +21,7 @@ export default function VideoDescription({ compactViews, expandedViews, expanded
         >
             <div className="flex gap-2 text-sm mb-2">
                 <span className="font-medium">
-                    {isExpanded ? expandedViews : compactViews} views
+                    {isExpanded ? expandedViews : compactViews} {t('views')}
                 </span>
                 <span className="font-medium">
                     {isExpanded ? expandedData : compactData}
@@ -32,11 +34,11 @@ export default function VideoDescription({ compactViews, expandedViews, expanded
                 <div className="flex items-center gap-1 mt-4 text-sm font-medium">
                     {isExpanded ? (
                         <>
-                            Show less <ChevronUpIcon className="size-4"/>
+                            {t('less')} <ChevronUpIcon className="size-4"/>
                         </>
                     ) : (
                         <>
-                            Show more <ChevronDownIcon className="size-4"/>
+                            {t('more')} <ChevronDownIcon className="size-4"/>
                         </>
                     )}
                 </div>

@@ -1,18 +1,22 @@
 'use client'
 
 import React, {Suspense} from 'react'
-import {ErrorBoundary} from "react-error-boundary";
-import {trpc} from "@/trpc/client";
-import {cn} from "@/lib/utils";
-import VideoPlayer, {VideoPlayerSkeleton} from "@/components/videos/player/video-player";
-import VideoBanner from "@/components/videos/video-banner";
-import VideoTopRow, {VideoTopRowSkeleton} from "@/components/videos/video-top-row";
-import {useAuth} from "@clerk/nextjs";
+import {ErrorBoundary} from 'react-error-boundary'
+import {trpc} from '@/trpc/client'
+import {cn} from '@/lib/utils'
+import VideoPlayer, {
+  VideoPlayerSkeleton
+} from '@/components/videos/player/video-player'
+import VideoBanner from '@/components/videos/video-banner'
+import VideoTopRow, {
+  VideoTopRowSkeleton
+} from '@/components/videos/video-top-row'
+import {useAuth} from '@clerk/nextjs'
 
 export default function VideoSection({ videoId }: { videoId: string }) {
     return (
        <Suspense fallback={<VideoSectionSkeleton/>}>
-            <ErrorBoundary fallback={<p className="">Error</p>}>
+            <ErrorBoundary fallback={<p>Error</p>}>
                 <VideoSectionSuspense videoId={videoId} />
             </ErrorBoundary>
         </Suspense>

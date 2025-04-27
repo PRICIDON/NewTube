@@ -38,8 +38,8 @@ export default function UserPageInfo({ user }: Props) {
 					<div className="flex-1 min-w-0">
 						<h1 className="text-xl font-bold">{user.name}</h1>
 						<div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-							<span className="">{user.subscriberCount} {t("subscriberCount")} &bull;</span>
-							<span className="">{user.videoCount} {t("countVideo")}</span>
+							<span>{user.subscriberCount} {t("subscriberCount")} &bull;</span>
+							<span>{user.videoCount} {t("countVideo")}</span>
 						</div>
 					</div>
 				</div>
@@ -67,8 +67,8 @@ export default function UserPageInfo({ user }: Props) {
 					<div className="flex-1 min-w-0">
 						<h1 className="text-4xl font-bold">{user.name}</h1>
 						<div className="flex items-center gap-1 text-sm text-muted-foreground mt-3">
-							<span className="">{user.subscriberCount} {t("subscriberCount")} &bull;</span>
-							<span className="">{user.videoCount} {t("countVideo")}</span>
+							<span>{user.subscriberCount} {t("subscriberCount")} &bull;</span>
+							<span>{user.videoCount} {t("countVideo")}</span>
 						</div>
 						{userId === user.clerkId ? (
 							<Button asChild variant="secondary" className="mt-3 rounded-full">

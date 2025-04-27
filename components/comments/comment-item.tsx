@@ -124,7 +124,7 @@ export default function CommentItem({comment, variant = "comment"}: CommentItem)
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             <Button variant="ghost" size="icon" className="size-8">
-                                <MoreVerticalIcon className=""/>
+                                <MoreVerticalIcon/>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">

@@ -1,38 +1,59 @@
-"use client"
+'use client'
 
 import React, {Suspense, useState} from 'react'
-import {trpc} from "@/trpc/client";
-import {ErrorBoundary} from "react-error-boundary";
-import {Button} from "@/components/ui/button";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {trpc} from '@/trpc/client'
+import {ErrorBoundary} from 'react-error-boundary'
+import {Button} from '@/components/ui/button'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import {
     CopyCheckIcon,
     CopyIcon,
     Globe2Icon,
-    ImagePlusIcon, Loader2Icon,
+    ImagePlusIcon,
+    Loader2Icon,
     LockIcon,
-    MoreVerticalIcon, RotateCcwIcon,
+    MoreVerticalIcon,
+    RotateCcwIcon,
     SparklesIcon,
     TrashIcon
-} from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod"
-import {videoUpdateSchema} from "@/db/schema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {toast} from "sonner";
-import {useRouter} from "next/navigation";
-import VideoPlayer from "@/components/videos/player/dynamic-mux-player";
-import Link from "next/link";
-import {snakeCaseToTitle} from "@/lib/utils";
-import Image from "next/image";
-import ThumbnailUploadModal from "@/components/studio/thumbnail-upload-modal";
-import { Skeleton } from '../ui/skeleton';
-import ThumbnailGenerateModal from "@/components/studio/thumbnail-generate-modal";
-import {APP_URL, THUMBNAIL_FALLBACK} from "@/lib/constants";
+} from 'lucide-react'
+import {useForm} from 'react-hook-form'
+import {z} from 'zod'
+import {videoUpdateSchema} from '@/db/schema'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '@/components/ui/form'
+import {Input} from '@/components/ui/input'
+import {Textarea} from '@/components/ui/textarea'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select'
+import {toast} from 'sonner'
+import {useRouter} from 'next/navigation'
+import VideoPlayer from '@/components/videos/player/dynamic-mux-player'
+import Link from 'next/link'
+import {snakeCaseToTitle} from '@/lib/utils'
+import Image from 'next/image'
+import ThumbnailUploadModal from '@/components/studio/thumbnail-upload-modal'
+import {Skeleton} from '../ui/skeleton'
+import ThumbnailGenerateModal
+    from '@/components/studio/thumbnail-generate-modal'
+import {APP_URL, THUMBNAIL_FALLBACK} from '@/lib/constants'
 
 interface FormSectionProps {
     videoId: string
@@ -132,7 +153,7 @@ function FormSectionSuspense({ videoId }: FormSectionProps) {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="flex items-center justify-between mb-6">
-                        <div className="">
+                        <div>
                             <h1 className="text-2xl font-bold">Video details</h1>
                             <p className="text-xs text-muted-foreground">Manage your video details</p>
                         </div>

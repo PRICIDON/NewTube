@@ -6,7 +6,7 @@ import UserAvatar from '@/components/users/avatar'
 import UserInfo from '@/components/users/user-info'
 import VideoMenu from '@/components/videos/video-menu'
 import {Skeleton} from '@/components/ui/skeleton'
-import {useLocale} from 'next-intl'
+import {useLocale, useTranslations} from 'next-intl'
 import {enUS, ru} from 'date-fns/locale'
 
 interface VideoInfo {
@@ -28,6 +28,7 @@ export function VideoInfoSkeleton() {
 
 export default function VideoInfo({ data, onRemove }: VideoInfo) {
     const locale = useLocale()
+    const t = useTranslations('video')
     const compactDate = useMemo(() => {
         return formatDistanceToNow(data.createdAt, { addSuffix: true, locale: locale === "en" ? enUS : ru })
     }, [data.createdAt]);
@@ -45,7 +46,7 @@ export default function VideoInfo({ data, onRemove }: VideoInfo) {
                     <UserInfo name={data.user.name} />
                 </Link>
                 <Link href={`/videos/${data.id}`}>
-                    <p className="line-clamp-1 text-sm text-gray-600">{compactViews} views • {compactDate}</p>
+                    <p className="line-clamp-1 text-sm text-gray-600">{compactViews} {t('views')} &bull; {compactDate}</p>
                 </Link>
             </div>
             <div className="shrink-0">

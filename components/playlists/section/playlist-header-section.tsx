@@ -41,7 +41,7 @@ function PlaylistHeaderSectionSuspense({ playlistId }: PlaylistHeaderSectionProp
 	})
 	return (
 		<div className="flex justify-between items-center">
-			<div className="">
+			<div>
 				<h1 className="text-2xl font-bold">{playlist.name}</h1>
 				<p className="text-xs text-muted-foreground">{t('header')}</p>
 			</div>

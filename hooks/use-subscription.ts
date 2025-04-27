@@ -1,6 +1,7 @@
 import {trpc} from '@/trpc/client'
 import {useClerk} from '@clerk/nextjs'
 import {toast} from 'sonner'
+import {useTranslations} from 'next-intl'
 
 interface UseSubscription {
     userId: string
@@ -9,12 +10,13 @@ interface UseSubscription {
 }
 
 export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubscription) => {
+    const t = useTranslations('subscriptions')
     const clerk = useClerk()
     const utils = trpc.useUtils()
 
     const subscribe = trpc.subscriptions.create.useMutation({
         onSuccess() {
-            toast.success("Subscribed")
+            toast.success(t('successSub'))
             utils.videos.getSubscribed.invalidate()
             utils.users.getOne.invalidate({ id: userId})
             utils.subscriptions.getMany.invalidate()
@@ -22,7 +24,7 @@ export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubsc
             
         },
         onError(e) {
-            toast.error("Something went wrong")
+            toast.error(t('error'))
             if(e.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn()
             }
@@ -30,14 +32,14 @@ export const useSubscriptions = ({ userId, fromVideoId, isSubscribed }: UseSubsc
     })
     const unsubscribe = trpc.subscriptions.remove.useMutation({
         onSuccess() {
-            toast.success("Unsubscribed")
+            toast.success(t('successUnsub'))
             utils.videos.getSubscribed.invalidate()
             utils.users.getOne.invalidate({ id: userId})
             utils.subscriptions.getMany.invalidate()
             fromVideoId && utils.videos.getOne.invalidate({ id: fromVideoId})
         },
         onError(e) {
-             toast.error("Something went wrong")
+             toast.error(t('error'))
             if(e.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn()
             }

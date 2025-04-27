@@ -7,6 +7,7 @@ import {VideoGetOneOutput} from '@/components/videos/types'
 import {useClerk} from '@clerk/nextjs'
 import {trpc} from '@/trpc/client'
 import {toast} from 'sonner'
+import {useTranslations} from 'next-intl'
 
 interface VideoReactions {
     videoId:string
@@ -16,6 +17,7 @@ interface VideoReactions {
 }
 
 export default function VideoReactions({ videoId, viewerReaction, likes, dislikes }: VideoReactions) {
+    const t = useTranslations('video')
     const clerk = useClerk();
     const utils = trpc.useUtils();
     const like = trpc.videoReactions.like.useMutation({
@@ -24,7 +26,7 @@ export default function VideoReactions({ videoId, viewerReaction, likes, dislike
             utils.playlists.getLiked.invalidate()
         },
         onError(e){
-            toast.error("Something went wrong!")
+            toast.error(t('error'))
             if(e.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn()
             }
@@ -36,7 +38,7 @@ export default function VideoReactions({ videoId, viewerReaction, likes, dislike
             utils.playlists.getLiked.invalidate()
         },
         onError(e){
-            toast.error("Something went wrong!")
+            toast.error(t('error'))
             if(e.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn()
             }

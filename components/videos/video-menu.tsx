@@ -15,6 +15,7 @@ import {Button} from '@/components/ui/button'
 import {toast} from 'sonner'
 import {APP_URL} from '@/lib/constants'
 import PlaylistAddModal from '@/components/playlists/playlist-add-modal'
+import {useTranslations} from 'next-intl'
 
 interface VideoMenuProps {
     videoId: string;
@@ -23,11 +24,12 @@ interface VideoMenuProps {
 }
 
 export default function VideoMenu({ videoId, variant = "ghost", onRemove }: VideoMenuProps) {
+    const t = useTranslations('video')
     const [openPlaylistAddModal, setOpenPlaylistAddModal] = useState(false)
     const onShare = () => {
         const fullUrl = `${APP_URL}/videos/${videoId}`
         navigator.clipboard.writeText(fullUrl)
-        toast.success("Link copied to clipboard")
+        toast.success(t('success'))
     }
 
     return (
@@ -36,22 +38,22 @@ export default function VideoMenu({ videoId, variant = "ghost", onRemove }: Vide
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant={variant} size="icon" className="rounded-full">
-                        <MoreVerticalIcon className=""/>
+                        <MoreVerticalIcon/>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" onClick={e=>e.stopPropagation()}>
                     <DropdownMenuItem onClick={onShare}>
                         <ShareIcon className="mr-2 size-4" />
-                        Share
+                        {t('share')}
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpenPlaylistAddModal(true)}>
                         <ListPlusIcon className="mr-2 size-4" />
-                        Add to playlist
+                        {t('playlist')}
                     </DropdownMenuItem>
                     {onRemove && (
                     <DropdownMenuItem onClick={onRemove}>
                         <Trash2Icon className="mr-2 size-4" />
-                        Remove
+                        {t('remove')}
                     </DropdownMenuItem>
                     )}
                 </DropdownMenuContent>

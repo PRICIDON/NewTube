@@ -63,7 +63,7 @@ export function VideoTopRowSkeleton() {
                 </div>
                 <Skeleton className="h-9 w-2/6 md:w-1/6 rounded-full"/>
             </div>
-            <div className="h-[120px] w-full"></div>
+            <div className="h-[120px] w-full"/>
         </div>
     )
 }
